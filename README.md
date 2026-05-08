@@ -98,6 +98,7 @@ AI coding agents that live in your terminal or command line.
 | **[Crush](https://github.com/charmbracelet/crush)** | Charmbracelet | CLI tool for MCP-based coding workflows |
 | **[iFlow CLI](https://github.com/iflow-ai/iflow-cli)** | iFlow | Terminal AI agent for workflow automation |
 | **[Kiro CLI](https://kiro.dev/cli/)** | AWS | Command-line agent interface with MCP capabilities |
+| **[lucinate](https://github.com/lucinate-ai/lucinate)** | lucinate-ai | Terminal-native TUI chat client for AI agents; connects to OpenClaw, Hermes, and any OpenAI-compatible endpoint; Homebrew tap available |
 | **[MCPJam](https://www.mcpjam.com)** | MCPJam | CLI agent optimized for Model Context Protocol integration |
 | **[Mistral Vibe](https://github.com/mistralai/mistral-vibe)** | Mistral | Terminal agent leveraging Mistral models |
 | **[Mux](https://coder.com/products/mux)** | Coder | Advanced terminal AI assistant and multiplexer |
