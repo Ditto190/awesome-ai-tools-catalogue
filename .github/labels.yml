@@ -1,19 +1,18 @@
-labels:
-  - name: enrichment-gap
-    color: "d93f0b"
-    description: "Tool pages missing enriched content after deployment"
-  - name: automated
-    color: "0075ca"
-    description: "Created automatically by a GitHub Actions workflow"
-  - name: submission
-    color: "e4e669"
-    description: "New tool submission from the issue form"
-  - name: needs-review
-    color: "fbca04"
-    description: "Awaiting maintainer review"
-  - name: approved
-    color: "0e8a16"
-    description: "Submission approved — triggers automated PR creation"
-  - name: automated-pr
-    color: "5319e7"
-    description: "Pull request created automatically by a workflow"
+- name: enrichment-gap
+  color: "d93f0b"
+  description: "Tool pages missing enriched content after deployment"
+- name: automated
+  color: "0075ca"
+  description: "Created automatically by a GitHub Actions workflow"
+- name: submission
+  color: "e4e669"
+  description: "New tool submission from the issue form"
+- name: needs-review
+  color: "fbca04"
+  description: "Awaiting maintainer review"
+- name: approved
+  color: "0e8a16"
+  description: "Submission approved — triggers automated PR creation"
+- name: automated-pr
+  color: "5319e7"
+  description: "Pull request created automatically by a workflow"
