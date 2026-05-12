@@ -13,33 +13,16 @@
  *   1  — one or more tools are missing enriched data
  */
 
-import { readFileSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { getEnrichmentStatus } from './report-enrichment-status.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(__dirname, '..');
-
-const slugs    = JSON.parse(readFileSync(join(ROOT, 'data', 'slugs.json'), 'utf-8'));
-const enriched = JSON.parse(readFileSync(join(ROOT, 'public', 'data', 'enriched-tools.json'), 'utf-8'));
-
-// Build a fast lookup: slug → enriched entry
-const enrichedMap = new Map(enriched.map(e => [e.slug, e]));
-
-const missing = [];
-const present = [];
-
-for (const tool of slugs) {
-  if (enrichedMap.has(tool.slug)) {
-    present.push(tool.slug);
-  } else {
-    missing.push(tool);
-  }
-}
+const status = getEnrichmentStatus();
+const missing = status.missing;
+const presentCount = status.enriched;
+const total = status.total;
 
 // ── Report ────────────────────────────────────────────────────────────────────
-console.log(`\n✅ Enriched:  ${present.length} / ${slugs.length} tools`);
-console.log(`❌ Missing:   ${missing.length} / ${slugs.length} tools\n`);
+console.log(`\n✅ Enriched:  ${presentCount} / ${total} tools`);
+console.log(`❌ Missing:   ${missing.length} / ${total} tools\n`);
 
 if (missing.length > 0) {
   console.log('Tools missing enriched data:');
