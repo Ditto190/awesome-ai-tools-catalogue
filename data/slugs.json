@@ -756,6 +756,12 @@
     "category": "Developer Productivity & Workflow"
   },
   {
+    "slug": "tura",
+    "name": "Tura",
+    "company": "Tura-AI",
+    "category": "Developer Productivity & Workflow"
+  },
+  {
     "slug": "visual-studio-code",
     "name": "Visual Studio Code",
     "company": "Microsoft",
