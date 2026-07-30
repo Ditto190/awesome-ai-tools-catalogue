@@ -158,6 +158,7 @@ Agents that operate independently on tasks, often outside your local editor.
 | **[Genie](https://cosine.sh/)** | Cosine | One of the highest performing autonomous models strictly evaluated against the SWE-bench benchmarks |
 | **[Open-yak](https://open-yak.com/)** | Open-yak | Open-source desktop AI agent with 130+ skills, 46 MCP connectors, and IM gateway |
 | **[DeepAgents JS](https://github.com/langchain-ai/deepagentsjs)** | LangChain | TypeScript package for creating Deep Agents — implements deep agent capabilities in a general-purpose way |
+| **[Orkas](https://orkas.ai/?source=gh_qainsights)** | Orkas-AI | Open-source, local-first desktop workspace where a Commander decomposes goals and coordinates specialist AI agents in parallel or sequence.; [GitHub](https://github.com/Orkas-AI/Orkas) |
 
 ---
 
