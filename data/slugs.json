@@ -558,6 +558,12 @@
     "category": "Autonomous & Async Agents"
   },
   {
+    "slug": "orkas",
+    "name": "Orkas",
+    "company": "Orkas-AI",
+    "category": "Autonomous & Async Agents"
+  },
+  {
     "slug": "boltnew",
     "name": "Bolt.new",
     "company": "StackBlitz",
