@@ -256,7 +256,7 @@ Established editors that have shipped first-party AI capabilities.
 | **[JetBrains IDEs](https://www.jetbrains.com/ai/)** | JetBrains | IntelliJ, PyCharm, WebStorm etc. with JetBrains AI (Junie agent) built in |
 | **[Visual Studio](https://visualstudio.microsoft.com)** | Microsoft | GitHub Copilot deeply integrated; .NET and C++ focused |
 
-*Last updated: March 2026*
+*Last updated: July 2026*
 
 ---
 
