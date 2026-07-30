@@ -506,5 +506,17 @@
   {
     "companyName": "Tura-AI",
     "toolName": "Tura"
+  },
+  {    
+    "companyName": "Plasma AI",
+    "toolName": "fractal"
+  },
+  {
+    "companyName": "Marco D'Alia",
+    "toolName": "AgentBox"
+  },
+  {
+    "companyName": "Orkas-AI",
+    "toolName": "Orkas"
   }
 ]

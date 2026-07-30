@@ -492,6 +492,12 @@
     "category": "Terminal & CLI Agents"
   },
   {
+    "slug": "agentbox",
+    "name": "AgentBox",
+    "company": "Marco D'Alia",
+    "category": "Terminal & CLI Agents"
+  },
+  {
     "slug": "warp",
     "name": "Warp",
     "company": "Warp",
@@ -555,6 +561,12 @@
     "slug": "deepagents-js",
     "name": "DeepAgents JS",
     "company": "LangChain",
+    "category": "Autonomous & Async Agents"
+  },
+  {
+    "slug": "orkas",
+    "name": "Orkas",
+    "company": "Orkas-AI",
     "category": "Autonomous & Async Agents"
   },
   {
@@ -759,6 +771,12 @@
     "slug": "tura",
     "name": "Tura",
     "company": "Tura-AI",
+    "category": "Developer Productivity & Workflow"
+  },
+  {
+    "slug": "fractal",
+    "name": "fractal",
+    "company": "Plasma AI",
     "category": "Developer Productivity & Workflow"
   },
   {
