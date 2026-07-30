@@ -130,6 +130,7 @@ AI coding agents that live in your terminal or command line.
 | **[Nanocoder](https://github.com/Nano-Collective/nanocoder)** | Nano Collective | Local-first, open-source terminal coding agent built by a community collective. Bring your own model (Ollama, OpenRouter, or any OpenAI-compatible API) and keep your code on your machine, with native tool calling, an XML fallback, MCP server support, and file-based custom commands and tools.; [GitHub](https://github.com/Nano-Collective/nanocoder) |
 | **[AI Prompt Architect](https://aipromptarchitect.co.uk)** | AI Prompt Architect | Production-grade prompt engineering platform. Includes a 33-command CLI & MCP Server integration that offers a 50% API credit discount for AI agents, plus the STCO framework and multi-model evaluation.; [GitHub](_No response_) |
 | **[AI Badger](https://pvrlabs.xyz/aibadger)** | PVR Labs | AI Badger is a local-first CLI that maps your codebase and extracts focused file context for AI chats and coding agents. It works with ChatGPT, Claude, Codex, Gemini, and other assistants without cloud indexing, API keys, or vendor lock-in.; [GitHub](https://github.com/PVRLabs/aibadger) |
+| **[AgentBox](https://agent-box.sh)** | Marco D'Alia | Run multiple coding agents (Claude Code, Codex, OpenCode) in parallel, each teleported into its own sandboxed VM — local Docker, self-hosted, or cloud (Hetzner/Daytona/E2B). Sub-second checkpoints, per-box browser/VS Code/persistent shells, native macOS menu-bar app, git credentials kept on the host. MIT.; [GitHub](https://github.com/madarco/agentbox) |
 
 ---
 
@@ -157,6 +158,7 @@ Agents that operate independently on tasks, often outside your local editor.
 | **[Genie](https://cosine.sh/)** | Cosine | One of the highest performing autonomous models strictly evaluated against the SWE-bench benchmarks |
 | **[Open-yak](https://open-yak.com/)** | Open-yak | Open-source desktop AI agent with 130+ skills, 46 MCP connectors, and IM gateway |
 | **[DeepAgents JS](https://github.com/langchain-ai/deepagentsjs)** | LangChain | TypeScript package for creating Deep Agents — implements deep agent capabilities in a general-purpose way |
+| **[Orkas](https://orkas.ai/?source=gh_qainsights)** | Orkas-AI | Open-source, local-first desktop workspace where a Commander decomposes goals and coordinates specialist AI agents in parallel or sequence.; [GitHub](https://github.com/Orkas-AI/Orkas) |
 
 ---
 
@@ -239,6 +241,8 @@ AI-powered tools for managing context, snippets, and developer documentation.
 | **[Tree Ring Memory](https://terminallylazy.github.io/Tree-Ring-Memory/)** | TerminallyLazy | Open-source local-first memory lifecycle layer for AI coding agents. The Rust CLI/TUI stores project memories in SQLite/FTS and supports recall, forgetting, audit, consolidation, evidence capture, and DOX/Revolve adapters so agents retain decisions and lessons without transcript dumps.; [GitHub](https://github.com/TerminallyLazy/Tree-Ring-Memory) |
 | **[OpenAgentRelay](https://github.com/ShakespeareLabs/open-agent-relay)** | ShakespeareLabs | Open-source CLI for sharing a restricted local coding-agent command with teammates or other agents over a trusted LAN, with keyed access, target verification, structured JSON output, and scriptable exit codes. Source code, prompts, dependencies, and credentials stay on the publisher machine.; [GitHub](https://github.com/ShakespeareLabs/open-agent-relay) |
 | **[Better Agent](https://github.com/ofekron/better-agent)** | Ofek Ron | Local web workspace for launching and supervising native Claude, Codex, and Gemini coding-agent sessions with parallel delegation, persistent state, approval gates, file access, and restart recovery. It is source-available and free for non-commercial use; commercial use requires separate permission.  Disclosure: I maintain Better Agent. “Freemium” is the form’s closest available pricing option.  AI-assistance disclosure: this submission was drafted by Codex under the maintainer’s authorization and reviewed in Better Agent.; [GitHub](_No response_) |
+| **[Tura](https://turaai.net/)** | Tura-AI | Tura is a local, open-source execution layer for coding agents that groups repository inspection, edits, builds, tests, linting, and media inspection into fewer model turns. It publishes reproducible DeepSWE and full-repository rewrite benchmarks comparing its macro execution modes with Codex CLI Medium and High. Disclosure: I maintain Tura.; [GitHub](https://github.com/Tura-AI/tura) |
+| **[fractal](https://docs.plasma.ai/fractal/)** | Plasma AI | Open-source hierarchical coding-agent orchestrator for Claude Code, Codex, Grok Build, OpenCode, and Oh My Pi, with recursive delegation, per-node Git worktrees, configurable limits, and a live terminal UI for monitoring and steering.; [GitHub](https://github.com/plasma-ai/fractal) |
 
 ---
 
