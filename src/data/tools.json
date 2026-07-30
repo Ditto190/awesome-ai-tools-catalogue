@@ -502,5 +502,9 @@
   {
     "companyName": "ShakespeareLabs",
     "toolName": "OpenAgentRelay"
+  },
+  {
+    "companyName": "Plasma AI",
+    "toolName": "fractal"
   }
 ]

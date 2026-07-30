@@ -756,6 +756,12 @@
     "category": "Developer Productivity & Workflow"
   },
   {
+    "slug": "fractal",
+    "name": "fractal",
+    "company": "Plasma AI",
+    "category": "Developer Productivity & Workflow"
+  },
+  {
     "slug": "visual-studio-code",
     "name": "Visual Studio Code",
     "company": "Microsoft",
