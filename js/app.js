@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     let toolsData = [];
     let categories = new Set();
     let toolsDataRef = [];
-    let filterManagerRef = null;
     let collapsedSidebar = new CollapsedSidebar('iconSidebar', {
         onExpand: () => document.getElementById('openSidebarDesktop')?.click(),
         onSearchClick: () => {
@@ -51,7 +50,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Future global filter hook
             }
         });
-        filterManagerRef = filterManager;
         filterManager.renderFilters();
 
         initSortManager({
@@ -97,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (ENABLE_VOTING) {
             await initVoting().catch(err => console.warn('[voting] init failed:', err));
-            filterManagerRef?.filterAndRender();
+            syncVotingUi();
             renderTurnstile(CF_SITEKEY);
         }
     };
