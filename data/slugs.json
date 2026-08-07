@@ -114,6 +114,12 @@
     "category": "AI-Native IDEs & Editors"
   },
   {
+    "slug": "meta-muse",
+    "name": "Meta Muse",
+    "company": "Meta",
+    "category": "AI-Native IDEs & Editors"
+  },
+  {
     "slug": "github-copilot",
     "name": "GitHub Copilot",
     "company": "GitHub",
