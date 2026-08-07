@@ -511,7 +511,7 @@
     "companyName": "Tura-AI",
     "toolName": "Tura"
   },
-  {    
+  {
     "companyName": "Plasma AI",
     "toolName": "fractal"
   },
@@ -522,5 +522,9 @@
   {
     "companyName": "Orkas-AI",
     "toolName": "Orkas"
+  },
+  {
+    "companyName": "MiniMax",
+    "toolName": "MiniMax Code"
   }
 ]

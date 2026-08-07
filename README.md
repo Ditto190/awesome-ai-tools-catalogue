@@ -49,6 +49,7 @@ Full standalone editors built from the ground up with AI at the core.
 | **[archestra](https://github.com/archestra-ai/archestra)** | Archestra Inc. | Enterprise AI Platform with guardrails, MCP registry, gateway & orchestrator |
 | **[codex-profiles](https://github.com/Ducksss/codex-profiles)** | Chai Pin Zheng | Switch Codex CLI and Desktop accounts with isolated CODEX_HOME profiles |
 | **[Reasonix](https://github.com/esengine/DeepSeek-Reasonix)** | ESEngine | A DeepSeek-native coding agent, for your terminal. |
+| **[MiniMax Code](https://agent.minimax.io/download)** | MiniMax | Remembers your habits, builds Agent teams, automates the repetitive work.; [GitHub](_No response_) |
 
 
 ---
