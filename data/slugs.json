@@ -120,6 +120,12 @@
     "category": "AI-Native IDEs & Editors"
   },
   {
+    "slug": "deepcode",
+    "name": "DeepCode",
+    "company": "HKUDS",
+    "category": "AI-Native IDEs & Editors"
+  },
+  {
     "slug": "github-copilot",
     "name": "GitHub Copilot",
     "company": "GitHub",

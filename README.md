@@ -51,6 +51,7 @@ Full standalone editors built from the ground up with AI at the core.
 | **[Reasonix](https://github.com/esengine/DeepSeek-Reasonix)** | ESEngine | A DeepSeek-native coding agent, for your terminal. |
 | **[MiniMax Code](https://agent.minimax.io/download)** | MiniMax | Remembers your habits, builds Agent teams, automates the repetitive work.; [GitHub](_No response_) |
 | **[Meta Muse](https://developer.meta.com/ai/products/muse-code/)** | Meta | An agent for your most complex coding workstreams. Build, debug and ship with Muse Code.; [GitHub](_No response_) |
+| **[DeepCode](https://github.com/HKUDS/DeepCode)** | HKUDS | DeepCode: Open Agentic Coding (Paper2Code & Text2Web & Text2Backend); [GitHub](_No response_) |
 
 
 ---
