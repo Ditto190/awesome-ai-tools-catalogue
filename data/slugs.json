@@ -684,6 +684,12 @@
     "category": "AI Code Review & Security"
   },
   {
+    "slug": "bubo",
+    "name": "Bubo",
+    "company": "MountainOwl",
+    "category": "AI Code Review & Security"
+  },
+  {
     "slug": "gitauto",
     "name": "GitAuto",
     "company": "GitAuto",
