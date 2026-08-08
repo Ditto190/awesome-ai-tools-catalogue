@@ -193,6 +193,7 @@ Tools focused on reviewing, securing, and validating code — not generating it.
 | **[cubic](https://www.cubic.dev/)** | Cubic | AI code reviews for complex codebases |
 | **[Kodus](https://kodus.io/)** | Kodus | Open source AI code review tool that helps engineering teams review pull requests with repository context, custom rules, and BYOK support. It integrates with GitHub, GitLab, Bitbucket, and Azure DevOps.; [GitHub](https://github.com/kodustech/kodus-ai) |
 | **[Gito](https://github.com/Nayjest/Gito)** | Vitalii Stepanenko | Open-source AI code reviewer that runs in GitHub Actions or locally. Model-agnostic (works with any LLM) and reports findings to GitHub, Jira, or Linear.; [GitHub](https://github.com/Nayjest/Gito) |
+| **[Bubo](https://github.com/mountainowl/bubo)** | MountainOwl | I maintain Bubo, a self-hosted AI reviewer for GitHub PRs and GitLab MRs. I built it to run CLI-driven models, post evidence-backed inline findings or LGTM, and learn from maintainer feedback to reduce repository-specific noise.; [GitHub](https://github.com/mountainowl/bubo) |
 
 ---
 
