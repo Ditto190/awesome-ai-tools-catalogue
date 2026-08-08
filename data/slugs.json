@@ -510,6 +510,12 @@
     "category": "Terminal & CLI Agents"
   },
   {
+    "slug": "oh-my-pi",
+    "name": "Oh My Pi",
+    "company": "Can Bölük",
+    "category": "Terminal & CLI Agents"
+  },
+  {
     "slug": "warp",
     "name": "Warp",
     "company": "Warp",
