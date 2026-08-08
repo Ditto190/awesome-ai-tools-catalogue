@@ -126,6 +126,12 @@
     "category": "AI-Native IDEs & Editors"
   },
   {
+    "slug": "fletch",
+    "name": "Fletch",
+    "company": "FWDAI",
+    "category": "AI-Native IDEs & Editors"
+  },
+  {
     "slug": "github-copilot",
     "name": "GitHub Copilot",
     "company": "GitHub",
