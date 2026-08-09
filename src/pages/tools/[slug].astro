@@ -55,25 +55,38 @@ const keywords = [
 ].filter(Boolean).join(', ');
 
 // JSON-LD structured data
+// Only emit a free Offer when pricing is actually known to be free —
+// hardcoding price:0 for paid/freemium tools is misleading structured data.
+const KNOWN_FREE = new Set(['free', 'open-source', 'open_source', 'oss']);
+const isKnownFree = KNOWN_FREE.has((enriched?.pricing ?? '').toLowerCase());
+const softwareApp: Record<string, unknown> = {
+    "@type": "SoftwareApplication",
+    "@id": `https://ai.dosa.dev/tools/${tool.slug}#app`,
+    "name": displayName,
+    "url": tool.url || `https://ai.dosa.dev/tools/${tool.slug}`,
+    "description": displayDescription,
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://ai.dosa.dev/#website",
+        "url": "https://ai.dosa.dev",
+        "name": "ai.dosa.dev — Awesome AI Tools"
+    }
+};
+if (isKnownFree) {
+    softwareApp["offers"] = { "@type": "Offer", "price": "0", "priceCurrency": "USD" };
+}
+
 const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@graph": [
-        {
-            "@type": "SoftwareApplication",
-            "@id": `https://ai.dosa.dev/tools/${tool.slug}#app`,
-            "name": displayName,
-            "url": tool.url || `https://ai.dosa.dev/tools/${tool.slug}`,
-            "description": displayDescription,
-            "applicationCategory": "DeveloperApplication",
-            "operatingSystem": "Any",
-            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-            "isPartOf": { "@type": "WebSite", "@id": "https://ai.dosa.dev/#website" }
-        },
+        softwareApp,
         {
             "@type": "BreadcrumbList",
             "itemListElement": [
                 { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ai.dosa.dev" },
-                { "@type": "ListItem", "position": 2, "name": tool.categoryClean, "item": `https://ai.dosa.dev/#${tool.slug}` },
+                { "@type": "ListItem", "position": 2, "name": tool.categoryClean, "item": "https://ai.dosa.dev" },
                 { "@type": "ListItem", "position": 3, "name": displayName, "item": `https://ai.dosa.dev/tools/${tool.slug}` }
             ]
         }

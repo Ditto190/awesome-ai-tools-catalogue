@@ -39,6 +39,9 @@ import DashboardLayout from '../layouts/DashboardLayout.astro';
 
         <div id="compareGrid" class="flex flex-col md:flex-row gap-6 w-full">
             <!-- Populated client-side by /dist/compare.js via ?tools= query params -->
+            <noscript>
+                <p class="text-[#a3a3a3]">JavaScript is required for side-by-side comparison. <a href="/" class="text-white underline">Browse the directory</a> or open individual <a href="/tools/cursor" class="text-white underline">tool pages</a> instead.</p>
+            </noscript>
         </div>
     </div>
 

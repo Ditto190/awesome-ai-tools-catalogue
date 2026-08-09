@@ -40,7 +40,7 @@ const jsonLd = JSON.stringify({
 ---
 
 <DashboardLayout
-    title="Hallucination Risk Scorer | ai.dosa.dev"
+    title="Free AI Hallucination Risk Scorer — Check Your Prompts | ai.dosa.dev"
     description="Free AI hallucination risk scorer. Analyze prompts for patterns that cause LLM hallucinations — vague context, forced formats, fact-density and more."
     canonical="https://ai.dosa.dev/tools/hallucination-scorer"
     activeNav="hallucination-scorer"
@@ -139,7 +139,9 @@ const jsonLd = JSON.stringify({
     </main>
 </DashboardLayout>
 
-<style>
+<style is:global>
+    /* Must be global — gauge levels and risk flags are applied by runtime JS,
+       so Astro-scoped styles (data-astro-cid) never match them. */
     #promptInput {
         width: 100%;
         background: #0d0d0d;

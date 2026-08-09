@@ -1,5 +1,7 @@
 # AI IDEs & Coding Assistants
 
+> 🌐 **Browse the interactive directory: [ai.dosa.dev](https://ai.dosa.dev)** — search, filter, compare, and read per-tool reviews (pricing, features, verdicts).
+
 > Manually curated, enhanced w/ Claude
 
 > A curated, categorized reference of AI-powered coding tools as of **August 2026**.

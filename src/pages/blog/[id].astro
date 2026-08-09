@@ -11,12 +11,41 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await render(entry);
+
+const postUrl = `https://ai.dosa.dev/blog/${entry.id}`;
+const postImage = entry.data.image
+  ? new URL(entry.data.image, 'https://ai.dosa.dev').href
+  : 'https://ai.dosa.dev/images/og-image.png';
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "@id": `${postUrl}#article`,
+  "headline": entry.data.title,
+  "description": entry.data.description,
+  "image": postImage,
+  "datePublished": entry.data.pubDate.toISOString(),
+  "author": { "@type": "Person", "name": entry.data.author },
+  "publisher": {
+    "@type": "Organization",
+    "@id": "https://ai.dosa.dev/#organization",
+    "name": "dosa.dev",
+    "url": "https://ai.dosa.dev",
+    "logo": { "@type": "ImageObject", "url": "https://ai.dosa.dev/images/icons/favicon-96x96.png", "width": 96, "height": 96 }
+  },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": postUrl },
+  "inLanguage": "en",
+  ...(entry.data.tags?.length ? { "keywords": entry.data.tags.join(', ') } : {}),
+});
 ---
 
 <DashboardLayout
   title={`${entry.data.title} | ai.dosa.dev`}
   description={entry.data.description}
-  canonical={`https://ai.dosa.dev/blog/${entry.id}`}
+  canonical={postUrl}
+  ogType="article"
+  ogImage={postImage}
+  jsonLd={jsonLd}
   activeNav="blog"
 >
   <div class="max-w-[1400px] mx-auto w-full flex flex-col flex-1 min-h-full p-6 md:p-8">

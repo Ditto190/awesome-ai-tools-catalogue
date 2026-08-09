@@ -1,25 +1,87 @@
 ---
 import DashboardLayout from '../layouts/DashboardLayout.astro';
+
+const faqs = [
+    {
+        q: 'What is ai.dosa.dev?',
+        a: 'ai.dosa.dev is a manually curated directory of 140+ AI-powered coding tools — AI IDEs, CLI agents, autonomous agents, code review tools, and more — organized across 12 categories. Each tool has a detail page with pricing, key features, and a verdict.',
+    },
+    {
+        q: 'How do I submit a tool to the directory?',
+        a: 'Use the Tool Submission form on GitHub (linked from the "Submit a Tool" button). Submissions run through an automated pipeline that validates and enriches the entry. Please do not open pull requests for new tools.',
+    },
+    {
+        q: 'What is "Zap"?',
+        a: 'Zap is the bookmark feature. Sign in with GitHub or Google, then Zap any tool to save it to your personal stack. Your Zaps are persisted to your account and power your README badge.',
+    },
+    {
+        q: 'Do I need an account to use the directory?',
+        a: 'No. Browsing, searching, filtering, comparing tools, and both utilities (Token Counter, Hallucination Scorer) work without an account. Signing in only unlocks Zap bookmarks, voting history, and the README badge generator.',
+    },
+    {
+        q: 'What is the README badge generator?',
+        a: 'After signing in, you can generate a dynamic Markdown badge for your GitHub profile README that displays your Zapped AI stack. Find it under "Get Badge" in your profile menu.',
+    },
+    {
+        q: 'How does the Token Counter work?',
+        a: 'Paste any text and get instant token counts and cost estimates across major models (GPT, Claude, Gemini, Llama, and more via models.dev). It runs 100% client-side — your text never leaves your browser.',
+    },
+    {
+        q: 'How does the Hallucination Risk Scorer work?',
+        a: 'It applies heuristic checks to your prompt — vague context, forced output formats, fact density, and similar patterns — and returns a risk score with specific flags. It also runs entirely in your browser.',
+    },
+    {
+        q: 'Is the tool information accurate?',
+        a: 'Tool details are manually curated and partially AI-enriched. Pricing, features, and availability change fast — always verify details on the vendor\'s official website before making decisions.',
+    },
+    {
+        q: 'How do I compare tools side by side?',
+        a: 'Select up to 3 tools using the compare control on the directory page, then hit Compare to see features, pricing, and verdicts side by side. Comparisons can be shared or exported as an image.',
+    },
+    {
+        q: 'How can I report an error or outdated entry?',
+        a: 'Open an issue on the GitHub repository (github.com/QAInsights/awesome-ai-tools) describing the tool and what needs correcting.',
+    },
+];
+
+const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a },
+    })),
+});
 ---
 
 <DashboardLayout
-    title="Help & Support | ai.dosa.dev"
-    description="Help documentation and FAQs for ai.dosa.dev — the curated AI tools directory."
+    title="Help & FAQ | ai.dosa.dev"
+    description="Help documentation and FAQs for ai.dosa.dev — how to submit tools, use Zap bookmarks, generate your AI stack README badge, and use the free token counter and hallucination scorer."
     canonical="https://ai.dosa.dev/help"
+    jsonLd={jsonLd}
     activeNav="help"
 >
     <div class="max-w-[1400px] mx-auto w-full flex flex-col flex-1 min-h-0 p-8">
         <div class="max-w-2xl">
-            <h2 class="text-2xl font-semibold mb-6 flex items-center gap-3">
+            <h1 class="text-2xl font-semibold mb-6 flex items-center gap-3">
                 <svg class="w-6 h-6 text-[#a3a3a3]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="10"></circle>
                     <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                     <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
-                Help &amp; Support
-            </h2>
-            <div class="border border-[#222] bg-white/5 rounded-md p-6">
-                <p class="text-[#a3a3a3]">Help documentation and FAQs are coming soon.</p>
+                Help &amp; FAQ
+            </h1>
+            <div class="flex flex-col gap-4">
+                {faqs.map(f => (
+                    <details class="border border-[#222] bg-white/[0.02] rounded-md group">
+                        <summary class="cursor-pointer px-5 py-4 text-[15px] font-medium text-white list-none flex items-center justify-between gap-3 hover:bg-white/[0.03] transition-colors rounded-md">
+                            {f.q}
+                            <svg class="w-4 h-4 text-[#525252] shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <p class="px-5 pb-4 pt-1 text-[14px] text-[#a3a3a3] leading-relaxed">{f.a}</p>
+                    </details>
+                ))}
             </div>
         </div>
     </div>

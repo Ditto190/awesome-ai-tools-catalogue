@@ -15,6 +15,7 @@ interface Props {
     twitterTitle?: string;
     twitterDescription?: string;
     jsonLd?: string;
+    robots?: string;
 }
 
 const {
@@ -29,6 +30,7 @@ const {
     twitterTitle,
     twitterDescription,
     jsonLd,
+    robots,
 } = Astro.props;
 
 const resolvedCanonical = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
@@ -69,9 +71,14 @@ const resolvedTwitterDesc = twitterDescription ?? description;
         description: resolvedTwitterDesc,
         image: ogImage,
       }}
+      noindex={robots?.includes('noindex')}
+      nofollow={robots?.includes('nofollow')}
       extend={{
         meta: [
           { name: "keywords", content: keywords }
+        ],
+        link: [
+          { rel: "alternate", type: "application/rss+xml", title: "ai.dosa.dev Blog RSS", href: "/rss.xml" }
         ]
       }}
     />

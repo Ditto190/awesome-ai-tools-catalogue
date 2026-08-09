@@ -54,6 +54,18 @@ const jsonLd = JSON.stringify({
             "name": "dosa.dev",
             "url": "https://ai.dosa.dev",
             "logo": { "@type": "ImageObject", "url": "https://ai.dosa.dev/images/icons/favicon-96x96.png", "width": 96, "height": 96 }
+        },
+        {
+            "@type": "ItemList",
+            "@id": "https://ai.dosa.dev/#toollist",
+            "name": "Curated AI Coding Tools",
+            "numberOfItems": tools.length,
+            "itemListElement": tools.map((t, i) => ({
+                "@type": "ListItem",
+                "position": i + 1,
+                "name": t.name,
+                "url": `https://ai.dosa.dev/tools/${t.slug}`
+            }))
         }
     ]
 });
@@ -64,9 +76,9 @@ const toolsJson = JSON.stringify(tools);
 ---
 
 <BaseLayout
-    title="ai.dosa.dev | Awesome AI Tools"
-    description="A curated directory of artificial intelligence-powered coding tools, autonomous agents, and frameworks. Hosted by dosa.dev."
-    keywords="AI tools, AI coding, AI IDE, autonomous agents, prompt engineering, curated list, dosa.dev"
+    title={`Awesome AI Coding Tools — ${tools.length}+ Curated AI IDEs, Agents & Assistants | ai.dosa.dev`}
+    description={`${tools.length}+ manually curated AI coding tools across 12 categories: AI IDEs, CLI agents, autonomous agents, code review, and more. Compare features, pricing, and verdicts. Hosted by dosa.dev.`}
+    keywords="AI tools, AI coding tools, best AI IDE, AI coding assistant, terminal AI agent, autonomous coding agent, AI code review, vibe coding tools, Cursor alternatives, curated list, dosa.dev"
     canonical="https://ai.dosa.dev/"
     jsonLd={jsonLd}
 >
@@ -82,7 +94,7 @@ const toolsJson = JSON.stringify(tools);
                     </button>
                     <div class="flex items-center gap-2">
                         <img src="/images/icons/favicon-32x32.png" alt="logo" class="w-6 h-6 rounded-full" />
-                        <h1 class="text-[17px] font-semibold tracking-wide text-white m-0 leading-none">ai.dosa.dev</h1>
+                        <span class="text-[17px] font-semibold tracking-wide text-white leading-none">ai.dosa.dev</span>
                     </div>
                 </div>
             </div>
@@ -173,7 +185,19 @@ const toolsJson = JSON.stringify(tools);
                 </div>
 
                 <!-- Tool Grid — populated by client-side JS -->
-                <div class="registry px-4 pb-4 pt-2 md:px-8 md:pb-8 md:pt-4 grow overflow-y-auto" id="toolGrid" data-registry></div>
+                <div class="registry px-4 pb-4 pt-2 md:px-8 md:pb-8 md:pt-4 grow overflow-y-auto" id="toolGrid" data-registry>
+                    <noscript>
+                        <p style="padding: 12px 0; color: #a3a3a3;">JavaScript is required for search and filtering. Browse the full directory below:</p>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            {tools.map(t => (
+                                <li style="padding: 8px 0; border-bottom: 1px solid #1a1a1a;">
+                                    <a href={`/tools/${t.slug}`} style="color: #fff; font-weight: 600;">{t.name}</a>
+                                    <span style="color: #737373;"> — {t.company} · {t.categoryShort} — {t.notes}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </noscript>
+                </div>
             </div>
         </main>
 

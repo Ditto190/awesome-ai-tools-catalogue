@@ -42,7 +42,7 @@ const jsonLd = JSON.stringify({
 ---
 
 <DashboardLayout
-    title="Token Counter | ai.dosa.dev"
+    title="Free AI Token Counter & Cost Estimator — GPT, Claude, Gemini | ai.dosa.dev"
     description="Free AI token counter. Instantly estimate token counts across GPT-4o, Claude 3.5, Gemini 1.5, Llama 3 and more. See context window usage at a glance."
     canonical="https://ai.dosa.dev/tools/token-counter"
     activeNav="token-counter"
@@ -143,8 +143,10 @@ const jsonLd = JSON.stringify({
     </main>
 </DashboardLayout>
 
-<style>
-    /* ── Token Counter page-specific styles ── */
+<style is:global>
+    /* ── Token Counter page-specific styles ──
+       NOTE: must be global — family tabs and model cards are created by
+       runtime JS, so Astro-scoped styles (data-astro-cid) never match them. */
     .family-tab {
         padding: 6px 14px;
         border-radius: 6px;

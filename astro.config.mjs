@@ -14,7 +14,25 @@ export default defineConfig({
     output: 'static',
     adapter: vercel(),
     integrations: [
-        sitemap(),
+        sitemap({
+            // User-only pages are noindexed — keep them out of the sitemap too
+            filter: (page) => !page.includes('/settings') && !page.includes('/zap'),
+            // Note: /compare is query-param driven; keep the base page, drop nothing else
+            serialize(item) {
+                const url = item.url;
+                if (/\/tools\/[^/]+\/$/.test(url) || /\/tools\/[^/]+$/.test(url)) {
+                    item.priority = 0.7;
+                    item.changefreq = 'weekly';
+                } else if (url === 'https://ai.dosa.dev/') {
+                    item.priority = 1.0;
+                    item.changefreq = 'daily';
+                } else if (url.includes('/blog/')) {
+                    item.priority = 0.6;
+                    item.changefreq = 'monthly';
+                }
+                return item;
+            },
+        }),
         mdx(),
     ],
     markdown: {
