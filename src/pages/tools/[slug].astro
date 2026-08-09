@@ -14,7 +14,7 @@
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Sidebar from '../../components/Sidebar.astro';
-import { getAllTools, type Tool } from '../../lib/tools';
+import { getAllTools, getCategorySlug, type Tool } from '../../lib/tools';
 
 export async function getStaticPaths() {
     const tools = getAllTools();
@@ -78,7 +78,7 @@ if (isKnownFree) {
     softwareApp["offers"] = { "@type": "Offer", "price": "0", "priceCurrency": "USD" };
 }
 
-const jsonLd = JSON.stringify({
+const jsonLdObj = {
     "@context": "https://schema.org",
     "@graph": [
         softwareApp,
@@ -86,17 +86,17 @@ const jsonLd = JSON.stringify({
             "@type": "BreadcrumbList",
             "itemListElement": [
                 { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ai.dosa.dev" },
-                { "@type": "ListItem", "position": 2, "name": tool.categoryClean, "item": "https://ai.dosa.dev" },
+                { "@type": "ListItem", "position": 2, "name": tool.categoryClean, "item": `https://ai.dosa.dev/category/${getCategorySlug(tool.categoryShort)}` },
                 { "@type": "ListItem", "position": 3, "name": displayName, "item": `https://ai.dosa.dev/tools/${tool.slug}` }
             ]
         }
     ]
-});
+};
 
 // Pricing human-readable label
 function humanizePricing(val?: string): string {
     if (!val) return '';
-    const map: Record<string, string> = { free: 'Free', freemium: 'Freemium', paid: 'Paid', open_source: 'Open Source', oss: 'Open Source', enterprise: 'Enterprise' };
+    const map: Record<string, string> = { free: 'Free', freemium: 'Freemium', paid: 'Paid', open_source: 'Open Source', 'open-source': 'Open Source', oss: 'Open Source', enterprise: 'Enterprise' };
     return map[val.toLowerCase()] ?? (val.charAt(0).toUpperCase() + val.slice(1));
 }
 
@@ -112,14 +112,44 @@ function formatDate(iso?: string): string {
     }
 }
 
-function escapeHtml(str: string): string {
-    return String(str ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
+// ── Related tools (same category, enriched first) ───────────────────────────
+const related = getAllTools()
+    .filter(t => t.category === tool.category && t.slug !== tool.slug)
+    .sort((a, b) => Number(b.enriched !== null) - Number(a.enriched !== null))
+    .slice(0, 6);
+
+// ── FAQ block (AEO) — built from enriched data, only where data exists ──────
+const faqs: { q: string; a: string }[] = [];
+if (enriched?.pricing) {
+    const p = enriched.pricing.toLowerCase();
+    const isFree = ['free', 'open-source', 'open_source', 'oss'].includes(p);
+    faqs.push({
+        q: `Is ${displayName} free?`,
+        a: isFree
+            ? `Yes — ${displayName} is ${humanizePricing(enriched.pricing)}.${enriched.pricingDetail ? ' ' + enriched.pricingDetail : ''}`
+            : `${displayName} is ${humanizePricing(enriched.pricing)}.${enriched.pricingDetail ? ' ' + enriched.pricingDetail : ''} Check the official site for current plans.`,
+    });
 }
+if (enriched?.bestFor) {
+    faqs.push({ q: `What is ${displayName} best for?`, a: enriched.bestFor });
+}
+if (displayCompany) {
+    faqs.push({
+        q: `Who makes ${displayName}?`,
+        a: `${displayName} is developed by ${displayCompany}. It is listed in the ${tool.categoryClean} category on ai.dosa.dev.`,
+    });
+}
+if (faqs.length >= 2) {
+    (jsonLdObj["@graph"] as object[]).push({
+        "@type": "FAQPage",
+        "mainEntity": faqs.map(f => ({
+            "@type": "Question",
+            "name": f.q,
+            "acceptedAnswer": { "@type": "Answer", "text": f.a }
+        }))
+    });
+}
+const jsonLd = JSON.stringify(jsonLdObj);
 ---
 
 <BaseLayout
@@ -129,6 +159,7 @@ function escapeHtml(str: string): string {
     canonical={`https://ai.dosa.dev/tools/${tool.slug}`}
     ogTitle={`${displayName} — ${displayCompany} | ai.dosa.dev`}
     ogDescription={descMeta}
+    ogImage={`https://ai.dosa.dev/images/og/${tool.slug}.png`}
     ogType="article"
     twitterTitle={`${displayName} — ${displayCompany} | ai.dosa.dev`}
     twitterDescription={descMeta}
@@ -174,7 +205,7 @@ function escapeHtml(str: string): string {
                 <nav aria-label="Breadcrumb" class="font-mono text-[12px] text-[#737373] tracking-wide flex items-center gap-2 flex-wrap">
                     <a href="/" class="hover:text-white transition-colors">Home</a>
                     <span>/</span>
-                    <span class="text-[#a3a3a3]">{tool.categoryClean}</span>
+                    <a href={`/category/${getCategorySlug(tool.categoryShort)}`} class="text-[#a3a3a3] hover:text-white transition-colors">{tool.categoryClean}</a>
                     <span>/</span>
                     <span class="text-white">{displayName}</span>
                 </nav>
@@ -292,6 +323,55 @@ function escapeHtml(str: string): string {
                         <div class="font-mono text-[11px] text-[#525252] tracking-wide py-4">
                             Last updated: {formatDate(enriched.lastUpdated)}
                         </div>
+                    )}
+
+                    {faqs.length >= 2 && (
+                        <section class="td-section" aria-label="Frequently asked questions">
+                            <div class="td-section-label">FAQ</div>
+                            <div class="flex flex-col gap-3">
+                                {faqs.map(f => (
+                                    <details class="td-card group" style="padding: 0;">
+                                        <summary class="cursor-pointer px-4 py-3.5 text-[15px] font-medium text-white list-none flex items-center justify-between gap-3">
+                                            {f.q}
+                                            <svg class="w-4 h-4 text-[#525252] shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                        </summary>
+                                        <p class="px-4 pb-4 text-[14px] text-[#a3a3a3] leading-relaxed">{f.a}</p>
+                                    </details>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    <!-- Conversion CTA: sign-in nudge (tool pages are the top entry pages) -->
+                    <section class="td-section" aria-label="Track this tool">
+                        <div class="td-card flex flex-col sm:flex-row sm:items-center gap-4" style="background: linear-gradient(90deg, rgba(167,139,250,0.06), rgba(34,211,238,0.04)); border-color: #333;">
+                            <div class="grow">
+                                <div class="text-white font-medium text-[15px] mb-1">Track {displayName} in your AI stack</div>
+                                <p class="text-[13px] text-[#a3a3a3] leading-relaxed m-0">Sign in with GitHub or Google to Zap tools, vote, and get a README badge showing your stack.</p>
+                            </div>
+                            <div class="flex items-center gap-2.5 shrink-0">
+                                <a href={`/category/${getCategorySlug(tool.categoryShort)}`} class="inline-flex items-center py-2.5 px-4 bg-white/5 text-white text-sm font-medium border border-[#333] rounded-md transition-all hover:bg-white/10 whitespace-nowrap">
+                                    Compare {tool.categoryShort}
+                                </a>
+                                <a href="/?signin=1" class="inline-flex items-center py-2.5 px-4 bg-white text-black text-sm font-semibold rounded-md transition-all hover:bg-gray-200 whitespace-nowrap">
+                                    Sign in to Zap
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+
+                    {related.length > 0 && (
+                        <section class="td-section" aria-label={`More ${tool.categoryClean} tools`}>
+                            <div class="td-section-label">More in {tool.categoryClean}</div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                {related.map(r => (
+                                    <a href={`/tools/${r.slug}`} class="td-card group block" style="padding: 14px 16px;">
+                                        <div class="text-[15px] font-medium text-white group-hover:bg-gradient-to-r group-hover:from-[#a78bfa] group-hover:via-[#22d3ee] group-hover:to-[#a78bfa] group-hover:bg-clip-text group-hover:text-transparent transition-all">{r.enriched?.name ?? r.name}</div>
+                                        <div class="text-[12px] font-mono text-[#525252] uppercase tracking-wide mt-0.5">{r.enriched?.company ?? r.company}</div>
+                                    </a>
+                                ))}
+                            </div>
+                        </section>
                     )}
 
                     <div class="py-6">

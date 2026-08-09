@@ -28,6 +28,21 @@ export function initRenderer(gridElement) {
     setupCompareHandlers();
 }
 
+/**
+ * Hydrate server-rendered rows without clearing the grid.
+ * SSR rows carry the same data hooks (data-compare-row, data-slug,
+ * data-tool-id on zap buttons) as createToolRow() output, so compare
+ * state and voting buttons can be synced in place. Any subsequent
+ * search/filter/sort goes through renderTools() and rebuilds as before.
+ * @param {Array} tools - Full tools list (README order, matching SSR markup)
+ */
+export function hydrateGrid(tools) {
+    filteredTools = tools;
+    loadedCount = tools.length;
+    syncCompareRows();
+    updateCompareBar();
+}
+
 export function setVotingContext(context = {}) {
     if (typeof context.getVoteCount === 'function') {
         getVoteCountFn = context.getVoteCount;
@@ -354,7 +369,7 @@ ${createZapButtonHtml(toolId, tool.name, initialVoteCount)}
         <div class="w-full md:w-[200px] md:pr-6 shrink-0 font-mono text-[14px] text-[#a3a3a3] uppercase tracking-wide mb-2 md:mb-0 md:order-2">${tool.company}</div>
         <div class="w-full md:w-auto md:pr-6 grow text-[16px] text-[#a3a3a3] leading-relaxed transition-colors group-hover:text-[#e0e0e0] mb-3 md:mb-0 md:order-3 tool-notes" title="${isLong ? fullNotes : ''}">${displayNotes}</div>
         <div class="w-full md:hidden lg:block lg:w-[180px] md:px-6 shrink-0 text-left lg:text-center mt-1 md:mt-0 md:order-4">
-            <span class="inline-block px-3 py-1 border border-[#222] rounded-full bg-white/5 font-mono text-[13px] tracking-wide" title="${catClean}">${catShort}</span>
+            <a href="/category/${catShort.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}" class="inline-block px-3 py-1 border border-[#222] rounded-full bg-white/5 font-mono text-[13px] tracking-wide text-[#a3a3a3] hover:text-white hover:border-[#444] transition-colors" title="${catClean}" onclick="event.stopPropagation()">${catShort}</a>
         </div>`;
 
     row.setAttribute('aria-selected', isSelected(tool.slug) ? 'true' : 'false');

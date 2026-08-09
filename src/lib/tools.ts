@@ -220,3 +220,72 @@ export function getCategories(): string[] {
     const cats = new Set(getAllTools().map(t => t.category));
     return [...cats];
 }
+
+export interface CategoryInfo {
+    /** Full cleaned category name, e.g. "AI-Native IDEs & Editors" */
+    name: string;
+    /** Short label, e.g. "AI IDEs" */
+    short: string;
+    /** URL slug, e.g. "ai-ides" */
+    slug: string;
+    /** One-line description from the README section intro */
+    description: string;
+    tools: Tool[];
+}
+
+export function getCategorySlug(short: string): string {
+    return short.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+/**
+ * Read the intro line that follows each `## Category` heading in README.md.
+ */
+function loadCategoryDescriptions(): Map<string, string> {
+    const map = new Map<string, string>();
+    try {
+        const md = readFileSync(join(ROOT, 'README.md'), 'utf-8');
+        const sections = md.split('\n## ');
+        for (const section of sections.slice(1)) {
+            const lines = section.split('\n');
+            const categoryLine = lines[0].trim();
+            if (categoryLine.toLowerCase().includes('table of contents')) continue;
+            // First non-empty, non-table, non-blockquote line after the heading
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line || line.startsWith('|') || line.startsWith('---')) continue;
+                if (line.startsWith('>')) break;
+                map.set(stripEmoji(categoryLine), line);
+                break;
+            }
+        }
+    } catch { /* ignore */ }
+    return map;
+}
+
+let _categories: CategoryInfo[] | null = null;
+
+/**
+ * All categories with descriptions and their tools, in README order.
+ */
+export function getCategoriesDetailed(): CategoryInfo[] {
+    if (_categories) return _categories;
+
+    const descriptions = loadCategoryDescriptions();
+    const tools = getAllTools();
+    const byCategory = new Map<string, Tool[]>();
+    for (const tool of tools) {
+        const list = byCategory.get(tool.categoryClean) ?? [];
+        list.push(tool);
+        byCategory.set(tool.categoryClean, list);
+    }
+
+    _categories = [...byCategory.entries()].map(([name, catTools]) => ({
+        name,
+        short: catTools[0].categoryShort,
+        slug: getCategorySlug(catTools[0].categoryShort),
+        description: descriptions.get(name) ?? '',
+        tools: catTools,
+    }));
+
+    return _categories;
+}

@@ -97,7 +97,8 @@ const resolvedTwitterDesc = twitterDescription ?? description;
 
     <link rel="stylesheet" href="/css/output.css">
 
-    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
+    {/* Escape `<` so enriched free-text can never close the script tag early */}
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd.replace(/</g, '\\u003c')} />}
 
     <link rel="preconnect" href="https://challenges.cloudflare.com" />
     <slot name="head" />

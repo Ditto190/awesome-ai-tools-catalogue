@@ -3,7 +3,7 @@
  * AI IDEs & Coding Assistants - Tool Registry
  */
 
-import { initRenderer, renderTools, setVotingContext, refreshVotingButtons } from './renderer.js';
+import { initRenderer, renderTools, hydrateGrid, setVotingContext, refreshVotingButtons } from './renderer.js';
 import { CollapsedSidebar } from './collapsed-sidebar.js';
 import { initGradientSelection } from './gradient-selection.js';
 import { initFilterManager } from './modules/filter-manager.js';
@@ -61,6 +61,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (urlParams.has('q')) {
             searchInput.value = urlParams.get('q');
             filterManager.filterAndRender();
+        } else if (grid.hasAttribute('data-ssr')) {
+            // Grid was pre-rendered at build time — hydrate in place instead of
+            // wiping the SSR rows (keeps content visible to no-JS crawlers and
+            // avoids a full re-render flash on load). Pass unsorted data: the
+            // SSR markup is in README order, matching the null default sort.
+            hydrateGrid(toolsData);
         } else {
             renderTools(sortTools(toolsData));
         }
@@ -82,6 +88,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
         await authManager.initializeAuth();
+
+        // Deep-link from tool pages: /?signin=1 opens the sign-in modal,
+        // then strip the param so a refresh doesn't reopen it
+        const signinParams = new URLSearchParams(window.location.search);
+        if (signinParams.has('signin')) {
+            document.getElementById('signInTriggerBtn')?.click();
+            signinParams.delete('signin');
+            const qs = signinParams.toString();
+            window.history.replaceState(null, '', window.location.pathname + (qs ? `?${qs}` : ''));
+        }
 
         const { auth } = await import('./auth.js');
         syncVotingUi = () => {

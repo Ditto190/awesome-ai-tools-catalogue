@@ -47,6 +47,7 @@ function makeContainer() {
 mock.module('./renderer.js', () => ({
     initRenderer: () => {},
     renderTools: () => {},
+    hydrateGrid: () => {},
     setVotingContext: () => {
         setVotingContextCalls += 1;
     },
@@ -98,7 +99,7 @@ describe('app deferred auth bootstrap', () => {
         const iconSidebar = makeContainer();
 
         const elements = {
-            toolGrid: {},
+            toolGrid: { hasAttribute: () => false },
             searchInput: { value: '', focus: () => {} },
             'tools-data': {
                 textContent: JSON.stringify([
