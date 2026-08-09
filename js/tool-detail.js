@@ -1,5 +1,5 @@
 /**
- * Tool Detail Page — runtime hydration.
+ * Tool Detail Page - runtime hydration.
  *
  * Flow:
  *   1. Read seed data (name, company, category, notes, url, slug) from the
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (enriched) {
         paintEnriched(seed, enriched);
     } else {
-        // No enriched data embedded — try fetching (for dev/old pages)
+        // No enriched data embedded - try fetching (for dev/old pages)
         // or show coming soon banner
         fetchEnriched().then(fresh => {
             if (!fresh) {
@@ -108,12 +108,12 @@ function paintEnriched(seed, data) {
     hide('enrichedSkeleton', true);
     hide('comingSoonBanner', true);
 
-    // Enriched payload is authoritative for display fields — override seed
+    // Enriched payload is authoritative for display fields - override seed
     if (data.name) {
         setText('toolName', data.name);
         setText('breadcrumbTool', data.name);
         setText('mobileHeaderTitle', data.name);
-        document.title = `${data.name} — ${data.company || seed.company} | ai.dosa.dev`;
+        document.title = `${data.name} - ${data.company || seed.company} | ai.dosa.dev`;
     }
     if (data.company) setText('toolCompany', data.company);
 
@@ -145,8 +145,8 @@ function paintEnriched(seed, data) {
     // Best for / Not ideal for
     if (data.bestFor || data.notIdealFor) {
         show('fitSection');
-        setText('bestFor', data.bestFor || '—');
-        setText('notIdealFor', data.notIdealFor || '—');
+        setText('bestFor', data.bestFor || '-');
+        setText('notIdealFor', data.notIdealFor || '-');
     }
 
     // Recent updates

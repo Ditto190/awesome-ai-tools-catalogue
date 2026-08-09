@@ -1,6 +1,6 @@
 ---
 /**
- * Dynamic tool detail page — [slug].astro
+ * Dynamic tool detail page - [slug].astro
  *
  * Replaces:
  *   - scripts/generate-tool-pages.js  (build-time page generator)
@@ -10,7 +10,7 @@
  *   - js/tool-cache.js                (localStorage cache for enriched data)
  *
  * All 108 tool pages are now generated from this single file via getStaticPaths().
- * Seed + enriched data are embedded at build time — no client-side fetch needed.
+ * Seed + enriched data are embedded at build time - no client-side fetch needed.
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Sidebar from '../../components/Sidebar.astro';
@@ -55,7 +55,7 @@ const keywords = [
 ].filter(Boolean).join(', ');
 
 // JSON-LD structured data
-// Only emit a free Offer when pricing is actually known to be free —
+// Only emit a free Offer when pricing is actually known to be free -
 // hardcoding price:0 for paid/freemium tools is misleading structured data.
 const KNOWN_FREE = new Set(['free', 'open-source', 'open_source', 'oss']);
 const isKnownFree = KNOWN_FREE.has((enriched?.pricing ?? '').toLowerCase());
@@ -71,7 +71,7 @@ const softwareApp: Record<string, unknown> = {
         "@type": "WebSite",
         "@id": "https://ai.dosa.dev/#website",
         "url": "https://ai.dosa.dev",
-        "name": "ai.dosa.dev — Awesome AI Tools"
+        "name": "ai.dosa.dev - Awesome AI Tools"
     }
 };
 if (isKnownFree) {
@@ -118,7 +118,7 @@ const related = getAllTools()
     .sort((a, b) => Number(b.enriched !== null) - Number(a.enriched !== null))
     .slice(0, 6);
 
-// ── FAQ block (AEO) — built from enriched data, only where data exists ──────
+// ── FAQ block (AEO) - built from enriched data, only where data exists ──────
 const faqs: { q: string; a: string }[] = [];
 if (enriched?.pricing) {
     const p = enriched.pricing.toLowerCase();
@@ -126,7 +126,7 @@ if (enriched?.pricing) {
     faqs.push({
         q: `Is ${displayName} free?`,
         a: isFree
-            ? `Yes — ${displayName} is ${humanizePricing(enriched.pricing)}.${enriched.pricingDetail ? ' ' + enriched.pricingDetail : ''}`
+            ? `Yes - ${displayName} is ${humanizePricing(enriched.pricing)}.${enriched.pricingDetail ? ' ' + enriched.pricingDetail : ''}`
             : `${displayName} is ${humanizePricing(enriched.pricing)}.${enriched.pricingDetail ? ' ' + enriched.pricingDetail : ''} Check the official site for current plans.`,
     });
 }
@@ -153,15 +153,15 @@ const jsonLd = JSON.stringify(jsonLdObj);
 ---
 
 <BaseLayout
-    title={`${displayName} — ${displayCompany} | ai.dosa.dev`}
+    title={`${displayName} - ${displayCompany} | ai.dosa.dev`}
     description={descMeta}
     keywords={keywords}
     canonical={`https://ai.dosa.dev/tools/${tool.slug}`}
-    ogTitle={`${displayName} — ${displayCompany} | ai.dosa.dev`}
+    ogTitle={`${displayName} - ${displayCompany} | ai.dosa.dev`}
     ogDescription={descMeta}
     ogImage={`https://ai.dosa.dev/images/og/${tool.slug}.png`}
     ogType="article"
-    twitterTitle={`${displayName} — ${displayCompany} | ai.dosa.dev`}
+    twitterTitle={`${displayName} - ${displayCompany} | ai.dosa.dev`}
     twitterDescription={descMeta}
     jsonLd={jsonLd}
 >
@@ -268,11 +268,11 @@ const jsonLd = JSON.stringify(jsonLdObj);
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="td-card">
                                     <div class="font-mono text-[11px] uppercase text-[#4ade80] tracking-wide mb-2">&#10003; Best For</div>
-                                    <p class="text-[15px] leading-relaxed text-[#d4d4d4]">{enriched.bestFor ?? '—'}</p>
+                                    <p class="text-[15px] leading-relaxed text-[#d4d4d4]">{enriched.bestFor ?? '-'}</p>
                                 </div>
                                 <div class="td-card">
                                     <div class="font-mono text-[11px] uppercase text-[#f87171] tracking-wide mb-2">&#10007; Not Ideal For</div>
-                                    <p class="text-[15px] leading-relaxed text-[#d4d4d4]">{enriched.notIdealFor ?? '—'}</p>
+                                    <p class="text-[15px] leading-relaxed text-[#d4d4d4]">{enriched.notIdealFor ?? '-'}</p>
                                 </div>
                             </div>
                         </section>

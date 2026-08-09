@@ -1,5 +1,5 @@
 /**
- * Authentication Module — Multi-provider (Google + GitHub)
+ * Authentication Module - Multi-provider (Google + GitHub)
  * Handles user authentication, session management, and profile data.
  *
  * Providers:
@@ -127,7 +127,7 @@ class AuthManager {
     }
 
     /**
-     * Decode a JWT payload (client-side only — not a security verification).
+     * Decode a JWT payload (client-side only - not a security verification).
      * @param {string} token
      */
     _parseJWT(token) {
@@ -183,7 +183,7 @@ class AuthManager {
      */
     _getCurrentOriginPath() {
         const allowed = [
-            // Astro clean URLs — no .html extensions
+            // Astro clean URLs - no .html extensions
             '/', '/settings', '/zap', '/help',
             '/tools/token-counter', '/tools/hallucination-scorer',
         ];
@@ -249,7 +249,7 @@ class AuthManager {
         sessionStorage.removeItem('github_oauth_state');
 
         if (!storedState || storedState !== returnedState) {
-            console.error('[Auth] GitHub OAuth state mismatch — possible CSRF attack, aborting.');
+            console.error('[Auth] GitHub OAuth state mismatch - possible CSRF attack, aborting.');
             const cleanUrl = window.location.pathname;
             window.history.replaceState({}, '', cleanUrl);
             this._notifyAuthChange('error', new Error('OAuth state mismatch'));

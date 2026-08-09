@@ -1,5 +1,5 @@
 /**
- * llms-full.txt — build-time generated complete tool listing for LLM consumers.
+ * llms-full.txt - build-time generated complete tool listing for LLM consumers.
  *
  * Follows the llmstxt.org convention: the full version contains every tool
  * with its category, URL, and one-line description so LLMs can cite tools
@@ -19,7 +19,7 @@ export const GET: APIRoute = () => {
     }
 
     const lines: string[] = [
-        '# ai.dosa.dev — Awesome AI Tools (full listing)',
+        '# ai.dosa.dev - Awesome AI Tools (full listing)',
         '',
         `> Complete categorized list of ${tools.length}+ AI-powered coding tools curated at ai.dosa.dev. Each entry links to the official tool site; detailed reviews (pricing, features, verdicts) live at https://ai.dosa.dev/tools/<slug>.`,
         '',
@@ -29,7 +29,7 @@ export const GET: APIRoute = () => {
         lines.push(`## ${category}`, '');
         for (const t of items) {
             const desc = (t.enriched?.description ?? t.notes).replace(/\s+/g, ' ').trim();
-            lines.push(`- [${t.name}](${t.url}) (${t.company}) — ${desc} · details: https://ai.dosa.dev/tools/${t.slug}`);
+            lines.push(`- [${t.name}](${t.url}) (${t.company}) - ${desc} · details: https://ai.dosa.dev/tools/${t.slug}`);
         }
         lines.push('');
     }

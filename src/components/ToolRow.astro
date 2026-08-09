@@ -1,6 +1,6 @@
 ---
 /**
- * ToolRow — server-rendered tool row for the directory grid.
+ * ToolRow - server-rendered tool row for the directory grid.
  *
  * Replicates the markup produced by js/renderer.js createToolRow() so the
  * client can hydrate over it without clearing the grid:
@@ -18,7 +18,7 @@ interface Props {
 
 const { tool, index } = Astro.props;
 
-// Vote key — mirrors renderer.js / sorting.js
+// Vote key - mirrors renderer.js / sorting.js
 const toolId = `${tool.company.toLowerCase().replace(/[^a-z0-9]/g, '')}-${tool.name.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
 
 const detailHref = `/tools/${tool.slug}`;

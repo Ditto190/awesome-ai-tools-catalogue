@@ -5,7 +5,7 @@
 
 import { getVoteCount } from './voting.js';
 
-// Default: no active sort column — the directory renders in curated README
+// Default: no active sort column - the directory renders in curated README
 // order, matching the server-rendered grid. First header click sorts asc.
 let currentSort = { column: null, direction: 'asc' };
 

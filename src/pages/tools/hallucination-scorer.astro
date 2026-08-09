@@ -1,6 +1,6 @@
 ---
 /**
- * Hallucination Risk Scorer — prompt safety analysis utility.
+ * Hallucination Risk Scorer - prompt safety analysis utility.
  *
  * Migration note: Direct port of tools/hallucination-scorer.html.
  * All page-specific styles scoped to this component.
@@ -24,7 +24,7 @@ const jsonLd = JSON.stringify({
             "featureList": [
                 "Hallucination risk scoring", "Vague context detection",
                 "Forced format detection", "Fact-density analysis",
-                "100% client-side — no data sent to servers"
+                "100% client-side - no data sent to servers"
             ],
             "isPartOf": { "@type": "WebSite", "@id": "https://ai.dosa.dev/#website" }
         },
@@ -40,8 +40,8 @@ const jsonLd = JSON.stringify({
 ---
 
 <DashboardLayout
-    title="Free AI Hallucination Risk Scorer — Check Your Prompts | ai.dosa.dev"
-    description="Free AI hallucination risk scorer. Analyze prompts for patterns that cause LLM hallucinations — vague context, forced formats, fact-density and more."
+    title="Free AI Hallucination Risk Scorer - Check Your Prompts | ai.dosa.dev"
+    description="Free AI hallucination risk scorer. Analyze prompts for patterns that cause LLM hallucinations - vague context, forced formats, fact-density and more."
     canonical="https://ai.dosa.dev/tools/hallucination-scorer"
     activeNav="hallucination-scorer"
 >
@@ -133,14 +133,14 @@ const jsonLd = JSON.stringify({
             </div>
 
             <p class="text-[11px] text-[#525252] font-mono mt-auto pb-2">
-                All analysis is done locally in your browser. No text is transmitted anywhere. Risk scores are heuristic estimates and should complement — not replace — manual prompt review.
+                All analysis is done locally in your browser. No text is transmitted anywhere. Risk scores are heuristic estimates and should complement - not replace - manual prompt review.
             </p>
         </div>
     </main>
 </DashboardLayout>
 
 <style is:global>
-    /* Must be global — gauge levels and risk flags are applied by runtime JS,
+    /* Must be global - gauge levels and risk flags are applied by runtime JS,
        so Astro-scoped styles (data-astro-cid) never match them. */
     #promptInput {
         width: 100%;

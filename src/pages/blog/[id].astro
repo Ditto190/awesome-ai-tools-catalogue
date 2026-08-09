@@ -94,9 +94,11 @@ const jsonLd = JSON.stringify({
 
         {/* Featured Image */}
         <div class="mb-12 rounded-xl overflow-hidden border border-[#222] bg-[#111] aspect-[21/9]">
-          <img 
-            src={entry.data.image || '/images/blog-placeholder.png'} 
+          <img
+            src={entry.data.image || '/images/blog-placeholder.png'}
             alt={entry.data.title}
+            fetchpriority="high"
+            decoding="async"
             class="w-full h-full object-cover"
           />
         </div>

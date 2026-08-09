@@ -1,6 +1,6 @@
 ---
 /**
- * Category landing page — /category/[slug]
+ * Category landing page - /category/[slug]
  *
  * One static page per category (12 total). Targets head/mid-tail queries like
  * "best AI IDEs", "AI code review tools". Pre-rendered tool list (no JS
@@ -41,13 +41,13 @@ const topNames = (topPicks.length > 0 ? topPicks : category.tools.slice(0, 3)).m
 const faqs = [
     {
         q: `What are the best ${category.short} tools?`,
-        a: `The most complete ${category.short} listings on ai.dosa.dev include ${topNames.join(', ')}. Every tool has a detail page with pricing, key features, and a verdict — see the full list of ${count} tools below.`,
+        a: `The most complete ${category.short} listings on ai.dosa.dev include ${topNames.join(', ')}. Every tool has a detail page with pricing, key features, and a verdict - see the full list of ${count} tools below.`,
     },
     {
         q: `Are ${category.short} tools free?`,
         a: freeCount > 0
-            ? `${freeCount} of the ${count} ${category.short} tools listed here are free or open source. Others offer freemium or paid plans — check each tool's detail page for current pricing.`
-            : `Pricing varies across the ${count} ${category.short} tools listed here — most offer free tiers or trials. Check each tool's detail page for current pricing.`,
+            ? `${freeCount} of the ${count} ${category.short} tools listed here are free or open source. Others offer freemium or paid plans - check each tool's detail page for current pricing.`
+            : `Pricing varies across the ${count} ${category.short} tools listed here - most offer free tiers or trials. Check each tool's detail page for current pricing.`,
     },
     {
         q: 'How is this list curated?',
@@ -68,9 +68,9 @@ const jsonLd = JSON.stringify({
             "@type": "CollectionPage",
             "@id": `${pageUrl}#collection`,
             "url": pageUrl,
-            "name": `${category.name} — AI Coding Tools Directory`,
+            "name": `${category.name} - AI Coding Tools Directory`,
             "description": category.description || `${count} curated ${category.name} tools with pricing, features, and verdicts.`,
-            "isPartOf": { "@type": "WebSite", "@id": "https://ai.dosa.dev/#website", "url": "https://ai.dosa.dev", "name": "ai.dosa.dev — Awesome AI Tools" },
+            "isPartOf": { "@type": "WebSite", "@id": "https://ai.dosa.dev/#website", "url": "https://ai.dosa.dev", "name": "ai.dosa.dev - Awesome AI Tools" },
             "inLanguage": "en",
         },
         {
@@ -103,7 +103,7 @@ const jsonLd = JSON.stringify({
 ---
 
 <BaseLayout
-    title={`${count} Best ${category.name} Tools (2026) — Compared | ai.dosa.dev`}
+    title={`${count} Best ${category.name} Tools (2026) - Compared | ai.dosa.dev`}
     description={`${category.description ? category.description + ' ' : ''}${count} curated ${category.name} tools with pricing, key features, and verdicts. Compare ${topNames.join(', ')} and more.`}
     keywords={`${category.name}, ${category.short}, best ${category.short} tools, AI coding tools, AI developer tools`}
     canonical={pageUrl}

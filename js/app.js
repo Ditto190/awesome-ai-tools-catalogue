@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             searchInput.value = urlParams.get('q');
             filterManager.filterAndRender();
         } else if (grid.hasAttribute('data-ssr')) {
-            // Grid was pre-rendered at build time — hydrate in place instead of
+            // Grid was pre-rendered at build time - hydrate in place instead of
             // wiping the SSR rows (keeps content visible to no-JS crawlers and
             // avoids a full re-render flash on load). Pass unsorted data: the
             // SSR markup is in README order, matching the null default sort.

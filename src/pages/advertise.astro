@@ -1,0 +1,113 @@
+---
+/**
+ * /advertise - sponsorship landing page for the "Featured" sidebar slot.
+ *
+ * Replaces the bare external booking link with a real pitch page:
+ * who the audience is, where the placement appears, and a booking CTA.
+ * All stats are computed from the directory data at build time - nothing
+ * is hand-written, so the page can never drift from reality.
+ */
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import { getAllTools, getCategoriesDetailed } from '../lib/tools';
+
+const tools = getAllTools();
+const toolCount = tools.length;
+const categoryCount = getCategoriesDetailed().length;
+// The Featured slot renders inside the shared sidebar on every page:
+// directory + tool pages + category pages + utility pages.
+const pageCount = toolCount + categoryCount + 6;
+
+const stats = [
+    { value: `${toolCount}+`, label: 'Curated tools listed' },
+    { value: `${categoryCount}`, label: 'Category pages' },
+    { value: `${pageCount}+`, label: 'Pages showing your placement' },
+];
+
+const faqs = [
+    {
+        q: 'Who visits ai.dosa.dev?',
+        a: 'Software developers, engineering leads, and founders actively evaluating AI coding tools - AI IDEs, CLI agents, autonomous agents, and developer utilities. Visitors arrive with high intent: they are comparing options and choosing their stack, not casual browsing.',
+    },
+    {
+        q: 'Where does my placement appear?',
+        a: `The "Featured" slot lives in the sidebar that renders on every page of the site - the directory homepage, all ${toolCount} tool detail pages, and all ${categoryCount} category pages. One booking, site-wide presence.`,
+    },
+    {
+        q: 'Can I get traffic stats before booking?',
+        a: 'Yes. Current traffic and engagement numbers are shared on request when you book - we would rather show you real analytics than publish inflated figures here.',
+    },
+    {
+        q: 'What formats are supported?',
+        a: 'The Featured slot is a short text placement: a headline, one sentence of copy, and a link. Keep it useful and specific - this audience responds to tools, not slogans.',
+    },
+];
+---
+
+<DashboardLayout
+    title="Advertise | ai.dosa.dev"
+    description={`Reach developers actively choosing their AI coding stack. One "Featured" placement appears across ai.dosa.dev - the directory, ${toolCount} tool pages, and ${categoryCount} category pages.`}
+    canonical="https://ai.dosa.dev/advertise"
+>
+    <div class="max-w-[1400px] mx-auto w-full flex flex-col flex-1 min-h-0 p-6 md:p-10">
+        <div class="max-w-2xl">
+            <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-[#737373] mb-3">Sponsorship</p>
+            <h1 class="text-2xl md:text-3xl font-semibold text-white mb-4 leading-tight">
+                Put your AI tool in front of developers choosing their stack.
+            </h1>
+            <p class="text-[15px] text-[#a3a3a3] leading-relaxed mb-10">
+                ai.dosa.dev is a hand-curated directory of AI coding tools. Every visitor is comparing
+                options right now - the exact moment your tool should be on the page.
+            </p>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
+                {stats.map(s => (
+                    <div class="border border-[#222] bg-white/[0.02] rounded-md px-5 py-4">
+                        <div class="text-2xl font-semibold text-white font-mono">{s.value}</div>
+                        <div class="text-[13px] text-[#737373] mt-1">{s.label}</div>
+                    </div>
+                ))}
+            </div>
+
+            <!-- Placement preview -->
+            <div class="mb-10">
+                <div class="font-mono text-[11px] uppercase text-[#737373] mb-3 tracking-widest">The placement</div>
+                <div class="p-4 border border-dashed border-[#222] rounded-md bg-white/[0.01] max-w-xs">
+                    <div class="font-mono text-[11px] uppercase text-[#737373] mb-1.5 tracking-wide">Featured</div>
+                    <div class="text-[13px] text-[#a3a3a3] leading-relaxed">
+                        Your headline and one sentence, here.
+                        <br />
+                        <span class="gradient-link inline-block mt-1.5 font-mono">Your link &rarr;</span>
+                    </div>
+                </div>
+                <p class="text-[13px] text-[#737373] mt-3 leading-relaxed">
+                    Rendered in the sidebar of every page - directory, tool pages, and category pages.
+                </p>
+            </div>
+
+            <!-- CTA -->
+            <div class="flex flex-col sm:flex-row gap-3 mb-12">
+                <a href="https://book.qainsights.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center py-2.5 px-6 bg-white text-black text-sm font-semibold rounded-md transition-all duration-200 hover:bg-gray-200 hover:-translate-y-px">
+                    Book this space
+                </a>
+                <a href="https://github.com/QAInsights/awesome-ai-tools" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center py-2.5 px-6 bg-white/5 text-white text-sm font-medium border border-[#222] rounded-md transition-all duration-200 hover:bg-white/10 hover:-translate-y-px">
+                    See the project on GitHub
+                </a>
+            </div>
+
+            <!-- FAQ -->
+            <div class="font-mono text-[11px] uppercase text-[#737373] mb-4 tracking-widest">Questions</div>
+            <div class="flex flex-col gap-4">
+                {faqs.map(f => (
+                    <details class="border border-[#222] bg-white/[0.02] rounded-md group">
+                        <summary class="cursor-pointer px-5 py-4 text-[15px] font-medium text-white list-none flex items-center justify-between gap-3 hover:bg-white/[0.03] transition-colors rounded-md">
+                            {f.q}
+                            <svg class="w-4 h-4 text-[#525252] shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <p class="px-5 pb-4 pt-1 text-[14px] text-[#a3a3a3] leading-relaxed">{f.a}</p>
+                    </details>
+                ))}
+            </div>
+        </div>
+    </div>
+</DashboardLayout>

@@ -1,20 +1,20 @@
 /**
  * Astro API Route: /api/rebuild
  *
- * Vercel Cron Job — triggered daily at 02:00 UTC (see vercel.json).
+ * Vercel Cron Job - triggered daily at 02:00 UTC (see vercel.json).
  * Calls the Vercel REST API to create a new production deployment,
  * which rebuilds the site with fresh enriched data.
  *
  * Required env vars (set in Vercel Dashboard → Project → Environment Variables):
- *   CRON_SECRET       — from Vercel Dashboard → Project → Settings → Cron Jobs
- *   VERCEL_TOKEN      — https://vercel.com/account/tokens
- *   VERCEL_PROJECT_ID — Project Settings → General → Project ID
+ *   CRON_SECRET       - from Vercel Dashboard → Project → Settings → Cron Jobs
+ *   VERCEL_TOKEN      - https://vercel.com/account/tokens
+ *   VERCEL_PROJECT_ID - Project Settings → General → Project ID
  *
  * Security note: Never log or return the raw secret values.
  */
 import type { APIRoute } from 'astro';
 
-// This route must NOT be statically pre-rendered — it is a live serverless function.
+// This route must NOT be statically pre-rendered - it is a live serverless function.
 export const prerender = false;
 
 export const GET: APIRoute = async ({ request }) => {
@@ -24,7 +24,7 @@ export const GET: APIRoute = async ({ request }) => {
 
     // ── 1. Verify Vercel Cron User-Agent ─────────────────────────────────────
     if (!userAgent.includes('vercel-cron/1.0')) {
-        console.warn('[rebuild] Unauthorized — invalid User-Agent:', userAgent);
+        console.warn('[rebuild] Unauthorized - invalid User-Agent:', userAgent);
         return json({ error: 'Unauthorized' }, 401);
     }
 
@@ -37,7 +37,7 @@ export const GET: APIRoute = async ({ request }) => {
 
     // ── 3. Validate signature ────────────────────────────────────────────────
     if (!signature || signature !== cronSecret) {
-        console.warn('[rebuild] Unauthorized — invalid or missing cron secret');
+        console.warn('[rebuild] Unauthorized - invalid or missing cron secret');
         return json({ error: 'Unauthorized' }, 401);
     }
 

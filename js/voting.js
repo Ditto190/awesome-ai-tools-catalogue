@@ -36,7 +36,7 @@ export async function initVoting() {
         console.log('Votes loaded:', Object.keys(zapCounts).length, 'tools have votes');
     } catch (error) {
         if (error?.name === 'AbortError') {
-            console.warn('[voting] /api/v1/count timed out after 5s — rendering with zero counts');
+            console.warn('[voting] /api/v1/count timed out after 5s - rendering with zero counts');
         } else {
             console.error('[ERROR] Could not fetch votes:', error);
         }

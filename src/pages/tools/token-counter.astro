@@ -1,13 +1,13 @@
 ---
 /**
- * Token Counter — AI token counting utility page.
+ * Token Counter - AI token counting utility page.
  *
  * Migration note: This is a direct port of tools/token-counter.html.
  * All page-specific styles are scoped to this component.
  * The inline bootstrap script imports from /js/token-counter.js (absolute
  * path served from public/ via the legacy build pipeline).
  *
- * The tool is fully client-side — no server-side logic needed.
+ * The tool is fully client-side - no server-side logic needed.
  */
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
 
@@ -26,7 +26,7 @@ const jsonLd = JSON.stringify({
             "featureList": [
                 "Token counting for GPT-4o", "Token counting for Claude 3.5",
                 "Token counting for Gemini 1.5", "Token counting for Llama 3",
-                "Cost per request estimate", "100% client-side — no data sent to servers"
+                "Cost per request estimate", "100% client-side - no data sent to servers"
             ],
             "isPartOf": { "@type": "WebSite", "@id": "https://ai.dosa.dev/#website" }
         },
@@ -42,7 +42,7 @@ const jsonLd = JSON.stringify({
 ---
 
 <DashboardLayout
-    title="Free AI Token Counter & Cost Estimator — GPT, Claude, Gemini | ai.dosa.dev"
+    title="Free AI Token Counter & Cost Estimator - GPT, Claude, Gemini | ai.dosa.dev"
     description="Free AI token counter. Instantly estimate token counts across GPT-4o, Claude 3.5, Gemini 1.5, Llama 3 and more. See context window usage at a glance."
     canonical="https://ai.dosa.dev/tools/token-counter"
     activeNav="token-counter"
@@ -116,7 +116,7 @@ const jsonLd = JSON.stringify({
                 <!-- Fallback notice -->
                 <div id="fallbackNotice" style="display:none" class="flex items-center gap-2.5 px-3 py-2 mb-3 rounded-lg border border-[#854d0e] bg-[#451a03]/40 text-[12px] font-mono text-[#fbbf24]">
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                    <span>models.dev unreachable — showing built-in fallback models. Data may be outdated.</span>
+                    <span>models.dev unreachable - showing built-in fallback models. Data may be outdated.</span>
                 </div>
                 <!-- Loading state -->
                 <div id="loadingState" class="empty-hint" style="display:none">
@@ -145,7 +145,7 @@ const jsonLd = JSON.stringify({
 
 <style is:global>
     /* ── Token Counter page-specific styles ──
-       NOTE: must be global — family tabs and model cards are created by
+       NOTE: must be global - family tabs and model cards are created by
        runtime JS, so Astro-scoped styles (data-astro-cid) never match them. */
     .family-tab {
         padding: 6px 14px;
@@ -254,7 +254,7 @@ const jsonLd = JSON.stringify({
     }
 </style>
 
-<!-- Bootstrap script — uses absolute /js/ path since Bun serves from project root -->
+<!-- Bootstrap script - uses absolute /js/ path since Bun serves from project root -->
 <script type="module">
     import {
         fetchModels,

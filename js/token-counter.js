@@ -44,7 +44,7 @@ const EXCLUDE_PATTERNS = [
 ];
 
 // ---------------------------------------------------------------------------
-// Fallback model list — used when models.dev is unreachable and no cache.
+// Fallback model list - used when models.dev is unreachable and no cache.
 // Keep this list small but representative of major providers/generations.
 // ---------------------------------------------------------------------------
 
@@ -102,7 +102,7 @@ export async function fetchModels() {
         }
     } catch { /* ignore quota / parse errors */ }
 
-    // 2. Fetch from API — use fallback on any network/parse failure
+    // 2. Fetch from API - use fallback on any network/parse failure
     let json;
     try {
         const res = await fetch(MODELS_API, { signal: AbortSignal.timeout(8000) });
@@ -151,7 +151,7 @@ export async function fetchModels() {
         }
     }
 
-    // 3. De-duplicate by (family + name) — keep the one with the largest context
+    // 3. De-duplicate by (family + name) - keep the one with the largest context
     const deduped = [];
     const seen    = new Map();
     for (const m of models) {
@@ -188,7 +188,7 @@ export async function fetchModels() {
  * Base targets cl100k_base (GPT-4); apply model.multiplier for others.
  *
  * @param {string} text
- * @param {number} multiplier — model-specific adjustment factor (default 1.0)
+ * @param {number} multiplier - model-specific adjustment factor (default 1.0)
  * @returns {number}
  */
 export function estimateTokens(text, multiplier = 1.0) {
@@ -227,7 +227,7 @@ function tokensPerWord(word) {
  * Run tokenizer across every model and enrich with fill stats.
  *
  * @param {string} text
- * @param {Array}  models — from fetchModels()
+ * @param {Array}  models - from fetchModels()
  * @returns {Array<{model, tokens, fillPct, isNearLimit, isOverLimit}>}
  */
 export function countAllModels(text, models) {
@@ -284,7 +284,7 @@ export function formatContext(n) {
 
 export function buildSummaryText(text, results) {
     const lines = [
-        `Token Count Summary — ai.dosa.dev/tools/token-counter`,
+        `Token Count Summary - ai.dosa.dev/tools/token-counter`,
         `Prompt: ${text.length} chars, ~${text.trim().split(/\s+/).length} words`,
         '',
         ...results.map(r =>

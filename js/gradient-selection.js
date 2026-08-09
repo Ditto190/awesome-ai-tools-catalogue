@@ -1,5 +1,5 @@
 /**
- * Gradient text selection — deep ocean theme: indigo → purple → cyan.
+ * Gradient text selection - deep ocean theme: indigo → purple → cyan.
  * Uses per-rect fixed overlays with mix-blend-mode:screen so the effect
  * works correctly on the app's dark background without blocking pointer events.
  */

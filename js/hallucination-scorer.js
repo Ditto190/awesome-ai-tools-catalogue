@@ -160,7 +160,7 @@ const CHECKERS = [
             if (pressurePatterns.test(text)) {
                 return {
                     flag: 'Authority Pressure',
-                    description: 'Instructing an LLM to "be correct" or "not hallucinate" does not reduce hallucinations — it may actually increase confident-sounding fabrications.',
+                    description: 'Instructing an LLM to "be correct" or "not hallucinate" does not reduce hallucinations - it may actually increase confident-sounding fabrications.',
                     weight: 12,
                 };
             }
@@ -252,7 +252,7 @@ const CHECKERS = [
 /**
  * Analyse a prompt for hallucination risk patterns.
  *
- * @param {string} text — the user prompt to analyse
+ * @param {string} text - the user prompt to analyse
  * @returns {{ score: number, level: 'Safe'|'Medium'|'High', flags: Array<{flag: string, description: string, weight: number}> }}
  */
 export function scoreHallucinationRisk(text) {
@@ -285,7 +285,7 @@ export function scoreHallucinationRisk(text) {
 
 export function buildSummaryText(text, result) {
     const lines = [
-        `Hallucination Risk Analysis — ai.dosa.dev/tools/hallucination-scorer`,
+        `Hallucination Risk Analysis - ai.dosa.dev/tools/hallucination-scorer`,
         `Prompt: ${text.length} chars, ~${text.trim().split(/\s+/).length} words`,
         `Risk Score: ${result.score}/100 (${result.level})`,
         '',

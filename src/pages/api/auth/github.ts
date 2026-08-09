@@ -12,8 +12,8 @@
  *      the session without a full page reload.
  *
  * Required env vars:
- *   GITHUB_CLIENT_ID     — from GitHub OAuth App settings (also baked into JS bundle)
- *   GITHUB_CLIENT_SECRET — NEVER exposed client-side
+ *   GITHUB_CLIENT_ID     - from GitHub OAuth App settings (also baked into JS bundle)
+ *   GITHUB_CLIENT_SECRET - NEVER exposed client-side
  *
  * Registered callback URL in GitHub OAuth App: https://ai.dosa.dev/api/auth/github
  */
@@ -23,7 +23,7 @@ export const prerender = false;
 
 // Pages that may receive the post-auth redirect.
 // Must match the paths used by auth.js _getCurrentOriginPath().
-// NOTE: No .html extensions — Astro uses clean URLs.
+// NOTE: No .html extensions - Astro uses clean URLs.
 const ALLOWED_ORIGINS = [
     '/',
     '/settings',

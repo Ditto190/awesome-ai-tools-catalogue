@@ -67,7 +67,7 @@ const CATEGORY_MAPPING: Record<string, string> = {
 };
 
 /**
- * Slug generation — mirrors parser.js exactly.
+ * Slug generation - mirrors parser.js exactly.
  * First occurrence: name-only slug.
  * Collision: name-company slug.
  */
@@ -95,7 +95,7 @@ function getShortCategory(category: string): string {
 
 /**
  * Parse the markdown tool tables from README.md.
- * Mirrors parser.js exactly — slug is name-only first, then name-company on collision.
+ * Mirrors parser.js exactly - slug is name-only first, then name-company on collision.
  */
 function parseMarkdown(text: string): ToolSeed[] {
     const toolsRaw: Omit<ToolSeed, 'slug'>[] = [];
@@ -188,7 +188,7 @@ let _tools: Tool[] | null = null;
 
 /**
  * Returns all tools (lazy-loaded and cached).
- * Safe to call multiple times — only reads files once.
+ * Safe to call multiple times - only reads files once.
  */
 export function getAllTools(): Tool[] {
     if (_tools) return _tools;

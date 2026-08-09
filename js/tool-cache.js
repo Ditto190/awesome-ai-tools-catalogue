@@ -40,7 +40,7 @@ export function write(data, etag = null) {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(envelope));
     } catch (err) {
-        // Likely QuotaExceededError — evict and retry once
+        // Likely QuotaExceededError - evict and retry once
         try {
             localStorage.removeItem(STORAGE_KEY);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(envelope));

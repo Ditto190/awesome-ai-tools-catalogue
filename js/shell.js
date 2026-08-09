@@ -12,7 +12,7 @@
  *   looks for (`#sidebar`, `#dashboardNav`, `#googleSignInBtn`, ...) exist.
  *
  * Non-goals: this module is NOT used on the root index, token-counter, or
- * hallucination-scorer pages — they still ship their sidebar inline for now.
+ * hallucination-scorer pages - they still ship their sidebar inline for now.
  */
 
 const SIDEBAR_CONTENT_HTML = `
@@ -207,7 +207,7 @@ const DETAIL_SECTIONS_HTML = `
 
 /**
  * Inject shared chrome into the placeholder containers if they exist and are
- * currently empty. Idempotent — safe to call multiple times.
+ * currently empty. Idempotent - safe to call multiple times.
  */
 export function injectShell() {
     const sidebarContent = document.getElementById('sidebarContent');
