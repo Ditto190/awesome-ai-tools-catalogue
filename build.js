@@ -46,6 +46,7 @@ const result = await build({
         './js/app.js',
         './js/dashboard.js',
         './js/compare.js',
+        './js/blog.js',
         // Utility pages — bundled as separate ES modules served at /dist/
         './js/token-counter.js',
         './js/hallucination-scorer.js',

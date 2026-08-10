@@ -1,0 +1,93 @@
+---
+title: "How to Choose an AI Coding Assistant: A Practical Buyer's Guide"
+description: "With 100+ AI coding tools on the market, picking one is a project in itself. A framework for choosing based on how you actually work — with decision tree included."
+pubDate: 2026-06-08
+tags: ["guide", "ai", "tools", "buyers-guide"]
+image: "/images/blog/how-to-choose-ai-coding-assistant.png"
+---
+
+There are over 130 AI coding tools in our [directory](/), and more launch every week. "Which one is best?" is the wrong question — the right question is **which one matches how you work**. This guide gives you a framework for deciding, plus pointers to our deeper reviews.
+
+## Step 1: Identify Your Primary Workflow
+
+AI coding tools cluster into four categories, and most people should start by picking a category, not a tool.
+
+### AI-Native IDEs
+Full editors with AI at the core: [Cursor](/tools/cursor), [other AI-native IDEs](/category/ai-ides), [Zed](/tools/zed), [Void](/tools/void).
+
+**Pick this if:** you want the deepest, most seamless AI integration and you're willing to switch editors.
+
+### IDE Extensions
+Plugins for your current editor: [GitHub Copilot](/tools/github-copilot), [Continue](/tools/continue), [Cody](/tools/cody), [Tabnine](/tools/tabnine).
+
+**Pick this if:** you love your current setup (especially JetBrains or Vim users) and want AI added, not your editor replaced.
+
+### Terminal Agents
+CLI-based autonomous agents: [Claude Code](/tools/claude-code), [Codex CLI](/tools/codex-cli), [Aider](/tools/aider), [Gemini CLI](/tools/gemini-cli).
+
+**Pick this if:** you live in the terminal, want to delegate whole tasks rather than get suggestions, or need something scriptable. See our [CLI roundup](/blog/best-ai-coding-clis).
+
+### Autonomous Agents & App Builders
+Ticket-to-PR agents like [Devin](/tools/devin) and [OpenHands](/tools/openhands), or prompt-to-app builders like [v0](/tools/v0), [Bolt.new](/tools/boltnew), and [Lovable](/tools/lovable).
+
+**Pick this if:** you're delegating entire work items, or building new apps from scratch rather than maintaining existing code.
+
+## Step 2: Apply Your Constraints
+
+Once you know the category, five constraints usually decide the tool:
+
+### Budget
+
+- **Free / nearly free:** [Gemini CLI](/tools/gemini-cli) (generous free tier), [Continue](/tools/continue) + a local model, [Codeium-style free tiers](/)
+- **~$10–20/mo:** Copilot Pro, Cursor Pro — the sweet spot for individuals
+- **Team/enterprise pricing:** Devin, Copilot Business, Cursor Business — budget per seat
+
+### Privacy & compliance
+
+- Code can't leave your machine? Use [Continue](/tools/continue) or [Void](/tools/void) with local models, or check enterprise tiers with zero-retention agreements
+- Regulated industry? Prioritize tools with SOC 2, admin controls, and audit logs — Copilot Enterprise and the major vendors' business tiers
+
+### Model preference
+
+Some tools lock you to their models (Cursor, Copilot); others let you choose ([Aider](/tools/aider), [Continue](/tools/continue), [OpenHands](/tools/openhands)). If you want to swap models as the market moves, prefer model-agnostic tools.
+
+### Codebase size
+
+Large monorepos stress-test context handling. Look for **codebase indexing** (Cursor, Cody) or **huge context windows** (Gemini CLI) if your repo is big.
+
+### Team workflows
+
+Solo devs optimize for personal speed; teams need shared conventions — look for repo-level config files (`CLAUDE.md`, `.cursorrules`, Continue's `config.yaml`) that encode team standards.
+
+## The Decision Tree
+
+```
+Do you want to keep your current editor?
+├── Yes (VS Code / JetBrains / Vim)
+│   ├── Want simple & cheap → GitHub Copilot
+│   ├── Want open source / model choice → Continue
+│   └── Want agentic task delegation → add a CLI agent
+├── No, I'll switch editors
+│   ├── Want the best AI UX → Cursor
+│   ├── Want open source → Void
+│   └── Want raw speed → Zed
+├── I work in the terminal
+│   ├── Want max autonomy → Claude Code
+│   ├── Want free + big context → Gemini CLI
+│   └── Want git-native pairing → Aider
+└── I want to delegate whole tickets/apps
+    ├── Existing repo, ticket → PR → Devin / OpenHands
+    └── New app from a prompt → v0 / Bolt / Lovable
+```
+
+## Step 3: Trial Properly
+
+Whatever you shortlist, trial it on **real work for two weeks** — not toy examples. The things that matter (does it understand *your* codebase? does it fit *your* patience for reviewing diffs?) only surface on real tasks.
+
+## Final Advice
+
+1. **Start with one tool, not three.** Tool-hopping burns more time than any tool saves.
+2. **Match the tool to the task.** Many developers end up with two: an in-editor assistant for flow-state work and a terminal agent for delegation.
+3. **Revisit quarterly.** This market moves faster than any other in software. The right answer this year may not be the right answer next year.
+
+Every tool mentioned here is in the [directory](/) with links and details — and our deep dives on [Cursor](/blog/cursor-deep-dive), [Claude Code](/blog/claude-code-deep-dive), and [Cursor vs Copilot](/blog/cursor-vs-github-copilot) go further on the big names.

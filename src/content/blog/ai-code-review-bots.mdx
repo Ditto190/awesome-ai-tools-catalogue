@@ -1,0 +1,60 @@
+---
+title: "AI Code Review Bots: CodeRabbit, Qodo, and Ellipsis Compared"
+description: "AI reviewers that comment on every pull request are becoming standard infrastructure. Here's how CodeRabbit, Qodo, and Ellipsis differ — and how to roll one out without annoying your team."
+pubDate: 2026-06-29
+tags: ["code-review", "coderabbit", "qodo", "ellipsis", "pr"]
+image: "/images/blog/ai-code-review-bots.png"
+---
+
+Code review is the bottleneck in most engineering teams, and it's exactly the kind of work AI handles well: reading diffs, spotting bugs, checking conventions, summarizing changes. AI review bots now sit in the PR pipeline of a growing number of teams — not replacing human review, but making sure a first pass *always* happens, instantly, on every PR.
+
+Here's how the three main players compare.
+
+## CodeRabbit
+
+[CodeRabbit](/tools/coderabbit) is the most full-featured of the bunch. On every pull request it produces:
+
+- **A structured summary** — walkthrough of changes, often with diagrams
+- **Line-by-line review comments** with severity and suggested fixes
+- **Chat on the PR** — reply to its comments and it discusses or adjusts
+- **Learned preferences** — it absorbs your team's feedback over time, so false positives trend down
+
+CodeRabbit's differentiator is depth of interaction. It feels less like a linter and more like a tireless reviewer who reads every line and never gets grumpy on a Friday afternoon. It supports GitHub, GitLab, and Azure DevOps.
+
+## Qodo
+
+[Qodo](/tools/qodo) (formerly CodiumAI) comes at review from a **quality and testing** angle. Its PR agent covers the standard review bases — summaries, issue detection, suggestions — but its standout instincts are:
+
+- **Test coverage analysis** — flags logic that shipped without tests and can *generate* the missing tests
+- **Best-practice enforcement** — configurable rules that encode your team's standards
+- **Ticket compliance** — checks the PR against the linked issue's requirements
+
+If your pain is "PRs merge with no tests," Qodo is aimed squarely at you. It's also open source at its core, with a self-hostable option that security-conscious teams appreciate.
+
+## Ellipsis
+
+[Ellipsis](/tools/ellipsis) is the lightweight, developer-friendly option. Beyond review comments, its signature trick: **tag it in a comment and it will make the change.** "Ellipsis, extract this into a helper" becomes a commit on the branch.
+
+That review-to-fix loop — where feedback turns into code without leaving the PR — is a genuine workflow upgrade, and Ellipsis's pricing model (per developer) makes it easy to try on a small team.
+
+## Comparison at a Glance
+
+| | CodeRabbit | Qodo | Ellipsis |
+|---|---|---|---|
+| **Review depth** | Deep, interactive | Quality/test-focused | Solid, pragmatic |
+| **Killer feature** | PR chat + learning | Test generation | Fix-it commits |
+| **Self-host** | No | Yes (open core) | No |
+| **Platforms** | GitHub, GitLab, ADO | GitHub, GitLab, Bitbucket | GitHub |
+
+## Rolling One Out Without the Backlash
+
+Teams that bounce off AI review usually made the same mistakes. Avoid them:
+
+1. **Start in "summary only" mode.** Let the bot post its walkthrough without line comments for the first two weeks. Build trust before volume.
+2. **Tune aggressively.** Every tool here lets you disable rule categories. Kill noisy ones immediately.
+3. **Frame it as a first pass, not a gate.** The bot catches typos, obvious bugs, and missing tests; humans still own architecture and judgment calls.
+4. **Measure the boring metric:** time-to-first-review. That's where the ROI shows up — PRs stop sitting idle waiting for a human to start.
+
+## Verdict
+
+AI review has crossed from novelty to infrastructure. **CodeRabbit** for the deepest interactive review, **Qodo** if test coverage is your gap (or you need self-hosting), **Ellipsis** for lightweight review with fix-it commits. All three are listed with details in the [directory](/).

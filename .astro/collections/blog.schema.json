@@ -29,6 +29,10 @@
       "default": false,
       "type": "boolean"
     },
+    "featured": {
+      "default": false,
+      "type": "boolean"
+    },
     "$schema": {
       "type": "string"
     }
