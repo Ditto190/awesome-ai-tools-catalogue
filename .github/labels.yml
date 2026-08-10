@@ -1,6 +1,9 @@
 - name: enrichment-gap
   color: "d93f0b"
   description: "Tool pages missing enriched content after deployment"
+- name: enrichment-stale
+  color: "fbca04"
+  description: "Enrichment pipeline stale - lastUpdated stamps are not moving"
 - name: automated
   color: "0075ca"
   description: "Created automatically by a GitHub Actions workflow"

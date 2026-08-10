@@ -14,8 +14,8 @@
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Sidebar from '../../components/Sidebar.astro';
-import { getAllTools, getCategorySlug, getToolBySlug, type Tool } from '../../lib/tools';
-import { getComparisonsForTool, humanizePricing, truncate } from '../../lib/compare';
+import { formatDate, getAlternativesFor, getAllTools, getCategorySlug, getToolBySlug, type Tool } from '../../lib/tools';
+import { getComparisonsForTool, hasAlternativesPage, humanizePricing, truncate } from '../../lib/compare';
 
 export async function getStaticPaths() {
     const tools = getAllTools();
@@ -62,6 +62,9 @@ const softwareApp: Record<string, unknown> = {
     "description": displayDescription,
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Any",
+    // Honest freshness: dateModified reflects the enrichment pipeline's
+    // lastUpdated stamp for this tool, not the build date.
+    ...(enriched?.lastUpdated ? { "dateModified": enriched.lastUpdated } : {}),
     "isPartOf": {
         "@type": "WebSite",
         "@id": "https://ai.dosa.dev/#website",
@@ -88,23 +91,9 @@ const jsonLdObj = {
     ]
 };
 
-// Date formatter
-function formatDate(iso?: string): string {
-    if (!iso) return '';
-    try {
-        const d = new Date(iso);
-        if (isNaN(d.getTime())) return iso;
-        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-    } catch {
-        return iso;
-    }
-}
-
 // ── Related tools (same category, enriched first) ───────────────────────────
-const related = getAllTools()
-    .filter(t => t.category === tool.category && t.slug !== tool.slug)
-    .sort((a, b) => Number(b.enriched !== null) - Number(a.enriched !== null))
-    .slice(0, 6);
+const related = getAlternativesFor(tool).slice(0, 6);
+const showAlternativesLink = hasAlternativesPage(tool.slug);
 
 // ── Curated comparison pages featuring this tool ────────────────────────────
 const comparisons = getComparisonsForTool(tool.slug)
@@ -159,6 +148,7 @@ const jsonLd = JSON.stringify(jsonLdObj);
     ogDescription={descMeta}
     ogImage={`https://ai.dosa.dev/images/og/${tool.slug}.png`}
     ogType="article"
+    modifiedTime={enriched?.lastUpdated}
     twitterTitle={`${displayName} - ${displayCompany} | ai.dosa.dev`}
     twitterDescription={descMeta}
     jsonLd={jsonLd}
@@ -219,6 +209,15 @@ const jsonLd = JSON.stringify(jsonLdObj);
                                 <span class="font-mono text-[14px] text-[#a3a3a3] uppercase tracking-wide">{displayCompany}</span>
                                 <span class="text-[#333]">·</span>
                                 <span class="inline-block px-3 py-1 border border-[#222] rounded-full bg-white/5 font-mono text-[12px] text-[#a3a3a3] tracking-wide">{tool.categoryClean}</span>
+                                {enriched?.lastUpdated && (
+                                    <>
+                                        <span class="text-[#333]">·</span>
+                                        <span class="inline-flex items-center gap-1.5 font-mono text-[12px] text-[#a3a3a3] tracking-wide">
+                                            <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#4ade80]" aria-hidden="true"></span>
+                                            Updated <time datetime={enriched.lastUpdated}>{formatDate(enriched.lastUpdated)}</time>
+                                        </span>
+                                    </>
+                                )}
                             </div>
                         </div>
                         <a href={tool.url} target="_blank" rel="noopener noreferrer"
@@ -233,6 +232,20 @@ const jsonLd = JSON.stringify(jsonLdObj);
 
                 <!-- Enriched Content Sections (build-time rendered) -->
                 <div class="flex flex-col gap-6">
+
+                    {enriched?.recentUpdates && (
+                        <section class="td-section">
+                            <div class="td-section-label">Recent Updates</div>
+                            <div class="td-card">
+                                <p class="text-[15px] leading-relaxed text-[#d4d4d4]">{enriched.recentUpdates}</p>
+                                {enriched.lastUpdated && (
+                                    <p class="font-mono text-[11px] text-[#525252] tracking-wide mt-3 mb-0">
+                                        As of <time datetime={enriched.lastUpdated}>{formatDate(enriched.lastUpdated)}</time>
+                                    </p>
+                                )}
+                            </div>
+                        </section>
+                    )}
 
                     {!enriched && (
                         <div class="td-card flex items-start gap-3 border-dashed">
@@ -292,13 +305,6 @@ const jsonLd = JSON.stringify(jsonLdObj);
                         </section>
                     )}
 
-                    {enriched?.recentUpdates && (
-                        <section class="td-section">
-                            <div class="td-section-label">Recent Updates</div>
-                            <div class="td-card"><p class="text-[15px] leading-relaxed text-[#d4d4d4]">{enriched.recentUpdates}</p></div>
-                        </section>
-                    )}
-
                     {enriched?.verdict && (
                         <section class="td-section">
                             <div class="td-section-label">Verdict</div>
@@ -315,12 +321,6 @@ const jsonLd = JSON.stringify(jsonLdObj);
                                 ))}
                             </div>
                         </section>
-                    )}
-
-                    {enriched?.lastUpdated && (
-                        <div class="font-mono text-[11px] text-[#525252] tracking-wide py-4">
-                            Last updated: {formatDate(enriched.lastUpdated)}
-                        </div>
                     )}
 
                     {faqs.length >= 2 && (
@@ -369,6 +369,12 @@ const jsonLd = JSON.stringify(jsonLdObj);
                                     </a>
                                 ))}
                             </div>
+                            {showAlternativesLink && (
+                                <a href={`/tools/${tool.slug}/alternatives`} class="inline-flex items-center gap-2 mt-4 text-[14px] font-medium text-[#c9aa6e] hover:text-[#e2c48a] transition-colors">
+                                    See all {displayName} alternatives
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                </a>
+                            )}
                         </section>
                     )}
 

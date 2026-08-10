@@ -9,7 +9,8 @@
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Sidebar from '../../components/Sidebar.astro';
-import { getCategoriesDetailed, type CategoryInfo, type Tool } from '../../lib/tools';
+import { formatDate, getCategoriesDetailed, maxLastUpdated, type CategoryInfo, type Tool } from '../../lib/tools';
+import { humanizePricing } from '../../lib/compare';
 
 export async function getStaticPaths() {
     return getCategoriesDetailed().map(category => ({
@@ -28,6 +29,9 @@ const siblings = allCategories.filter(c => c.slug !== category.slug);
 
 const pageUrl = `https://ai.dosa.dev/category/${category.slug}`;
 const count = category.tools.length;
+
+// Honest freshness: latest enrichment stamp across this category's tools
+const lastUpdated = maxLastUpdated(category.tools.map(t => t.enriched?.lastUpdated));
 
 // Pricing stats derived from enriched data (honest, computed at build time)
 const KNOWN_FREE = new Set(['free', 'open-source', 'open_source', 'oss']);
@@ -55,12 +59,6 @@ const faqs = [
     },
 ];
 
-function humanizePricing(val?: string): string {
-    if (!val) return '';
-    const map: Record<string, string> = { free: 'Free', freemium: 'Freemium', paid: 'Paid', open_source: 'Open Source', 'open-source': 'Open Source', oss: 'Open Source', enterprise: 'Enterprise' };
-    return map[val.toLowerCase()] ?? (val.charAt(0).toUpperCase() + val.slice(1));
-}
-
 const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@graph": [
@@ -72,6 +70,7 @@ const jsonLd = JSON.stringify({
             "description": category.description || `${count} curated ${category.name} tools with pricing, features, and verdicts.`,
             "isPartOf": { "@type": "WebSite", "@id": "https://ai.dosa.dev/#website", "url": "https://ai.dosa.dev", "name": "ai.dosa.dev - Awesome AI Tools" },
             "inLanguage": "en",
+            ...(lastUpdated ? { "dateModified": lastUpdated } : {}),
         },
         {
             "@type": "ItemList",
@@ -143,7 +142,7 @@ const jsonLd = JSON.stringify({
                         {category.description}
                     </p>
                     <div class="font-mono text-[12px] text-[#737373] tracking-wide">
-                        {count} tools{enrichedCount > 0 && ` · ${enrichedCount} with full reviews`}{freeCount > 0 && ` · ${freeCount} free or open source`}
+                        {count} tools{enrichedCount > 0 && ` · ${enrichedCount} with full reviews`}{freeCount > 0 && ` · ${freeCount} free or open source`}{lastUpdated && <> · Updated <time datetime={lastUpdated}>{formatDate(lastUpdated)}</time></>}
                     </div>
                 </header>
 

@@ -182,6 +182,50 @@ function loadEnriched(): Map<string, EnrichedTool> {
     }
 }
 
+// ── freshness helpers ─────────────────────────────────────────────────────────
+
+/**
+ * Latest valid date from a list of ISO-ish strings, or null when nothing parses.
+ * Sorts by parsed time (not lexicographically) so mixed formats stay safe.
+ */
+export function maxLastUpdated(dates: (string | undefined | null)[]): string | null {
+    let best: string | null = null;
+    let bestTime = -Infinity;
+    for (const d of dates) {
+        if (!d) continue;
+        const time = new Date(d).getTime();
+        if (isNaN(time) || time <= bestTime) continue;
+        bestTime = time;
+        best = d;
+    }
+    return best;
+}
+
+/**
+ * Latest content update across all enriched tools, or null if none are dated.
+ * This is the honest sitewide freshness signal - it moves only when the
+ * enrichment pipeline actually ships new data, not on every build.
+ */
+export function getLatestUpdate(tools: Tool[] = getAllTools()): string | null {
+    return maxLastUpdated(tools.map(t => t.enriched?.lastUpdated));
+}
+
+/**
+ * Format an ISO date for display, e.g. "Aug 9, 2026".
+ * Rendered in UTC so date-only strings ("2026-08-09") never shift a day
+ * behind for visitors west of Greenwich.
+ */
+export function formatDate(iso?: string | null): string {
+    if (!iso) return '';
+    try {
+        const d = new Date(iso);
+        if (isNaN(d.getTime())) return iso;
+        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+    } catch {
+        return iso;
+    }
+}
+
 // ── public API ────────────────────────────────────────────────────────────────
 
 let _tools: Tool[] | null = null;
@@ -219,6 +263,16 @@ export function getToolBySlug(slug: string): Tool | undefined {
 export function getCategories(): string[] {
     const cats = new Set(getAllTools().map(t => t.category));
     return [...cats];
+}
+
+/**
+ * Other tools in the same category - the alternatives set.
+ * Enriched tools first, README order preserved within each group.
+ */
+export function getAlternativesFor(tool: Tool): Tool[] {
+    return getAllTools()
+        .filter(t => t.category === tool.category && t.slug !== tool.slug)
+        .sort((a, b) => Number(b.enriched !== null) - Number(a.enriched !== null));
 }
 
 export interface CategoryInfo {

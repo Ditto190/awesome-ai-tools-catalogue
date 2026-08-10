@@ -12,6 +12,8 @@ interface Props {
     ogDescription?: string;
     ogImage?: string;
     ogType?: string;
+    /** ISO date - emitted as article:modified_time when ogType is "article" */
+    modifiedTime?: string;
     twitterTitle?: string;
     twitterDescription?: string;
     jsonLd?: string;
@@ -27,6 +29,7 @@ const {
     ogDescription,
     ogImage = "https://ai.dosa.dev/images/og-image.png",
     ogType = "website",
+    modifiedTime,
     twitterTitle,
     twitterDescription,
     jsonLd,
@@ -62,7 +65,10 @@ const resolvedTwitterDesc = twitterDescription ?? description;
         image: {
           width: 1200,
           height: 630,
-        }
+        },
+        ...(ogType === "article" && modifiedTime
+          ? { article: { modifiedTime } }
+          : {}),
       }}
       twitter={{
         card: "summary_large_image",

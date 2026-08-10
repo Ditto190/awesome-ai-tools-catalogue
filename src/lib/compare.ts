@@ -9,7 +9,7 @@
 
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { getToolBySlug, type Tool } from './tools';
+import { getAllTools, getToolBySlug, type Tool } from './tools';
 
 const ROOT = process.cwd();
 
@@ -64,6 +64,32 @@ export function getResolvedComparisons(): ResolvedComparison[] {
 /** All curated comparisons that include the given tool slug. */
 export function getComparisonsForTool(toolSlug: string): Comparison[] {
     return getComparisons().filter(c => c.a === toolSlug || c.b === toolSlug);
+}
+
+let _topCompared: Tool[] | null = null;
+
+/**
+ * The most-compared tools - curated comparison frequency is a proxy for
+ * high-intent "X alternatives" queries. Ordered by comparison count desc;
+ * ties keep README order (getAllTools order - Array.sort is stable).
+ */
+export function getTopComparedTools(limit = 20): Tool[] {
+    if (!_topCompared) {
+        const counts = new Map<string, number>();
+        for (const c of getComparisons()) {
+            counts.set(c.a, (counts.get(c.a) ?? 0) + 1);
+            counts.set(c.b, (counts.get(c.b) ?? 0) + 1);
+        }
+        _topCompared = getAllTools()
+            .filter(t => counts.has(t.slug))
+            .sort((a, b) => (counts.get(b.slug) ?? 0) - (counts.get(a.slug) ?? 0));
+    }
+    return _topCompared.slice(0, limit);
+}
+
+/** Whether /tools/{slug}/alternatives is generated for this tool. */
+export function hasAlternativesPage(slug: string): boolean {
+    return getTopComparedTools().some(t => t.slug === slug);
 }
 
 export function humanizePricing(val?: string): string {

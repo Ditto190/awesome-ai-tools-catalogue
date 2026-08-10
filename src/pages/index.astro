@@ -14,10 +14,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Sidebar from '../components/Sidebar.astro';
 import ToolRow from '../components/ToolRow.astro';
-import { getAllTools } from '../lib/tools';
+import { formatDate, getAllTools, getLatestUpdate } from '../lib/tools';
 
 const tools = getAllTools();
 const categoryCount = new Set(tools.map(t => t.category)).size;
+
+// Honest freshness signal: the latest lastUpdated stamp from the enrichment
+// pipeline. Falls back to the build date only when no tool is dated.
+const latestUpdate = getLatestUpdate(tools);
+const latestUpdateLabel = latestUpdate ? formatDate(latestUpdate) : '';
 
 // Build structured data JSON-LD
 const jsonLd = JSON.stringify({
@@ -47,7 +52,7 @@ const jsonLd = JSON.stringify({
             "about": { "@type": "Thing", "name": "AI-powered developer tools" },
             "keywords": "AI IDE, AI coding assistant, terminal agent, autonomous agent, vibe coding, AI code review",
             "inLanguage": "en",
-            "dateModified": new Date().toISOString().slice(0, 10),
+            "dateModified": latestUpdate ?? new Date().toISOString().slice(0, 10),
             "image": { "@type": "ImageObject", "url": "https://ai.dosa.dev/images/og-image.png", "width": 1200, "height": 630 }
         },
         {
@@ -181,7 +186,7 @@ const toolsJson = JSON.stringify(tools);
                 <div class="px-4 md:px-8 pt-6 md:pt-8 pb-2 shrink-0">
                     <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-[#737373] mb-2.5 flex items-center gap-2">
                         <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#d6b77a]"></span>
-                        {tools.length} tools &middot; {categoryCount} categories &middot; curated by hand
+                        {tools.length} tools &middot; {categoryCount} categories &middot; curated by hand{latestUpdateLabel && <>&nbsp;&middot; updated <time datetime={latestUpdate!}>{latestUpdateLabel}</time></>}
                     </p>
                     <p class="text-[22px] md:text-[28px] font-semibold text-white leading-tight tracking-tight m-0">
                         Find your <span class="text-[#e2c48a]">AI coding stack</span>

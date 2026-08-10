@@ -22,6 +22,9 @@ export default defineConfig({
                 if (/\/compare\/[^/]+\/$/.test(url) || /\/compare\/[^/]+$/.test(url)) {
                     item.priority = 0.8;
                     item.changefreq = 'weekly';
+                } else if (/\/tools\/[^/]+\/alternatives\/?$/.test(url)) {
+                    item.priority = 0.7;
+                    item.changefreq = 'weekly';
                 } else if (/\/tools\/[^/]+\/$/.test(url) || /\/tools\/[^/]+$/.test(url)) {
                     item.priority = 0.7;
                     item.changefreq = 'weekly';
