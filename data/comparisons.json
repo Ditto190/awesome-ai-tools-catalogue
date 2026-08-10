@@ -1,0 +1,44 @@
+[
+  { "slug": "cursor-vs-devin", "a": "cursor", "b": "devin", "group": "AI-Native IDEs" },
+  { "slug": "cursor-vs-trae", "a": "cursor", "b": "trae", "group": "AI-Native IDEs" },
+  { "slug": "cursor-vs-zed", "a": "cursor", "b": "zed", "group": "AI-Native IDEs" },
+  { "slug": "cursor-vs-antigravity", "a": "cursor", "b": "antigravity", "group": "AI-Native IDEs" },
+  { "slug": "devin-vs-trae", "a": "devin", "b": "trae", "group": "AI-Native IDEs" },
+  { "slug": "devin-vs-zed", "a": "devin", "b": "zed", "group": "AI-Native IDEs" },
+
+  { "slug": "github-copilot-vs-cursor", "a": "github-copilot", "b": "cursor", "group": "IDE Extensions" },
+  { "slug": "github-copilot-vs-cline", "a": "github-copilot", "b": "cline", "group": "IDE Extensions" },
+  { "slug": "github-copilot-vs-amazon-q-developer", "a": "github-copilot", "b": "amazon-q-developer", "group": "IDE Extensions" },
+  { "slug": "github-copilot-vs-gemini-code-assist", "a": "github-copilot", "b": "gemini-code-assist", "group": "IDE Extensions" },
+  { "slug": "github-copilot-vs-junie", "a": "github-copilot", "b": "junie", "group": "IDE Extensions" },
+  { "slug": "github-copilot-vs-tabnine", "a": "github-copilot", "b": "tabnine", "group": "IDE Extensions" },
+  { "slug": "cline-vs-roo-code", "a": "cline", "b": "roo-code", "group": "IDE Extensions" },
+  { "slug": "cline-vs-kilo-code", "a": "cline", "b": "kilo-code", "group": "IDE Extensions" },
+  { "slug": "augment-code-vs-cody", "a": "augment-code", "b": "cody", "group": "IDE Extensions" },
+
+  { "slug": "claude-code-vs-codex-cli", "a": "claude-code", "b": "codex-cli", "group": "Terminal & CLI Agents" },
+  { "slug": "claude-code-vs-aider", "a": "claude-code", "b": "aider", "group": "Terminal & CLI Agents" },
+  { "slug": "claude-code-vs-gemini-cli", "a": "claude-code", "b": "gemini-cli", "group": "Terminal & CLI Agents" },
+  { "slug": "claude-code-vs-cursor", "a": "claude-code", "b": "cursor", "group": "Terminal & CLI Agents" },
+  { "slug": "codex-cli-vs-aider", "a": "codex-cli", "b": "aider", "group": "Terminal & CLI Agents" },
+  { "slug": "codex-cli-vs-gemini-cli", "a": "codex-cli", "b": "gemini-cli", "group": "Terminal & CLI Agents" },
+  { "slug": "claude-code-vs-opencode", "a": "claude-code", "b": "opencode", "group": "Terminal & CLI Agents" },
+  { "slug": "codex-cli-vs-opencode", "a": "codex-cli", "b": "opencode", "group": "Terminal & CLI Agents" },
+
+  { "slug": "jules-vs-openhands", "a": "jules", "b": "openhands", "group": "Autonomous & Async Agents" },
+  { "slug": "openhands-vs-swe-agent", "a": "openhands", "b": "swe-agent", "group": "Autonomous & Async Agents" },
+
+  { "slug": "boltnew-vs-v0", "a": "boltnew", "b": "v0", "group": "Browser-Based Builders" },
+  { "slug": "boltnew-vs-lovable", "a": "boltnew", "b": "lovable", "group": "Browser-Based Builders" },
+  { "slug": "v0-vs-lovable", "a": "v0", "b": "lovable", "group": "Browser-Based Builders" },
+  { "slug": "lovable-vs-replit", "a": "lovable", "b": "replit", "group": "Browser-Based Builders" },
+
+  { "slug": "coderabbit-vs-qodo", "a": "coderabbit", "b": "qodo", "group": "Code Review & Security" },
+  { "slug": "coderabbit-vs-snyk-code", "a": "coderabbit", "b": "snyk-code", "group": "Code Review & Security" },
+
+  { "slug": "warp-vs-wave", "a": "warp", "b": "wave", "group": "AI-Native Terminals" },
+
+  { "slug": "claude-vs-chatgpt", "a": "claude", "b": "chatgpt", "group": "General AI Assistants" },
+  { "slug": "chatgpt-vs-gemini", "a": "chatgpt", "b": "gemini", "group": "General AI Assistants" },
+  { "slug": "claude-vs-gemini", "a": "claude", "b": "gemini", "group": "General AI Assistants" }
+]

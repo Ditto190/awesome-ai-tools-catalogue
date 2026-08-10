@@ -160,6 +160,27 @@ describe('voting', () => {
             // Key should be 'my-tool', not 'votes:my-tool'
             expect(getVoteCount('my-tool')).toBe(42);
         });
+
+        test('should fold legacy alias keys into the canonical tool id', async () => {
+            mockFetchResponse = {
+                ok: true,
+                json: () => Promise.resolve({
+                    'votes:cognition-windsurf': 21,
+                    'votes:cognitionai-devin': 2,
+                    'votes:cognition-devin': 1
+                })
+            };
+
+            try {
+                await initVoting();
+            } catch (e) {
+                // DOM operations may fail in test env
+            }
+
+            expect(getVoteCount('cognition-devin')).toBe(24);
+            expect(getVoteCount('cognition-windsurf')).toBe(0);
+            expect(getVoteCount('cognitionai-devin')).toBe(0);
+        });
     });
 
     describe('vote button click handling', () => {

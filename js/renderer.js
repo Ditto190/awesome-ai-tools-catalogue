@@ -19,6 +19,17 @@ let grid = null;
 let onClearCallback = null;
 const COMPARE_LIMIT = 3;
 
+// Escape tool-sourced strings before innerHTML interpolation - README notes
+// and enriched data are not trusted markup (same pattern as tool-detail.js).
+function escapeHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 /**
  * Initialize the renderer
  * @param {HTMLElement} gridElement - The grid container element
@@ -53,6 +64,8 @@ export function setVotingContext(context = {}) {
 }
 
 function createZapButtonHtml(toolId, toolName, voteCount) {
+    const safeId = escapeHtml(toolId);
+    const safeName = escapeHtml(toolName);
     if (!ENABLE_VOTING) {
         return `
                 <button class="zap-btn sm row opacity-50 cursor-not-allowed" disabled data-tip="Voting is disabled.">
@@ -66,9 +79,9 @@ function createZapButtonHtml(toolId, toolName, voteCount) {
 
     if (isAuthenticatedFn()) {
         return `
-                <button class="zap-btn sm row" data-tip="Zap this tool!" 
-                    data-tool-id="${toolId}"
-                    data-tool-name="${toolName}">
+                <button class="zap-btn sm row" data-tip="Zap this tool!"
+                    data-tool-id="${safeId}"
+                    data-tool-name="${safeName}">
                     <div class="zap-ring"></div>
                     <div class="sparks">
                         <div class="spark spark-1"></div>
@@ -86,9 +99,9 @@ function createZapButtonHtml(toolId, toolName, voteCount) {
     }
 
     return `
-                <button class="zap-btn sm row" data-tip="Sign in to vote!" 
-                    data-tool-id="${toolId}"
-                    data-tool-name="${toolName}">
+                <button class="zap-btn sm row" data-tip="Sign in to vote!"
+                    data-tool-id="${safeId}"
+                    data-tool-name="${safeName}">
                     <svg class="zap-icon" viewBox="0 0 24 24" fill="none" >
                         <path class="zap-bolt" d="M13 2L4.5 13.5H11L10 22L19.5 10.5H13L13 2Z"/>
                     </svg>
@@ -145,10 +158,11 @@ function updateCompareBar() {
     }
 
     if (thumbsContainer) {
+        const escapeSelector = (s) => (typeof CSS !== 'undefined' && CSS.escape) ? CSS.escape(s) : String(s);
         thumbsContainer.innerHTML = selected.map((slug) => {
-            const row = grid?.querySelector?.(`[data-compare-row][data-slug="${slug}"]`);
+            const row = grid?.querySelector?.(`[data-compare-row][data-slug="${escapeSelector(slug)}"]`);
             const label = row?.dataset?.toolName || slug;
-            return `<span class="compare-pill">${label}</span>`;
+            return `<span class="compare-pill">${escapeHtml(label)}</span>`;
         }
         ).join('');
     }
@@ -207,15 +221,24 @@ function setupCompareHandlers() {
     if (!grid) return;
 
     grid.addEventListener('click', (e) => {
-        const interactiveChild = e.target.closest('a, button');
-        if (interactiveChild && !interactiveChild.closest('.compare-checkbox')) return;
-
-        const row = e.target.closest('[data-compare-row]');
+        // Checkbox click: toggle comparison selection (preventDefault keeps
+        // the native toggle from fighting our synced state).
         const control = e.target.closest('.compare-checkbox');
-        if (!row && !control) return;
+        if (control) {
+            e.preventDefault();
+            handleCompareSelection(control.dataset.slug);
+            return;
+        }
 
-        e.preventDefault();
-        handleCompareSelection((control || row)?.dataset.slug);
+        // Row body click: navigate to the tool detail page. Links and
+        // buttons inside the row (name, external, category, zap) keep
+        // their own default behaviour.
+        const row = e.target.closest('[data-compare-row]');
+        if (!row || e.target.closest('a, button')) return;
+
+        const slug = row.dataset.slug;
+        if (!slug) return;
+        window.location.href = `/tools/${encodeURIComponent(slug)}`;
     });
 
     const clearBtn = document.getElementById('clearCompareBtn');
@@ -329,8 +352,9 @@ function createToolRow(tool, index) {
     const toolId = `${tool.company.toLowerCase().replace(/[^a-z0-9]/g, '')}-${tool.name.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
     const initialVoteCount = getVoteCountFn(toolId);
 
-    const detailHref = tool.slug ? `/tools/${tool.slug}` : tool.url;
-    
+    const safeName = escapeHtml(tool.name);
+    const detailHref = tool.slug ? `/tools/${encodeURIComponent(tool.slug)}` : escapeHtml(tool.url);
+
     // Truncate notes
     const fullNotes = tool.notes || '';
     const isLong = fullNotes.length > 105;
@@ -339,7 +363,7 @@ function createToolRow(tool, index) {
     row.innerHTML = `
         <div class="w-full flex justify-between items-start md:contents mb-1 md:mb-0">
             <div class="w-auto md:w-[280px] md:pr-6 shrink-0 text-[20px] md:text-[18px] font-medium flex items-center gap-3 md:order-1">
-                <label class="compare-checkbox ${isSelected(tool.slug) ? 'active' : ''}" data-slug="${tool.slug}" title="Select ${tool.name} for comparison" aria-label="Select ${tool.name} for comparison">
+                <label class="compare-checkbox ${isSelected(tool.slug) ? 'active' : ''}" data-slug="${escapeHtml(tool.slug)}" title="Select ${safeName} for comparison" aria-label="Select ${safeName} for comparison">
                     <input type="checkbox" ${isSelected(tool.slug) ? 'checked' : ''}>
                     <span class="compare-checkbox-box">
                         <svg class="compare-checkbox-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -350,10 +374,10 @@ function createToolRow(tool, index) {
                 </label>
                 <div class="flex items-center gap-2 flex-1 min-w-0">
                     <span class="hidden md:inline-block font-mono text-[#737373] text-[16px] opacity-0 -translate-x-2.5 transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-white">&rarr;</span>
-                    <a href="${detailHref}" class="flex-1 min-w-0 text-white no-underline transition-all duration-200 hover:bg-gradient-to-r hover:from-[#a78bfa] hover:via-[#22d3ee] hover:to-[#a78bfa] hover:bg-[length:200%_auto] hover:bg-clip-text hover:text-transparent hover:animate-[shift_3s_linear_infinite]" aria-label="View details for ${tool.name}">
-                        ${tool.name}
+                    <a href="${detailHref}" class="flex-1 min-w-0 text-white no-underline transition-all duration-200 hover:bg-gradient-to-r hover:from-[#a78bfa] hover:via-[#22d3ee] hover:to-[#a78bfa] hover:bg-[length:200%_auto] hover:bg-clip-text hover:text-transparent hover:animate-[shift_3s_linear_infinite]" aria-label="View details for ${safeName}">
+                        ${safeName}
                     </a>
-                    <a href="${tool.url}" target="_blank" rel="noopener noreferrer" class="shrink-0 text-[#737373] hover:text-white p-1 -m-1 rounded transition-colors duration-200" aria-label="Open ${tool.name} site in a new tab" title="Open site in new tab" onclick="event.stopPropagation()">
+                    <a href="${escapeHtml(tool.url)}" target="_blank" rel="noopener noreferrer" class="shrink-0 text-[#737373] hover:text-white p-1 -m-1 rounded transition-colors duration-200" aria-label="Open ${safeName} site in a new tab" title="Open site in new tab" onclick="event.stopPropagation()">
                         <svg class="w-3.5 h-3.5 opacity-60 hover:opacity-100 transition-all duration-200 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                             <polyline points="15 3 21 3 21 9"></polyline>
@@ -366,10 +390,10 @@ function createToolRow(tool, index) {
 ${createZapButtonHtml(toolId, tool.name, initialVoteCount)}
             </div>
         </div>
-        <div class="w-full md:w-[200px] md:pr-6 shrink-0 font-mono text-[14px] text-[#a3a3a3] uppercase tracking-wide mb-2 md:mb-0 md:order-2">${tool.company}</div>
-        <div class="w-full md:w-auto md:pr-6 grow text-[16px] text-[#a3a3a3] leading-relaxed transition-colors group-hover:text-[#e0e0e0] mb-3 md:mb-0 md:order-3 tool-notes" title="${isLong ? fullNotes : ''}">${displayNotes}</div>
+        <div class="w-full md:w-[200px] md:pr-6 shrink-0 font-mono text-[14px] text-[#a3a3a3] uppercase tracking-wide mb-2 md:mb-0 md:order-2">${escapeHtml(tool.company)}</div>
+        <div class="w-full md:w-auto md:pr-6 grow text-[16px] text-[#a3a3a3] leading-relaxed transition-colors group-hover:text-[#e0e0e0] mb-3 md:mb-0 md:order-3 tool-notes" title="${isLong ? escapeHtml(fullNotes) : ''}">${escapeHtml(displayNotes)}</div>
         <div class="w-full md:hidden lg:block lg:w-[180px] md:px-6 shrink-0 text-left lg:text-center mt-1 md:mt-0 md:order-4">
-            <a href="/category/${catShort.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}" class="inline-block px-3 py-1 border border-[#222] rounded-full bg-white/5 font-mono text-[13px] tracking-wide text-[#a3a3a3] hover:text-white hover:border-[#444] transition-colors" title="${catClean}" onclick="event.stopPropagation()">${catShort}</a>
+            <a href="/category/${catShort.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}" class="inline-block px-3 py-1 border border-[#222] rounded-full bg-white/5 font-mono text-[13px] tracking-wide text-[#a3a3a3] hover:text-white hover:border-[#444] transition-colors" title="${escapeHtml(catClean)}" onclick="event.stopPropagation()">${escapeHtml(catShort)}</a>
         </div>`;
 
     row.setAttribute('aria-selected', isSelected(tool.slug) ? 'true' : 'false');

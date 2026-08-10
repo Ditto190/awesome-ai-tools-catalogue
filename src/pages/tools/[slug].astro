@@ -14,7 +14,8 @@
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Sidebar from '../../components/Sidebar.astro';
-import { getAllTools, getCategorySlug, type Tool } from '../../lib/tools';
+import { getAllTools, getCategorySlug, getToolBySlug, type Tool } from '../../lib/tools';
+import { getComparisonsForTool, humanizePricing, truncate } from '../../lib/compare';
 
 export async function getStaticPaths() {
     const tools = getAllTools();
@@ -37,12 +38,6 @@ const displayCompany = enriched?.company ?? tool.company;
 const displayDescription = enriched?.description ?? tool.notes;
 
 // Meta description (truncated to 155 chars)
-function truncate(str: string, max: number): string {
-    const s = String(str ?? '').replace(/\s+/g, ' ').trim();
-    if (s.length <= max) return s;
-    return s.slice(0, max - 1).trimEnd() + '…';
-}
-
 const descMeta = truncate(displayDescription, 155);
 
 const keywords = [
@@ -93,13 +88,6 @@ const jsonLdObj = {
     ]
 };
 
-// Pricing human-readable label
-function humanizePricing(val?: string): string {
-    if (!val) return '';
-    const map: Record<string, string> = { free: 'Free', freemium: 'Freemium', paid: 'Paid', open_source: 'Open Source', 'open-source': 'Open Source', oss: 'Open Source', enterprise: 'Enterprise' };
-    return map[val.toLowerCase()] ?? (val.charAt(0).toUpperCase() + val.slice(1));
-}
-
 // Date formatter
 function formatDate(iso?: string): string {
     if (!iso) return '';
@@ -117,6 +105,16 @@ const related = getAllTools()
     .filter(t => t.category === tool.category && t.slug !== tool.slug)
     .sort((a, b) => Number(b.enriched !== null) - Number(a.enriched !== null))
     .slice(0, 6);
+
+// ── Curated comparison pages featuring this tool ────────────────────────────
+const comparisons = getComparisonsForTool(tool.slug)
+    .map(c => {
+        const a = getToolBySlug(c.a);
+        const b = getToolBySlug(c.b);
+        return a && b ? { slug: c.slug, label: `${a.name} vs ${b.name}` } : null;
+    })
+    .filter((c): c is { slug: string; label: string } => c !== null)
+    .slice(0, 4);
 
 // ── FAQ block (AEO) - built from enriched data, only where data exists ──────
 const faqs: { q: string; a: string }[] = [];
@@ -368,6 +366,19 @@ const jsonLd = JSON.stringify(jsonLdObj);
                                     <a href={`/tools/${r.slug}`} class="td-card group block" style="padding: 14px 16px;">
                                         <div class="text-[15px] font-medium text-white group-hover:bg-gradient-to-r group-hover:from-[#a78bfa] group-hover:via-[#22d3ee] group-hover:to-[#a78bfa] group-hover:bg-clip-text group-hover:text-transparent transition-all">{r.enriched?.name ?? r.name}</div>
                                         <div class="text-[12px] font-mono text-[#525252] uppercase tracking-wide mt-0.5">{r.enriched?.company ?? r.company}</div>
+                                    </a>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {comparisons.length > 0 && (
+                        <section class="td-section" aria-label={`Compare ${displayName}`}>
+                            <div class="td-section-label">Compare {displayName}</div>
+                            <div class="flex flex-wrap gap-2">
+                                {comparisons.map(c => (
+                                    <a href={`/compare/${c.slug}`} class="inline-flex items-center gap-2 px-3 py-1.5 border border-[#222] rounded-full bg-white/5 font-mono text-[12px] text-[#a3a3a3] tracking-wide hover:text-white hover:border-[#444] transition-colors">
+                                        {c.label}
                                     </a>
                                 ))}
                             </div>

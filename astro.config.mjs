@@ -17,10 +17,12 @@ export default defineConfig({
         sitemap({
             // User-only pages are noindexed — keep them out of the sitemap too
             filter: (page) => !page.includes('/settings') && !page.includes('/zap'),
-            // Note: /compare is query-param driven; keep the base page, drop nothing else
             serialize(item) {
                 const url = item.url;
-                if (/\/tools\/[^/]+\/$/.test(url) || /\/tools\/[^/]+$/.test(url)) {
+                if (/\/compare\/[^/]+\/$/.test(url) || /\/compare\/[^/]+$/.test(url)) {
+                    item.priority = 0.8;
+                    item.changefreq = 'weekly';
+                } else if (/\/tools\/[^/]+\/$/.test(url) || /\/tools\/[^/]+$/.test(url)) {
                     item.priority = 0.7;
                     item.changefreq = 'weekly';
                 } else if (url === 'https://ai.dosa.dev/') {

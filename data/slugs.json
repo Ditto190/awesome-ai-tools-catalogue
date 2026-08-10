@@ -6,8 +6,8 @@
     "category": "AI-Native IDEs & Editors"
   },
   {
-    "slug": "windsurf",
-    "name": "Windsurf",
+    "slug": "devin",
+    "name": "Devin",
     "company": "Cognition",
     "category": "AI-Native IDEs & Editors"
   },
@@ -57,12 +57,6 @@
     "slug": "qoder",
     "name": "Qoder",
     "company": "Qoder",
-    "category": "AI-Native IDEs & Editors"
-  },
-  {
-    "slug": "devin",
-    "name": "Devin",
-    "company": "Cognition",
     "category": "AI-Native IDEs & Editors"
   },
   {
@@ -544,12 +538,6 @@
     "name": "Wave",
     "company": "Wave",
     "category": "AI-Native Terminals"
-  },
-  {
-    "slug": "devin-cognition",
-    "name": "Devin",
-    "company": "Cognition",
-    "category": "Autonomous & Async Agents"
   },
   {
     "slug": "jules",

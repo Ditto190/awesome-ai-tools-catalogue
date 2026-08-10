@@ -1,27 +1,73 @@
 ---
 /**
- * Compare page - side-by-side tool comparison.
- * 
- * The compareGrid is populated client-side by dist/compare.js which reads
- * the `?tools=slug1,slug2` query params and fetches enriched-tools.json.
- * This matches the exact behaviour of the original compare.html.
+ * Compare hub - /compare
+ *
+ * Two jobs:
+ *   1. Interactive side-by-side comparison (?tools=slug1,slug2) rendered at
+ *      the top by dist/compare.js when tools are selected.
+ *   2. Server-rendered directory of curated static comparison pages
+ *      (/compare/[pair]) below - indexable, crawlable, no JS required.
  */
 import DashboardLayout from '../layouts/DashboardLayout.astro';
+import { getResolvedComparisons } from '../lib/compare';
+
+const comparisons = getResolvedComparisons();
+
+// Group pairs, preserving data-file order
+const groups = new Map<string, typeof comparisons>();
+for (const c of comparisons) {
+    const list = groups.get(c.group) ?? [];
+    list.push(c);
+    groups.set(c.group, list);
+}
+
+const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "CollectionPage",
+            "@id": "https://ai.dosa.dev/compare#collection",
+            "url": "https://ai.dosa.dev/compare",
+            "name": "Compare AI Coding Tools",
+            "description": `${comparisons.length} side-by-side comparisons of AI coding tools - pricing, features, and verdicts.`,
+            "isPartOf": { "@type": "WebSite", "@id": "https://ai.dosa.dev/#website", "url": "https://ai.dosa.dev", "name": "ai.dosa.dev - Awesome AI Tools" },
+            "inLanguage": "en",
+        },
+        {
+            "@type": "ItemList",
+            "numberOfItems": comparisons.length,
+            "itemListElement": comparisons.map((c, i) => ({
+                "@type": "ListItem",
+                "position": i + 1,
+                "name": `${c.toolA.name} vs ${c.toolB.name}`,
+                "url": `https://ai.dosa.dev/compare/${c.slug}`
+            }))
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ai.dosa.dev" },
+                { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://ai.dosa.dev/compare" }
+            ]
+        }
+    ]
+});
 ---
 
 <DashboardLayout
-    title="Compare Tools | ai.dosa.dev"
-    description="Compare AI coding tools side-by-side - features, pricing, and verdict. Powered by ai.dosa.dev."
+    title="Compare AI Coding Tools (2026) - Side-by-Side Comparisons | ai.dosa.dev"
+    description={`${comparisons.length} curated head-to-head comparisons of AI coding tools: pricing, key features, ideal use cases, and verdicts. Cursor vs Devin, Claude Code vs Codex CLI, and more.`}
     canonical="https://ai.dosa.dev/compare"
     activeNav="compare"
+    jsonLd={jsonLd}
 >
     <div class="max-w-7xl mx-auto py-12 px-6 w-full flex-1 overflow-y-auto min-h-0">
         <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-semibold text-white mb-2">Compare Tools</h1>
-                <p class="text-[#a3a3a3]">See how your selected tools stack up against each other.</p>
+                <h1 class="text-2xl sm:text-3xl font-semibold text-white mb-2">Compare AI Coding Tools</h1>
+                <p class="text-[#a3a3a3] max-w-[72ch]">Your selected tools appear here side-by-side. Below, browse curated head-to-head comparisons with pricing, features, and verdicts.</p>
             </div>
-                        <div class="flex flex-wrap items-center gap-3 self-start sm:self-auto">
+            <div class="flex flex-wrap items-center gap-3 self-start sm:self-auto">
                 <button id="exportCompareBtn" class="px-3 sm:px-4 py-2 bg-[#1a1a1a] border border-[#333] rounded hover:border-[#22d3ee] hover:text-[#22d3ee] transition-colors text-[#a3a3a3] flex items-center gap-2 text-sm sm:text-base">
                     <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     Export Image
@@ -37,11 +83,33 @@ import DashboardLayout from '../layouts/DashboardLayout.astro';
             </div>
         </div>
 
-        <div id="compareGrid" class="flex flex-col md:flex-row gap-6 w-full">
-            <!-- Populated client-side by /dist/compare.js via ?tools= query params -->
+        <!-- Interactive comparison (top) - populated client-side when ?tools= is present -->
+        <div id="compareGrid" class="flex flex-col md:flex-row gap-6 w-full mb-12">
+            <!-- compare.js leaves this empty state untouched when no tools are selected -->
+            <p class="w-full text-[#a3a3a3] text-[15px] border border-dashed border-[#333] rounded-md px-5 py-10 text-center m-0">
+                No tools selected yet. Pick tools from the <a href="/" class="text-white underline">directory</a> using the compare checkboxes, or browse the curated comparisons below.
+            </p>
             <noscript>
-                <p class="text-[#a3a3a3]">JavaScript is required for side-by-side comparison. <a href="/" class="text-white underline">Browse the directory</a> or open individual <a href="/tools/cursor" class="text-white underline">tool pages</a> instead.</p>
+                <p class="text-[#a3a3a3]">JavaScript is required for custom side-by-side comparison. The curated comparison pages below work without JavaScript.</p>
             </noscript>
+        </div>
+
+        <!-- Curated comparison pages (server-rendered, crawlable) -->
+        <div class="border-t border-[#222] pt-8 flex flex-col gap-8">
+            <h2 class="text-xl sm:text-2xl font-semibold text-white m-0">Curated comparisons</h2>
+            {[...groups.entries()].map(([group, pairs]) => (
+                <section aria-label={`${group} comparisons`}>
+                    <div class="font-mono text-[11px] uppercase text-[#525252] tracking-[0.2em] mb-3">{group}</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                        {pairs.map(c => (
+                            <a href={`/compare/${c.slug}`} class="group flex items-center justify-between gap-3 px-4 py-3 border border-[#222] rounded-md bg-white/[0.02] hover:border-[#444] hover:bg-white/[0.04] transition-colors">
+                                <span class="text-[14px] text-[#d4d4d4] group-hover:text-white transition-colors">{c.toolA.name} <span class="text-[#525252]">vs</span> {c.toolB.name}</span>
+                                <svg class="w-3.5 h-3.5 text-[#525252] group-hover:text-white shrink-0 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        ))}
+                    </div>
+                </section>
+            ))}
         </div>
     </div>
 

@@ -1,0 +1,337 @@
+---
+/**
+ * Static comparison page - /compare/[pair]
+ *
+ * One pre-rendered page per curated pair from data/comparisons.json.
+ * All content is derived at build time from enriched tool data - no
+ * client-side fetch - so search engines and AI crawlers get the full
+ * comparison table, FAQs, and verdicts in the initial HTML.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import {
+    getResolvedComparisons,
+    buildComparisonFaqs,
+    humanizePricing,
+    type ResolvedComparison,
+} from '../../lib/compare';
+import { getCategorySlug } from '../../lib/tools';
+
+export async function getStaticPaths() {
+    return getResolvedComparisons().map(comparison => ({
+        params: { pair: comparison.slug },
+        props: { comparison },
+    }));
+}
+
+interface Props {
+    comparison: ResolvedComparison;
+}
+
+const { comparison } = Astro.props;
+const { toolA, toolB } = comparison;
+
+const nameA = toolA.name;
+const nameB = toolB.name;
+const pageUrl = `https://ai.dosa.dev/compare/${comparison.slug}`;
+
+function formatDate(iso?: string | null): string {
+    if (!iso) return '';
+    try {
+        const d = new Date(iso);
+        if (isNaN(d.getTime())) return iso;
+        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    } catch {
+        return iso;
+    }
+}
+
+const faqs = buildComparisonFaqs(toolA, toolB);
+const lastUpdatedLabel = formatDate(comparison.lastUpdated);
+
+const related = getResolvedComparisons()
+    .filter(c => c.slug !== comparison.slug && (c.a === toolA.slug || c.b === toolA.slug || c.a === toolB.slug || c.b === toolB.slug))
+    .slice(0, 6);
+
+const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebPage",
+            "@id": `${pageUrl}#page`,
+            "url": pageUrl,
+            "name": `${nameA} vs ${nameB} - Pricing, Features, Verdict`,
+            "description": `Side-by-side comparison of ${nameA} and ${nameB}: pricing, key features, ideal use cases, and verdicts.`,
+            "inLanguage": "en",
+            ...(comparison.lastUpdated ? { "dateModified": comparison.lastUpdated } : {}),
+            "isPartOf": { "@type": "WebSite", "@id": "https://ai.dosa.dev/#website", "url": "https://ai.dosa.dev", "name": "ai.dosa.dev - Awesome AI Tools" },
+            "about": [toolA, toolB].map(t => ({
+                "@type": "SoftwareApplication",
+                "name": t.name,
+                "url": t.url || `https://ai.dosa.dev/tools/${t.slug}`,
+                "applicationCategory": "DeveloperApplication",
+            })),
+        },
+        {
+            "@type": "FAQPage",
+            "mainEntity": faqs.map(f => ({
+                "@type": "Question",
+                "name": f.q,
+                "acceptedAnswer": { "@type": "Answer", "text": f.a }
+            }))
+        },
+        {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ai.dosa.dev" },
+                { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://ai.dosa.dev/compare" },
+                { "@type": "ListItem", "position": 3, "name": `${nameA} vs ${nameB}`, "item": pageUrl }
+            ]
+        }
+    ]
+});
+
+---
+
+<BaseLayout
+    title={`${nameA} vs ${nameB} (2026): Pricing, Features, Verdict | ai.dosa.dev`}
+    description={`${nameA} vs ${nameB} compared: pricing, key features, who each tool is best for, recent updates, and verdicts. Updated ${lastUpdatedLabel || 'regularly'}.`}
+    keywords={`${nameA} vs ${nameB}, ${nameA} alternative, ${nameB} alternative, ${comparison.group}, AI coding tools comparison`}
+    canonical={pageUrl}
+    jsonLd={jsonLd}
+>
+    <slot name="head">
+        <style>
+            .cmp-section { padding: 24px 0; border-top: 1px solid #222; }
+            .cmp-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #525252; margin-bottom: 14px; }
+            .cmp-card { background: #0d0d0d; border: 1px solid #222; border-radius: 10px; padding: 18px; transition: border-color 0.2s; }
+            .cmp-card:hover { border-color: #333; }
+            .cmp-table { width: 100%; border-collapse: collapse; min-width: 640px; }
+            .cmp-table th, .cmp-table td { border: 1px solid #222; padding: 14px 16px; vertical-align: top; text-align: left; }
+            .cmp-table th[scope="row"] { width: 160px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #737373; background: #0a0a0a; white-space: nowrap; }
+            .cmp-table thead th { font-size: 16px; font-weight: 600; color: #fff; background: #0d0d0d; }
+            .cmp-table td { font-size: 14px; line-height: 1.65; color: #d4d4d4; }
+        </style>
+    </slot>
+
+    <div class="flex h-[100dvh] overflow-hidden">
+        <Sidebar variant="tool" />
+
+        <main class="flex-1 flex flex-col h-full bg-black min-w-0 relative overflow-y-auto">
+            <!-- Mobile Header -->
+            <div class="md:hidden flex items-center justify-between p-4 border-b border-[#222] bg-[#0a0a0a] shrink-0 z-10 sticky top-0">
+                <div class="flex items-center gap-3">
+                    <button id="openSidebarMobile" aria-label="Open sidebar menu" class="text-[#a3a3a3] hover:text-white transition-colors p-1 rounded-md hover:bg-white/5">
+                        <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </button>
+                    <div class="flex items-center gap-2 min-w-0">
+                        <img src="/images/icons/favicon-32x32.png" alt="logo" class="w-6 h-6 rounded-full" />
+                        <span class="text-[17px] font-semibold tracking-wide text-white leading-none truncate">{nameA} vs {nameB}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-[1000px] mx-auto w-full flex flex-col flex-1 p-4 md:p-8 gap-2">
+                <!-- Breadcrumb -->
+                <nav aria-label="Breadcrumb" class="font-mono text-[12px] text-[#737373] tracking-wide flex items-center gap-2 flex-wrap">
+                    <a href="/" class="hover:text-white transition-colors">Home</a>
+                    <span>/</span>
+                    <a href="/compare" class="hover:text-white transition-colors">Compare</a>
+                    <span>/</span>
+                    <span class="text-white">{nameA} vs {nameB}</span>
+                </nav>
+
+                <!-- Header -->
+                <header class="flex flex-col gap-3 pb-6 border-b border-[#222]">
+                    <h1 class="text-[32px] md:text-[40px] font-semibold tracking-tight leading-tight bg-gradient-to-r from-white via-[#e5e5e5] to-white bg-clip-text text-transparent">
+                        {nameA} vs {nameB}
+                    </h1>
+                    <p class="text-[17px] leading-relaxed text-[#d4d4d4] max-w-[72ch]">
+                        Side-by-side comparison of {nameA} ({toolA.company}) and {nameB} ({toolB.company}) - pricing, key features, ideal use cases, recent updates, and verdicts.
+                    </p>
+                    <div class="font-mono text-[12px] text-[#737373] tracking-wide">
+                        {comparison.group}{lastUpdatedLabel && ` · Updated ${lastUpdatedLabel}`}
+                    </div>
+                </header>
+
+                <!-- Tool summary cards -->
+                <section class="cmp-section" style="border-top: none;" aria-label="Tool summaries">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {[toolA, toolB].map(t => (
+                            <div class="cmp-card flex flex-col gap-3">
+                                <div class="flex items-start justify-between gap-3">
+                                    <div class="min-w-0">
+                                        <a href={`/tools/${t.slug}`} class="text-[20px] font-semibold text-white hover:bg-gradient-to-r hover:from-[#a78bfa] hover:via-[#22d3ee] hover:to-[#a78bfa] hover:bg-clip-text hover:text-transparent transition-all">{t.name}</a>
+                                        <div class="font-mono text-[12px] text-[#737373] uppercase tracking-wide mt-1">{t.company}</div>
+                                    </div>
+                                    {t.enriched?.pricing && (
+                                        <span class="inline-block px-3 py-1 bg-[#a78bfa]/10 border border-[#a78bfa]/30 rounded-full font-mono text-[11px] text-[#c4b5fd] tracking-wide shrink-0">{humanizePricing(t.enriched.pricing)}</span>
+                                    )}
+                                </div>
+                                <p class="text-[14px] leading-relaxed text-[#a3a3a3] m-0">{t.enriched?.description ?? t.notes}</p>
+                                <div class="flex items-center gap-2.5 mt-auto pt-1">
+                                    <a href={`/tools/${t.slug}`} class="inline-flex items-center py-2 px-4 bg-white text-black text-sm font-semibold rounded-md transition-all hover:bg-gray-200">Full review</a>
+                                    <a href={t.url} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 py-2 px-4 bg-white/5 text-white text-sm font-medium border border-[#333] rounded-md transition-all hover:bg-white/10">
+                                        Visit site
+                                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+                <!-- How to choose (derived from bestFor / notIdealFor) -->
+                {(toolA.enriched?.bestFor || toolB.enriched?.bestFor) && (
+                    <section class="cmp-section" aria-label="How to choose">
+                        <div class="cmp-label">How to choose</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="cmp-card">
+                                <div class="font-mono text-[11px] uppercase text-[#4ade80] tracking-wide mb-2">Choose {nameA} if</div>
+                                <p class="text-[15px] leading-relaxed text-[#d4d4d4]">{toolA.enriched?.bestFor ?? '-'}</p>
+                                {toolA.enriched?.notIdealFor && (
+                                    <p class="text-[13px] leading-relaxed text-[#737373] mt-3 mb-0"><span class="text-[#f87171] font-mono text-[11px] uppercase tracking-wide">Skip if: </span>{toolA.enriched.notIdealFor}</p>
+                                )}
+                            </div>
+                            <div class="cmp-card">
+                                <div class="font-mono text-[11px] uppercase text-[#4ade80] tracking-wide mb-2">Choose {nameB} if</div>
+                                <p class="text-[15px] leading-relaxed text-[#d4d4d4]">{toolB.enriched?.bestFor ?? '-'}</p>
+                                {toolB.enriched?.notIdealFor && (
+                                    <p class="text-[13px] leading-relaxed text-[#737373] mt-3 mb-0"><span class="text-[#f87171] font-mono text-[11px] uppercase tracking-wide">Skip if: </span>{toolB.enriched.notIdealFor}</p>
+                                )}
+                            </div>
+                        </div>
+                    </section>
+                )}
+
+                <!-- Comparison table -->
+                <section class="cmp-section" aria-label="Detailed comparison">
+                    <div class="cmp-label">Detailed comparison</div>
+                    <div class="overflow-x-auto rounded-md">
+                        <table class="cmp-table">
+                            <caption class="sr-only">{nameA} vs {nameB}: pricing, features, and use cases compared</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col"><a href={`/tools/${toolA.slug}`} class="text-white hover:underline">{nameA}</a></th>
+                                    <th scope="col"><a href={`/tools/${toolB.slug}`} class="text-white hover:underline">{nameB}</a></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Company</th>
+                                    <td>{toolA.company}</td>
+                                    <td>{toolB.company}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Category</th>
+                                    <td><a href={`/category/${getCategorySlug(toolA.categoryShort)}`} class="text-[#a3a3a3] hover:text-white transition-colors">{toolA.categoryClean}</a></td>
+                                    <td><a href={`/category/${getCategorySlug(toolB.categoryShort)}`} class="text-[#a3a3a3] hover:text-white transition-colors">{toolB.categoryClean}</a></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Pricing</th>
+                                    <td>
+                                        <span class="capitalize">{humanizePricing(toolA.enriched?.pricing)}</span>
+                                        {toolA.enriched?.pricingDetail && <p class="text-[13px] text-[#737373] mt-1.5 mb-0">{toolA.enriched.pricingDetail}</p>}
+                                    </td>
+                                    <td>
+                                        <span class="capitalize">{humanizePricing(toolB.enriched?.pricing)}</span>
+                                        {toolB.enriched?.pricingDetail && <p class="text-[13px] text-[#737373] mt-1.5 mb-0">{toolB.enriched.pricingDetail}</p>}
+                                    </td>
+                                </tr>
+                                {(toolA.enriched?.keyFeatures || toolB.enriched?.keyFeatures) && (
+                                    <tr>
+                                        <th scope="row">Key features</th>
+                                        <td>
+                                            {toolA.enriched?.keyFeatures
+                                                ? <ul class="list-disc pl-5 flex flex-col gap-1.5 m-0">{toolA.enriched.keyFeatures.map(f => <li>{f}</li>)}</ul>
+                                                : '-'}
+                                        </td>
+                                        <td>
+                                            {toolB.enriched?.keyFeatures
+                                                ? <ul class="list-disc pl-5 flex flex-col gap-1.5 m-0">{toolB.enriched.keyFeatures.map(f => <li>{f}</li>)}</ul>
+                                                : '-'}
+                                        </td>
+                                    </tr>
+                                )}
+                                <tr>
+                                    <th scope="row">Best for</th>
+                                    <td>{toolA.enriched?.bestFor ?? '-'}</td>
+                                    <td>{toolB.enriched?.bestFor ?? '-'}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Not ideal for</th>
+                                    <td>{toolA.enriched?.notIdealFor ?? '-'}</td>
+                                    <td>{toolB.enriched?.notIdealFor ?? '-'}</td>
+                                </tr>
+                                {(toolA.enriched?.recentUpdates || toolB.enriched?.recentUpdates) && (
+                                    <tr>
+                                        <th scope="row">Recent updates</th>
+                                        <td>{toolA.enriched?.recentUpdates ?? '-'}</td>
+                                        <td>{toolB.enriched?.recentUpdates ?? '-'}</td>
+                                    </tr>
+                                )}
+                                {(toolA.enriched?.verdict || toolB.enriched?.verdict) && (
+                                    <tr>
+                                        <th scope="row">Verdict</th>
+                                        <td><em>{toolA.enriched?.verdict ?? '-'}</em></td>
+                                        <td><em>{toolB.enriched?.verdict ?? '-'}</em></td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- FAQ (mirrors FAQPage JSON-LD) -->
+                <section class="cmp-section" aria-label="Frequently asked questions">
+                    <div class="cmp-label">FAQ</div>
+                    <div class="flex flex-col gap-3">
+                        {faqs.map(f => (
+                            <details class="cmp-card group" style="padding: 0;">
+                                <summary class="cursor-pointer px-5 py-4 text-[15px] font-medium text-white list-none flex items-center justify-between gap-3 hover:bg-white/[0.03] transition-colors rounded-md">
+                                    {f.q}
+                                    <svg class="w-4 h-4 text-[#525252] shrink-0 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </summary>
+                                <p class="px-5 pb-4 pt-1 text-[14px] text-[#a3a3a3] leading-relaxed">{f.a}</p>
+                            </details>
+                        ))}
+                    </div>
+                </section>
+
+                <!-- Related comparisons -->
+                {related.length > 0 && (
+                    <nav class="cmp-section" aria-label="Related comparisons">
+                        <div class="cmp-label">More comparisons</div>
+                        <div class="flex flex-wrap gap-2">
+                            {related.map(c => (
+                                <a href={`/compare/${c.slug}`} class="inline-flex items-center gap-2 px-3 py-1.5 border border-[#222] rounded-full bg-white/5 font-mono text-[12px] text-[#a3a3a3] tracking-wide hover:text-white hover:border-[#444] transition-colors">
+                                    {c.toolA.name} vs {c.toolB.name}
+                                </a>
+                            ))}
+                        </div>
+                    </nav>
+                )}
+
+                <div class="py-6 flex flex-col gap-4">
+                    <a href="/compare" class="inline-flex items-center gap-2 text-[14px] text-[#737373] hover:text-white transition-colors">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                        All comparisons
+                    </a>
+                    <div class="flex items-start gap-3 py-4 px-4 border border-[#222] rounded-lg bg-white/[0.02]">
+                        <svg class="w-5 h-5 text-[#737373] shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <p class="text-[13px] text-[#737373] leading-relaxed">
+                            Comparison content is generated from our enriched tool data. Verify pricing and features with each vendor before purchasing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/dist/app.js" type="module" defer></script>
+</BaseLayout>

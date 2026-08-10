@@ -26,12 +26,12 @@
     "lastUpdated": "2026-08-09"
   },
   {
-    "slug": "windsurf",
-    "name": "Devin Desktop (formerly Windsurf)",
+    "slug": "devin",
+    "name": "Devin",
     "company": "Cognition",
     "pricing": "freemium",
     "pricingDetail": "Free plan with limited quotas; Pro is $20/month; Teams is $80/month base plus $40/seat; Max is $200/month. Extra usage is available at per-token rates.",
-    "description": "Windsurf is an AI-native code editor now rebranded as Devin Desktop, designed to bridge the gap between local IDE workflows and autonomous cloud-based agent execution. It features an agent-first interface that uses proprietary models like SWE-1.7 and provides a seamless handoff to Devin's autonomous cloud agents.",
+    "description": "Devin (formerly Windsurf) is an AI-native code editor rebranded as Devin Desktop, designed to bridge the gap between local IDE workflows and autonomous cloud-based agent execution. It features an agent-first interface that uses proprietary models like SWE-1.7 and provides a seamless handoff to Devin's autonomous cloud agents.",
     "keyFeatures": [
       "Agent Command Center (Kanban-style agent management)",
       "Devin Cloud handoff for long-running tasks",
@@ -267,33 +267,6 @@
       "Agentic",
       "Development Tools",
       "Refactoring"
-    ],
-    "lastUpdated": "2026-08-09"
-  },
-  {
-    "slug": "devin",
-    "name": "Devin",
-    "company": "Cognition",
-    "pricing": "freemium",
-    "pricingDetail": "Free tier available with limited quotas; paid plans include Pro ($20/mo), Max ($200/mo), Teams ($80/mo base + $40/seat/mo), and custom Enterprise pricing. Usage beyond plan quotas is billed on-demand.",
-    "description": "Devin is an autonomous AI software engineer designed to plan, code, debug, test, and deploy software across cloud, CLI, and desktop environments. It operates as an async agent that takes whole tickets off a developer's plate by executing tasks in a sandboxed environment.",
-    "keyFeatures": [
-      "Autonomous execution of complex multi-step engineering tasks",
-      "Multi-model support including OpenAI, Claude, Gemini, and proprietary SWE-1.6",
-      "Devin Desktop and integrated cloud-based IDE",
-      "Auto-generated codebase documentation (DeepWiki) and first-pass code review (Devin Review)",
-      "Desktop application testing via computer use and screen recording"
-    ],
-    "bestFor": "Well-defined, repetitive tasks such as large-scale code migrations, dependency updates, security vulnerability patching, and comprehensive test suite generation.",
-    "notIdealFor": "Ambiguous, architecture-heavy projects where requirements are unclear, tasks requiring deep human context, or organizations demanding true bring-your-own-key (BYOK) model sovereignty.",
-    "recentUpdates": "Launched version 2.2 with full desktop application testing capabilities, self-verification, and auto-fix mechanisms. Expanded to a multi-surface platform including the Windsurf IDE and unified Devin Desktop agent coordination.",
-    "verdict": "Devin is a powerful, autonomous tool for clearing mechanical engineering backlogs at scale. While its pricing is now more accessible and its model support broader, users must balance its high autonomous potential against the unpredictability of its consumption-based billing on complex, spiraling tasks.",
-    "tags": [
-      "AI Agent",
-      "Autonomous Coding",
-      "Software Engineering",
-      "DevOps",
-      "Enterprise AI"
     ],
     "lastUpdated": "2026-08-09"
   },
@@ -2464,32 +2437,6 @@
       "Productivity",
       "Meeting Assistant",
       "Privacy-First"
-    ],
-    "lastUpdated": "2026-08-09"
-  },
-  {
-    "slug": "devin-cognition",
-    "name": "Devin",
-    "company": "Cognition",
-    "pricing": "freemium",
-    "pricingDetail": "Offers a Free plan, with paid tiers starting at $20/month for Pro. Paid plans use a consumption-based model measured in Agent Compute Units (ACUs), where 1 ACU equals approximately 15 minutes of autonomous work. Extra usage beyond included quotas is billed at market rates.",
-    "description": "Devin is an autonomous AI software engineer that operates within a sandboxed cloud environment including a shell, code editor, and browser to execute tasks. It is designed to act as an asynchronous collaborator that can plan, code, test, and ship production-ready pull requests based on natural language instructions.",
-    "keyFeatures": [
-      "Autonomous end-to-end task execution",
-      "Interactive planning and codebase indexing",
-      "Multi-tool integration including Slack, GitHub, Jira/Linear, and Datadog",
-      "Self-verification with built-in desktop testing and auto-fix capabilities",
-      "Support for custom Playbooks and MCP (Model Context Protocol) tools"
-    ],
-    "bestFor": "Well-scoped, repetitive engineering tasks such as dependency migrations, bug fixes, test generation, and documentation updates.",
-    "notIdealFor": "Ambiguous, open-ended architecture redesigns, tasks requiring deep implicit domain knowledge, or projects where the user cannot provide precise specifications.",
-    "recentUpdates": "Released Devin 2.2 in February 2026, featuring improved autonomy with Linux desktop testing, faster startup times, and enhanced self-verification loops. Introduced SWE 1.7 model integration.",
-    "verdict": "Devin is a potent delegation tool for teams with a backlog of mechanical technical debt, but it requires skilled human oversight and precise scoping to be cost-effective and reliable.",
-    "tags": [
-      "AI Agent",
-      "Autonomous Coding",
-      "Software Engineering",
-      "Developer Productivity"
     ],
     "lastUpdated": "2026-08-09"
   },

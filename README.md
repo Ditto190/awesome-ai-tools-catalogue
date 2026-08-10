@@ -34,7 +34,7 @@ Full standalone editors built from the ground up with AI at the core.
 | Tool | Company | Notes |
 |------|---------|-------|
 | **[Cursor](https://cursor.com)** | Anysphere | VS Code fork; agent mode for multi-file edits; most popular AI-native IDE |
-| **[Windsurf](https://windsurf.com/refer?referral_code=37a59a01d5)** | Cognition | AI-first IDE with "Flows" agentic engine. |
+| **[Devin](https://windsurf.com/refer?referral_code=37a59a01d5)** | Cognition | Formerly Windsurf; AI-first IDE with "Flows" agentic engine. |
 | **[Trae](https://trae.ai)** | ByteDance | Free AI IDE (VS Code-based); Builder Mode; GPT-4o + Claude access at no cost |
 | **[Zed](https://zed.dev)** | Zed Industries | High-performance multiplayer editor with built-in AI; by creators of Atom |
 | **[PearAI](https://trypear.ai)** | PearAI | Open-source AI code editor; VS Code fork |
@@ -43,7 +43,6 @@ Full standalone editors built from the ground up with AI at the core.
 | **[Verdent](https://www.verdent.ai)** | Verdent | An agentic coding tool focused on parallel agents and isolated workspaces |
 | **[Pochi](https://app.getpochi.com/home)** | Pochi | Pochi is a VS Code–native AI coding agent built by TabbyML that stands out primarily through its parallel agent execution, local model support, and more. |
 | **[Qoder](https://qoder.com/en)** | Qoder | Agentic Coding Platform for Real Software. |
-| **[Devin](https://devin.ai/)** | Cognition | Crush your backlog with your personal AI engineering team. |
 | **[Z Code](https://zcode.z.ai/)** | Z | Z Code combines the best AI agents with your existing tools so you can plan, code, review, and deploy without friction. |
 | **[toad](https://www.batrachian.ai/)** | Batrachian AI | A unified interface for AI in your terminal.; [GitHub](https://github.com/batrachianai/toad) |
 | **[Nimbalyst](https://nimbalyst.com)** | Nimbalyst | Open-source visual workspace for building with Codex, Claude Code, and more. Manage agents, sessions, tasks, files. Visually edit markdown, mockups, diagrams, diffs, and code.; [GitHub](https://github.com/Nimbalyst/nimbalyst) |
@@ -157,7 +156,6 @@ Agents that operate independently on tasks, often outside your local editor.
 
 | Tool | Company | Notes |
 |------|---------|-------|
-| **[Devin](https://cognition.ai/devin)** | Cognition | First "AI software engineer"; own sandbox environment; terminal + editor + browser |
 | **[Jules](https://jules.google)** | Google | Async GitHub-integrated agent; clones repo into GCP VM; works while you code; powered by Gemini 2.5 Pro |
 | **[OpenHands](https://github.com/All-Hands-AI/OpenHands)** | All Hands | Open-source autonomous coding agent; 95K+ GitHub stars |
 | **[SWE-agent](https://swe-agent.com)** | Princeton NLP | Open-source agent for autonomously solving GitHub issues |

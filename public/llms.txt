@@ -14,11 +14,11 @@ ai.dosa.dev is a web directory that catalogs **140+ AI coding tools** across 12 
 
 The directory on the main page (`/`) covers:
 
-- **AI-Native IDEs & Editors** — Full standalone editors built with AI at the core (Cursor, Windsurf, Trae, Zed, PearAI, Devin, etc.)
+- **AI-Native IDEs & Editors** — Full standalone editors built with AI at the core (Cursor, Devin (formerly Windsurf), Trae, Zed, PearAI, Antigravity, etc.)
 - **IDE Extensions & Plugins** — Plug-in assistants for VS Code, JetBrains, Neovim, and others (GitHub Copilot, Junie, Amazon Q Developer, Cline, Kilo Code, Augment Code, Tabnine, etc.)
 - **Terminal & CLI Agents** — Coding agents that run in the terminal (Claude Code, Codex CLI, Aider, Gemini CLI, Goose, OpenCode, etc.)
 - **AI-Native Terminals** — Full terminal emulators with native AI (Warp, Wave)
-- **Autonomous & Async Agents** — Agents that operate independently on tasks (Devin, Jules, OpenHands, SWE-agent, Sweep, Ellipsis, etc.)
+- **Autonomous & Async Agents** — Agents that operate independently on tasks (Jules, OpenHands, SWE-agent, Sweep, Ellipsis, etc.)
 - **Browser-Based & App Builders** — Prompt-to-app tools requiring no local setup (Bolt.new, v0, Lovable, Replit, etc.)
 - **AI Code Review & Security** — PR review and SAST tools (CodeRabbit, Qodo, Snyk Code, cubic, etc.)
 - **AI Testing & Quality Assurance** — Autonomous test generation and fixing (GitAuto, AgentDiff)
@@ -30,7 +30,7 @@ The directory on the main page (`/`) covers:
 ## Pages
 
 - [Tool Directory](https://ai.dosa.dev/) — Main browsable catalog with sidebar navigation, search, and filtering
-- [Tool Detail Pages](https://ai.dosa.dev/tools/cursor) — One page per tool at `/tools/<slug>` (e.g. `/tools/cursor`, `/tools/windsurf`) with pricing, key features, best-for / not-ideal-for guidance, recent updates, and verdict. Slug catalog: https://ai.dosa.dev/data/slugs.json. Enriched payload: https://ai.dosa.dev/data/enriched-tools.json
+- [Tool Detail Pages](https://ai.dosa.dev/tools/cursor) — One page per tool at `/tools/<slug>` (e.g. `/tools/cursor`, `/tools/devin`) with pricing, key features, best-for / not-ideal-for guidance, recent updates, and verdict. Slug catalog: https://ai.dosa.dev/data/slugs.json. Enriched payload: https://ai.dosa.dev/data/enriched-tools.json
 - [Full tool list for LLMs](https://ai.dosa.dev/llms-full.txt) — Complete categorized list of every tool with URL and one-line description
 - [Token Counter & Cost Estimator](https://ai.dosa.dev/tools/token-counter) — Paste text to get instant token counts and cost estimates for GPT-4o, Claude 3.5, Gemini 1.5, and Llama 3
 - [Hallucination Risk Scorer](https://ai.dosa.dev/tools/hallucination-scorer) — Heuristic-based scorer that flags prompt patterns prone to hallucination

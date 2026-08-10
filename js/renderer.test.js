@@ -142,13 +142,8 @@ describe('renderer', () => {
 
         const row = makeCompareRow('cursor', 'Cursor');
         grid._state.rows = [row];
-        const target = makeEl('span');
-        target.closest = (selector) => {
-            if (selector === '[data-compare-row]') return row;
-            if (selector === 'a, button') return null;
-            if (selector === '.compare-checkbox') return null;
-            return null;
-        };
+        // Click lands on the compare checkbox control itself
+        const target = row._control;
 
         grid._trigger('click', {
             target,
@@ -163,6 +158,51 @@ describe('renderer', () => {
         expect(countText.textContent).toBe('1 of 3 selected');
         expect(thumbnails.innerHTML).toContain('Cursor');
         expect(compareBtn.disabled).toBe(true);
+    });
+
+    test('clicking the row body navigates to the tool page without selecting', async () => {
+        ({ initRenderer, refreshVotingButtons, setVotingContext } = await import(`./renderer.js?test=${Date.now()}`));
+        initRenderer(grid);
+
+        const row = makeCompareRow('cursor', 'Cursor');
+        grid._state.rows = [row];
+        const target = makeEl('span');
+        target.closest = (selector) => {
+            if (selector === '[data-compare-row]') return row;
+            return null;
+        };
+
+        grid._trigger('click', {
+            target,
+            preventDefault: () => {}
+        });
+
+        expect(window.location.href).toBe('/tools/cursor');
+        expect(getSelected()).toEqual([]);
+        expect(row.classList.contains('compare-row-selected')).toBe(false);
+        expect(bar.style.translate).not.toBe('0 0');
+    });
+
+    test('clicking a link inside a row is left to default behaviour', async () => {
+        ({ initRenderer, refreshVotingButtons, setVotingContext } = await import(`./renderer.js?test=${Date.now()}`));
+        initRenderer(grid);
+
+        const row = makeCompareRow('cursor', 'Cursor');
+        grid._state.rows = [row];
+        const link = makeEl('a');
+        link.closest = (selector) => {
+            if (selector === 'a, button') return link;
+            if (selector === '[data-compare-row]') return row;
+            return null;
+        };
+
+        grid._trigger('click', {
+            target: link,
+            preventDefault: () => {}
+        });
+
+        expect(window.location.href).toBe('');
+        expect(getSelected()).toEqual([]);
     });
 
     test('clear button removes active selections through the renderer handler', async () => {

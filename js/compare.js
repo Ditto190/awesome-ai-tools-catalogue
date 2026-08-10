@@ -3,6 +3,17 @@ import * as cache from './tool-cache.js';
 const ENRICHED_URL = '/data/enriched-tools.json';
 const ENABLE_VOTING = process.env.ENABLE_VOTING === 'true';
 const CF_SITEKEY = process.env.CF_SITEKEY || '1x00000000000000000000AA';
+
+// Escape tool-sourced strings before innerHTML interpolation (same pattern
+// as tool-detail.js) - enriched data/cache content is not trusted markup.
+function escapeHtml(str) {
+    return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
 let getVoteCount = () => 0;
 let isAuthenticated = () => false;
 let html2canvasModule = null;
@@ -11,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search);
     const toolsParam = params.get('tools');
     if (!toolsParam) {
-        document.getElementById('compareGrid').innerHTML = '<p class="text-[#a3a3a3]">No tools selected for comparison.</p>';
+        // No selection - leave the server-rendered empty state in place.
         return;
     }
 
@@ -29,11 +40,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const slugs = toolsParam.split(',').filter(Boolean);
     if (slugs.length === 0) {
-        document.getElementById('compareGrid').innerHTML = '<p class="text-[#a3a3a3]">No tools selected for comparison.</p>';
+        // Empty ?tools= param - leave the server-rendered empty state in place.
         return;
     }
 
     const grid = document.getElementById('compareGrid');
+    if (!grid) return;
     grid.innerHTML = '<p class="text-[#a3a3a3]">Loading enriched data...</p>';
 
     let enrichedData = [];
@@ -71,6 +83,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function createZapButtonHtml(toolId, toolName, voteCount) {
+        const safeId = escapeHtml(toolId);
+        const safeName = escapeHtml(toolName);
         if (!ENABLE_VOTING) {
             return `
             <button class="zap-btn sm opacity-50 cursor-not-allowed" disabled data-tip="Voting is currently disabled.">
@@ -84,13 +98,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (isAuthenticated()) {
             return `
-            <button class="zap-btn sm" data-tip="Zap this tool!" 
-                data-tool-id="${toolId}"
-                data-tool-name="${toolName}">
+            <button class="zap-btn sm" data-tip="Zap this tool!"
+                data-tool-id="${safeId}"
+                data-tool-name="${safeName}">
                 <div class="zap-ring"></div>
                 <div class="sparks">
                     <div class="spark spark-1"></div>
-                    <div class="spark spark-2"></div>   
+                    <div class="spark spark-2"></div>
                     <div class="spark spark-3"></div>
                     <div class="spark spark-4"></div>
                     <div class="spark spark-5"></div>
@@ -104,9 +118,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         return `
-            <button class="zap-btn sm" data-tip="Sign in to vote!" 
-                data-tool-id="${toolId}"
-                data-tool-name="${toolName}">
+            <button class="zap-btn sm" data-tip="Sign in to vote!"
+                data-tool-id="${safeId}"
+                data-tool-name="${safeName}">
                 <svg class="zap-icon" viewBox="0 0 24 24" fill="none" style="opacity:0.4">
                     <path class="zap-bolt" d="M13 2L4.5 13.5H11L10 22L19.5 10.5H13L13 2Z"/>
                 </svg>
@@ -130,12 +144,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     function renderCompareGrid() {
         grid.innerHTML = '';
 
+        if (toolsToCompare.length === 1) {
+            const hint = document.createElement('p');
+            hint.className = 'w-full text-[#a3a3a3] text-[14px] border border-dashed border-[#333] rounded-md px-4 py-3 m-0';
+            hint.textContent = 'Select at least one more tool from the directory to compare side-by-side.';
+            grid.appendChild(hint);
+        }
+
         toolsToCompare.forEach(tool => {
         const card = document.createElement('div');
         // Mobile vertical, desktop horizontal (handled by parent flex-row)
         card.className = 'flex-1 bg-[#111] border border-[#333] rounded-xl p-6 flex flex-col gap-4';
 
-        const featuresHtml = tool.keyFeatures ? `<ul class="list-disc pl-5 text-[#a3a3a3] text-sm flex flex-col gap-1">${tool.keyFeatures.map(f => `<li>${f}</li>`).join('')}</ul>` : '<p class="text-[#a3a3a3] text-sm">N/A</p>';
+        const featuresHtml = tool.keyFeatures ? `<ul class="list-disc pl-5 text-[#a3a3a3] text-sm flex flex-col gap-1">${tool.keyFeatures.map(f => `<li>${escapeHtml(f)}</li>`).join('')}</ul>` : '<p class="text-[#a3a3a3] text-sm">N/A</p>';
 
         const toolId = `${tool.company.toLowerCase().replace(/[^a-z0-9]/g, '')}-${tool.name.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
         const initialVoteCount = getVoteCount(toolId);
@@ -146,8 +167,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="border-b border-[#333] pb-3 sm:pb-4 mb-2">
                 <div class="flex items-start justify-between gap-3">
                     <div class="flex-1 min-w-0">
-                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-1"><a href="/tools/${tool.slug}" class="hover:bg-gradient-to-r hover:from-[#a78bfa] hover:via-[#22d3ee] hover:to-[#a78bfa] hover:bg-[length:200%_auto] hover:bg-clip-text hover:text-transparent transition-all duration-300">${tool.name}</a></h2>
-                        <p class="font-mono text-xs sm:text-sm text-[#a3a3a3]">${tool.company}</p>
+                        <h2 class="text-xl sm:text-2xl font-bold text-white mb-1"><a href="/tools/${encodeURIComponent(tool.slug)}" class="hover:bg-gradient-to-r hover:from-[#a78bfa] hover:via-[#22d3ee] hover:to-[#a78bfa] hover:bg-[length:200%_auto] hover:bg-clip-text hover:text-transparent transition-all duration-300">${escapeHtml(tool.name)}</a></h2>
+                        <p class="font-mono text-xs sm:text-sm text-[#a3a3a3]">${escapeHtml(tool.company)}</p>
                     </div>
                     ${zapButtonHtml}
                 </div>
@@ -156,13 +177,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="flex-1 flex flex-col gap-6">
                 <div>
                     <h3 class="text-white font-semibold mb-2">Pricing</h3>
-                    <p class="text-sm text-[#a3a3a3] capitalize">${tool.pricing || 'N/A'}</p>
-                    ${tool.pricingDetail ? `<p class="text-xs text-[#737373] mt-1">${tool.pricingDetail}</p>` : ''}
+                    <p class="text-sm text-[#a3a3a3] capitalize">${escapeHtml(tool.pricing || 'N/A')}</p>
+                    ${tool.pricingDetail ? `<p class="text-xs text-[#737373] mt-1">${escapeHtml(tool.pricingDetail)}</p>` : ''}
                 </div>
 
                 <div>
                     <h3 class="text-white font-semibold mb-2">Description</h3>
-                    <p class="text-sm text-[#a3a3a3] leading-relaxed">${tool.description || 'N/A'}</p>
+                    <p class="text-sm text-[#a3a3a3] leading-relaxed">${escapeHtml(tool.description || 'N/A')}</p>
                 </div>
 
                 <div>
@@ -172,17 +193,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 <div>
                     <h3 class="text-white font-semibold mb-2">Best For</h3>
-                    <p class="text-sm text-[#a3a3a3] leading-relaxed">${tool.bestFor || 'N/A'}</p>
+                    <p class="text-sm text-[#a3a3a3] leading-relaxed">${escapeHtml(tool.bestFor || 'N/A')}</p>
                 </div>
 
                 <div>
                     <h3 class="text-white font-semibold mb-2">Not Ideal For</h3>
-                    <p class="text-sm text-[#a3a3a3] leading-relaxed">${tool.notIdealFor || 'N/A'}</p>
+                    <p class="text-sm text-[#a3a3a3] leading-relaxed">${escapeHtml(tool.notIdealFor || 'N/A')}</p>
                 </div>
 
                 <div class="mt-auto pt-4 border-t border-[#333]">
                     <h3 class="text-white font-semibold mb-2">Verdict</h3>
-                    <p class="text-sm text-[#a3a3a3] italic">${tool.verdict || 'N/A'}</p>
+                    <p class="text-sm text-[#a3a3a3] italic">${escapeHtml(tool.verdict || 'N/A')}</p>
                 </div>
             </div>
         `;
