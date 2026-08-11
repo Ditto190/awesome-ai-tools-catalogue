@@ -693,4 +693,17 @@
     html, body, .overflow-y-auto {
         scrollbar-gutter: stable;
     }
+
+    #article-body,
+    #article-body *,
+    article,
+    article p,
+    article h1,
+    article h2,
+    article h3,
+    article code,
+    article pre {
+        user-select: text !important;
+        -webkit-user-select: text !important;
+    }
 }
