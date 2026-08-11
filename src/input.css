@@ -666,7 +666,8 @@
 
 @layer base {
     ::selection {
-        background-color: transparent;
+        background-color: rgba(34, 211, 238, 0.25);
+        color: #ffffff;
     }
 
     ::-webkit-scrollbar {
