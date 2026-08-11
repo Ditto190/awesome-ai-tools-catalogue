@@ -43,7 +43,6 @@ const searchIndex = allPosts.map((post) => ({
     day: 'numeric',
   }),
   tags: post.data.tags ?? [],
-  image: post.data.image || '/images/blog-placeholder.png',
   featured: post.data.featured,
 }));
 const postsJson = safeJsonForScript(searchIndex);
@@ -58,7 +57,6 @@ const listPosts =
   title={`Blog | ai.dosa.dev${page.currentPage > 1 ? ` (Page ${page.currentPage})` : ''}`}
   description="Read the latest news, tutorials, and deep dives into AI tools for developers."
   canonical={`https://ai.dosa.dev/blog${page.currentPage > 1 ? `/${page.currentPage}` : ''}`}
-  ogImage="https://ai.dosa.dev/images/blog/blog-hero.webp"
   activeNav="blog"
 >
   <div class="max-w-[1400px] mx-auto w-full flex flex-col flex-1 min-h-full p-6 md:p-8">

@@ -17,9 +17,6 @@ const { entry } = Astro.props;
 const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 
 const postUrl = `https://ai.dosa.dev/blog/${entry.id}`;
-const postImage = entry.data.image
-  ? new URL(entry.data.image, 'https://ai.dosa.dev').href
-  : 'https://ai.dosa.dev/images/og-image.png';
 
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
@@ -27,7 +24,6 @@ const jsonLd = JSON.stringify({
   "@id": `${postUrl}#article`,
   "headline": entry.data.title,
   "description": entry.data.description,
-  "image": postImage,
   "datePublished": entry.data.pubDate.toISOString(),
   "author": { "@type": "Person", "name": entry.data.author },
   "publisher": {
@@ -112,7 +108,6 @@ const articleMarkdownJson = safeJsonForScript({ markdown: llmMarkdown });
   description={entry.data.description}
   canonical={postUrl}
   ogType="article"
-  ogImage={postImage}
   jsonLd={jsonLd}
   activeNav="blog"
 >
