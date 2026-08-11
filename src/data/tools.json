@@ -558,5 +558,17 @@
   {
     "companyName": "AntigmaLabs",
     "toolName": "ante"
+  },
+  {
+    "companyName": "ISMS Copilot / Better ISMS",
+    "toolName": "heygrc"
+  },
+  {
+    "companyName": "unsloth",
+    "toolName": "unsloth"
+  },
+  {
+    "companyName": "bb",
+    "toolName": "bb"
   }
 ]
