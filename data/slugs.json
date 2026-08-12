@@ -330,6 +330,12 @@
     "category": "IDE Extensions & Plugins"
   },
   {
+    "slug": "sf-pi",
+    "name": "SF Pi",
+    "company": "Salesforce",
+    "category": "IDE Extensions & Plugins"
+  },
+  {
     "slug": "claude-code",
     "name": "Claude Code",
     "company": "Anthropic",
