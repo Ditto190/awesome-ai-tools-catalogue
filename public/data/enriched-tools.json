@@ -756,6 +756,34 @@
     "lastUpdated": "2026-08-12"
   },
   {
+    "slug": "ori",
+    "name": "Ori",
+    "company": "OpenRouter",
+    "pricing": "freemium",
+    "pricingDetail": "Ori Harness itself is free to install and use; you pay for model usage through OpenRouter's pay-as-you-go pricing (5.5% platform fee on credit purchases, with model token costs varying). A free tier exists with 25+ free models and 50 requests/day.",
+    "description": "Ori Harness is a CLI tool from OpenRouter that lets you run your existing agent CLI (Claude Code, Codex, Hermes, OpenCode) on OpenRouter with any model, using your OpenRouter login for authentication and billing.",
+    "keyFeatures": [
+      "Runs existing agent CLIs (Claude Code, Codex, Hermes, OpenCode) with one command",
+      "OAuth PKCE sign-in with OpenRouter – no API key needed",
+      "Choose any model from OpenRouter's 400+ catalog with --model flag",
+      "Organization guardrails, allowlists, and workspace budgets enforced on every request",
+      "Unified billing and activity reporting across all agents",
+      "Easy install and update via curl script"
+    ],
+    "bestFor": "Developers and teams already using OpenRouter who want to use their preferred agent CLI with any model while maintaining centralized billing and guardrails.",
+    "notIdealFor": "Users who prefer native agent CLIs without an intermediary, or those needing offline or non-OpenRouter model access.",
+    "recentUpdates": "Launched August 4, 2026, with support for Claude Code, Codex, Hermes, and OpenCode. Ori Eval, a related tool for model evaluation, was announced August 3, 2026.",
+    "verdict": "Ori Harness simplifies using OpenRouter with popular agent CLIs, offering seamless integration and centralized control. However, it adds a dependency on OpenRouter and may not suit those who prefer direct provider access or have strict data policies.",
+    "tags": [
+      "CLI",
+      "agent harness",
+      "OpenRouter",
+      "model routing",
+      "developer tools"
+    ],
+    "lastUpdated": "2026-08-12"
+  },
+  {
     "slug": "github-copilot",
     "name": "GitHub Copilot",
     "company": "GitHub",

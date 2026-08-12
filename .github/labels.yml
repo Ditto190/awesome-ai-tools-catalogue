@@ -19,3 +19,6 @@
 - name: automated-pr
   color: "5319e7"
   description: "Pull request created automatically by a workflow"
+- name: enriched
+  color: "a78bfa"
+  description: "Tool has enriched data (Exa search + LLM generated profile)"

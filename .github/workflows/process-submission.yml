@@ -58,6 +58,24 @@ jobs:
         if: steps.parse.outputs.valid == 'true'
         run: node scripts/generate-tool-pages.js
 
+      # Enrich the newly approved tool via Exa search + LLM.
+      # Required GitHub secrets: EXA_API_KEY, OPENAI_API_KEY
+      # Optional: OPENAI_BASE_URL (default: https://api.deepseek.com/v1),
+      #           LLM_MODEL (default: deepseek-v4-flash)
+      # If secrets are missing, enrichment is silently skipped (continue-on-error).
+      # See docs/ENRICHMENT.md for full setup details.
+      - name: Enrich tool with Exa search
+        id: enrich
+        if: steps.parse.outputs.valid == 'true'
+        continue-on-error: true
+        env:
+          ISSUE_DATA: ${{ steps.parse.outputs.jsonString }}
+          EXA_API_KEY: ${{ secrets.EXA_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+        run: node scripts/enrich-with-exa.js --single
+
       - name: Create Pull Request
         if: steps.parse.outputs.valid == 'true'
         uses: peter-evans/create-pull-request@v6
@@ -74,7 +92,8 @@ jobs:
             - ✅ Injected row into `README.md`
             - ✅ Appended entry to `src/data/tools.json`
             - ✅ Regenerated `data/slugs.json`
+            - ${{ steps.enrich.outputs.enriched == 'true' && '✅ Enriched with Exa search (detailed product page)' || '⏭️ Enrichment skipped (set EXA_API_KEY + OPENAI_API_KEY secrets to enable)' }}
           branch: "add-tool/${{ github.event.issue.number }}"
           commit-message: "feat(data): add ${{ steps.parse.outputs.tool_name }} to directory"
           delete-branch: true
-          labels: "automated-pr"
+          labels: "automated-pr,enriched"
