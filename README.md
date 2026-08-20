@@ -13,6 +13,30 @@
 
 > **Important:** Do **not** open a pull request to submit a new tool. Use the [Tool Submission form](https://github.com/QAInsights/awesome-ai-tools/issues/new?template=submit-tool.yml) instead, it runs the automated pipeline that updates all data files.
 
+## Cloudflare deployment
+
+The site is deployed as a Cloudflare Worker with static assets through Cloudflare Workers Builds. Pushes to `main` trigger a build and deployment from the connected repository. A nightly `02:00 UTC` workflow and manual workflow runs trigger the Workers Builds deploy hook so freshly enriched data is rebuilt without storing a Cloudflare API token in GitHub.
+
+One-time migration steps:
+
+1. Create the `awesome-ai-tools` Worker and connect the repository under **Settings → Builds**. Set the Workers Builds build command to `bun run build`, and configure these build variables there:
+   - `ENABLE_VOTING` (default: `true`)
+   - `CF_SITEKEY` (default: `1x00000000000000000000AA`)
+   - `API_BASE_URL` (default: `http://localhost:8080`)
+   - `GOOGLE_CLIENT_ID` (default: `your-google-client-id-here`)
+   - `GITHUB_CLIENT_ID` (default: empty)
+2. Create a Workers Builds Deploy Hook for the `main` branch under **Settings → Builds → Deploy Hooks**, then save its generated URL as the GitHub repository secret `CLOUDFLARE_DEPLOY_HOOK_URL`.
+3. Set the OAuth Worker secrets from the repository root:
+   ```bash
+   bunx wrangler secret put GITHUB_CLIENT_ID
+   bunx wrangler secret put GITHUB_CLIENT_SECRET
+   ```
+4. Bind the `ai.dosa.dev` custom domain to the Worker.
+5. Add Cloudflare Redirect Rules for `dosa.dev/*` and `www.dosa.dev/*` to permanently redirect to `https://ai.dosa.dev/<path>`. These host-based redirects are not represented in `public/_redirects`.
+6. Remove or disable the Vercel project and its cron job after verifying the Worker deployment.
+
+The GitHub OAuth callback URL remains `https://ai.dosa.dev/api/auth/github`.
+
 ## 📋 Table of Contents
 
 - [🖥️ AI-Native IDEs & Editors](#ai-native-ides--editors)
