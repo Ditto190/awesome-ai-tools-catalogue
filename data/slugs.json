@@ -180,6 +180,18 @@
     "category": "AI-Native IDEs & Editors"
   },
   {
+    "slug": "agentone",
+    "name": "AgentOne",
+    "company": "BestCodes",
+    "category": "AI-Native IDEs & Editors"
+  },
+  {
+    "slug": "onecli",
+    "name": "OneCLI",
+    "company": "OneCLI",
+    "category": "AI-Native IDEs & Editors"
+  },
+  {
     "slug": "github-copilot",
     "name": "GitHub Copilot",
     "company": "GitHub",
@@ -363,6 +375,12 @@
     "slug": "blume",
     "name": "Blume",
     "company": "Blume",
+    "category": "IDE Extensions & Plugins"
+  },
+  {
+    "slug": "codex",
+    "name": "Codex++",
+    "company": "bennett",
     "category": "IDE Extensions & Plugins"
   },
   {
@@ -600,6 +618,60 @@
     "category": "Terminal & CLI Agents"
   },
   {
+    "slug": "bitfun",
+    "name": "BitFun",
+    "company": "GCWing",
+    "category": "Terminal & CLI Agents"
+  },
+  {
+    "slug": "deepseek-harness",
+    "name": "DeepSeek Harness",
+    "company": "DeepSeek",
+    "category": "Terminal & CLI Agents"
+  },
+  {
+    "slug": "atomic-agent",
+    "name": "Atomic Agent",
+    "company": "AtomicBot",
+    "category": "Terminal & CLI Agents"
+  },
+  {
+    "slug": "kane-cli",
+    "name": "Kane CLI",
+    "company": "TestMU AI",
+    "category": "Terminal & CLI Agents"
+  },
+  {
+    "slug": "caveman-code",
+    "name": "Caveman Code",
+    "company": "Julius Brussee",
+    "category": "Terminal & CLI Agents"
+  },
+  {
+    "slug": "sillage",
+    "name": "Sillage",
+    "company": "MarlBurroW (open source)",
+    "category": "Terminal & CLI Agents"
+  },
+  {
+    "slug": "mathcode",
+    "name": "MathCode",
+    "company": "Math-AI",
+    "category": "Terminal & CLI Agents"
+  },
+  {
+    "slug": "fxsh",
+    "name": "fx.sh",
+    "company": "Vercel",
+    "category": "Terminal & CLI Agents"
+  },
+  {
+    "slug": "zero",
+    "name": "Zero",
+    "company": "Gitlawb",
+    "category": "Terminal & CLI Agents"
+  },
+  {
     "slug": "warp",
     "name": "Warp",
     "company": "Warp",
@@ -681,6 +753,12 @@
     "slug": "manus",
     "name": "Manus",
     "company": "Monica",
+    "category": "Autonomous & Async Agents"
+  },
+  {
+    "slug": "looptroop",
+    "name": "LoopTroop",
+    "company": "LoopTroop AI",
     "category": "Autonomous & Async Agents"
   },
   {
@@ -774,6 +852,12 @@
     "category": "AI Code Review & Security"
   },
   {
+    "slug": "mydentify-ai-crawler-access-checker",
+    "name": "Mydentify AI Crawler Access Checker",
+    "company": "Mydentify / Timothy Allard",
+    "category": "AI Code Review & Security"
+  },
+  {
     "slug": "gitauto",
     "name": "GitAuto",
     "company": "GitAuto",
@@ -783,6 +867,12 @@
     "slug": "agentdiff",
     "name": "AgentDiff",
     "company": "AgentStatus",
+    "category": "AI Testing & Quality Assurance"
+  },
+  {
+    "slug": "agent-qa",
+    "name": "Agent QA",
+    "company": "Vostride",
     "category": "AI Testing & Quality Assurance"
   },
   {
@@ -903,6 +993,30 @@
     "slug": "fractal",
     "name": "fractal",
     "company": "Plasma AI",
+    "category": "Developer Productivity & Workflow"
+  },
+  {
+    "slug": "sandbase-cli",
+    "name": "SandBase CLI",
+    "company": "SandBase AI",
+    "category": "Developer Productivity & Workflow"
+  },
+  {
+    "slug": "wolfmarkdown",
+    "name": "WolfMarkDown",
+    "company": "WolfMark",
+    "category": "Developer Productivity & Workflow"
+  },
+  {
+    "slug": "codex-quota-overlay",
+    "name": "Codex Quota Overlay",
+    "company": "cpys (maintainer; independent community project)",
+    "category": "Developer Productivity & Workflow"
+  },
+  {
+    "slug": "deskcue",
+    "name": "DeskCue",
+    "company": "Alexander Kornev",
     "category": "Developer Productivity & Workflow"
   },
   {

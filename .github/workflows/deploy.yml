@@ -1,0 +1,25 @@
+name: Trigger Cloudflare Workers Build
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  trigger-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Workers Build deploy hook
+        env:
+          CLOUDFLARE_DEPLOY_HOOK_URL: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK_URL }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$CLOUDFLARE_DEPLOY_HOOK_URL" ]]; then
+            echo "::error::CLOUDFLARE_DEPLOY_HOOK_URL is not configured"
+            exit 1
+          fi
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            "$CLOUDFLARE_DEPLOY_HOOK_URL"

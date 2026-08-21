@@ -602,5 +602,81 @@
   {
     "companyName": "OpenRouter",
     "toolName": "Ori"
+  },
+  {
+    "companyName": "GCWing",
+    "toolName": "BitFun"
+  },
+  {
+    "companyName": "DeepSeek",
+    "toolName": "DeepSeek Harness"
+  },
+  {
+    "companyName": "AtomicBot",
+    "toolName": "Atomic Agent"
+  },
+  {
+    "companyName": "TestMU AI",
+    "toolName": "Kane CLI"
+  },
+  {
+    "companyName": "Julius Brussee",
+    "toolName": "Caveman Code"
+  },
+  {
+    "companyName": "LoopTroop AI",
+    "toolName": "LoopTroop"
+  },
+  {
+    "companyName": "MarlBurroW (open source)",
+    "toolName": "Sillage"
+  },
+  {
+    "companyName": "SandBase AI",
+    "toolName": "SandBase CLI"
+  },
+  {
+    "companyName": "Mydentify / Timothy Allard",
+    "toolName": "Mydentify AI Crawler Access Checker"
+  },
+  {
+    "companyName": "WolfMark",
+    "toolName": "WolfMarkDown"
+  },
+  {
+    "companyName": "bennett",
+    "toolName": "Codex++"
+  },
+  {
+    "companyName": "Vostride",
+    "toolName": "Agent QA"
+  },
+  {
+    "companyName": "cpys (maintainer; independent community project)",
+    "toolName": "Codex Quota Overlay"
+  },
+  {
+    "companyName": "Math-AI",
+    "toolName": "MathCode"
+  },
+  {
+    "companyName": "BestCodes",
+    "toolName": "AgentOne"
+  },
+  {
+    "companyName": "Vercel",
+    "toolName": "fx.sh"
+  },
+  {
+    "companyName": "Gitlawb",
+    "toolName": "Zero"
+  },
+  {
+    "companyName": "Alexander Kornev",
+    "toolName": "DeskCue"
+  },
+  {
+    "companyName": "OneCLI",
+    "toolName": "OneCLI"
   }
 ]

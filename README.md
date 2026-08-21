@@ -13,6 +13,30 @@
 
 > **Important:** Do **not** open a pull request to submit a new tool. Use the [Tool Submission form](https://github.com/QAInsights/awesome-ai-tools/issues/new?template=submit-tool.yml) instead, it runs the automated pipeline that updates all data files.
 
+## Cloudflare deployment
+
+The site is deployed as a Cloudflare Worker with static assets through Cloudflare Workers Builds. Pushes to `main` trigger a build and deployment from the connected repository. A nightly `02:00 UTC` workflow and manual workflow runs trigger the Workers Builds deploy hook so freshly enriched data is rebuilt without storing a Cloudflare API token in GitHub.
+
+One-time migration steps:
+
+1. Create the `awesome-ai-tools` Worker and connect the repository under **Settings → Builds**. Set the Workers Builds build command to `bun run build`, and configure these build variables there:
+   - `ENABLE_VOTING` (default: `true`)
+   - `CF_SITEKEY` (default: `1x00000000000000000000AA`)
+   - `API_BASE_URL` (default: `http://localhost:8080`)
+   - `GOOGLE_CLIENT_ID` (default: `your-google-client-id-here`)
+   - `GITHUB_CLIENT_ID` (default: empty)
+2. Create a Workers Builds Deploy Hook for the `main` branch under **Settings → Builds → Deploy Hooks**, then save its generated URL as the GitHub repository secret `CLOUDFLARE_DEPLOY_HOOK_URL`.
+3. Set the OAuth Worker secrets from the repository root:
+   ```bash
+   bunx wrangler secret put GITHUB_CLIENT_ID
+   bunx wrangler secret put GITHUB_CLIENT_SECRET
+   ```
+4. Bind the `ai.dosa.dev` custom domain to the Worker.
+5. Add Cloudflare Redirect Rules for `dosa.dev/*` and `www.dosa.dev/*` to permanently redirect to `https://ai.dosa.dev/<path>`. These host-based redirects are not represented in `public/_redirects`.
+6. Remove or disable the Vercel project and its cron job after verifying the Worker deployment.
+
+The GitHub OAuth callback URL remains `https://ai.dosa.dev/api/auth/github`.
+
 ## 📋 Table of Contents
 
 - [🖥️ AI-Native IDEs & Editors](#ai-native-ides--editors)
@@ -63,6 +87,8 @@ Full standalone editors built from the ground up with AI at the core.
 | **[jcode](https://github.com/1jehuang/jcode)** | Jeremy Huang | jcode is built to be as performant and resource efficient as possible. Every metric is optimized to the bone, which is important for scaling multi-session workflows. Here we sample a few metrics to show the difference: RAM usage and boot up.; [GitHub](https://github.com/1jehuang/jcode) |
 | **[Grok Bot](https://x.ai/bot)** | X | AI teammates you can give real work to. Bots can sign in to your tools, use them just like you do, and come back with finished work.; [GitHub](_No response_) |
 | **[Ori](https://openrouter.ai/ori/harness)** | OpenRouter | Your favorite harness with every model.; [GitHub](_No response_) |
+| **[AgentOne](https://github.com/The-Best-Codes/agent-one)** | BestCodes | A free AI agent and deep-researcher.; [GitHub](https://github.com/The-Best-Codes/agent-one) |
+| **[OneCLI](https://github.com/onecli/onecli)** | OneCLI | Open-source sandboxed agent harness for teams. Giving every employee a secured personal agent.; [GitHub](https://github.com/onecli/onecli) |
 
 
 ---
@@ -103,6 +129,7 @@ Plug-in assistants that enhance your existing editor (VS Code, JetBrains, Neovim
 | **[Feather Wand](https://jmeter.ai)** | NaveenKumar Namachivayam | Supercharge your performance testing workflow with AI-driven capabilities built natively into JMeter.; [GitHub](https://github.com/QAInsights/jmeter-ai) |
 | **[SF Pi](https://github.com/salesforce/sf-pi)** | Salesforce | Opinionated Salesforce extensions for the [Pi coding agent](https://pi.dev/): focused lifecycle tools, Salesforce-aware status and safety surfaces, Agent Script authoring, and one Manager for package settings and extension enablement.; [GitHub](https://github.com/salesforce/sf-pi) |
 | **[Blume](https://blume.codes/invite/coral-buttercup-awakening-gracefully)** | Blume | Blume helps you build an agentic-native codebase with consistent and correct context. Fewer mistakes, fewer headaches.; [GitHub](_No response_) |
+| **[Codex++](https://github.com/b-nnett/codex-plusplus)** | bennett | Codex++ tweak system for the Codex desktop app; [GitHub](https://github.com/b-nnett/codex-plusplus) |
 
 ---
 
@@ -150,6 +177,15 @@ AI coding agents that live in your terminal or command line.
 | **[AgentBox](https://agent-box.sh)** | Marco D'Alia | Run multiple coding agents (Claude Code, Codex, OpenCode) in parallel, each teleported into its own sandboxed VM — local Docker, self-hosted, or cloud (Hetzner/Daytona/E2B). Sub-second checkpoints, per-box browser/VS Code/persistent shells, native macOS menu-bar app, git credentials kept on the host. MIT.; [GitHub](https://github.com/madarco/agentbox) |
 | **[Oh My Pi](https://github.com/can1357/oh-my-pi)** | Can Bölük | ⌥ AI Coding agent for the terminal — hash-anchored edits, optimized tool harness, LSP, Python, browser, subagents, and more.; [GitHub](_No response_) |
 | **[Grok Build](https://x.ai/build)** | X | A powerful coding agent for complex work.; [GitHub](_No response_) |
+| **[BitFun](https://github.com/GCWing/BitFun)** | GCWing | Open-source coding agent with an interactive terminal UI and desktop app. It can plan, edit, test, and commit inside real Git repositories, with protected tool calls requiring approval by default.; [GitHub](https://github.com/GCWing/BitFun) |
+| **[DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)** | DeepSeek | DeepSeek Harness (dsh) is an open-source agent harness developed by DeepSeek AI.; [GitHub](https://github.com/deepseek-ai/deepseek-harness) |
+| **[Atomic Agent](https://atomicagent.io)** | AtomicBot | Local-first CLI and TUI coding agent that runs open-weight models entirely on your machine through a llama.cpp fork, so no account or API key is required. Ships 56 built-in tools (browser, filesystem, git, memory, vision), MCP support, and a five-layer local memory system.; [GitHub](https://github.com/AtomicBot-ai/atomic-agent) |
+| **[Kane CLI](https://www.testmuai.com/support/docs/kane-cli-introduction/)** | TestMU AI | End-to-end flows on your local browser, powered by natural language. Instant validation, deep bug discovery, and production-ready automation that elevates release confidence.; [GitHub](_No response_) |
+| **[Caveman Code](https://github.com/JuliusBrussee/caveman)** | Julius Brussee | Same model. Same task. ~2× fewer tokens than Codex. 20+ providers · plan mode · autopilot loop · MIT.; [GitHub](https://github.com/JuliusBrussee/caveman) |
+| **[Sillage](https://marlburrow.github.io/sillage)** | MarlBurroW (open source) | Self-hosted, MIT-licensed, mobile-first web UI that drives the native Claude Code and Codex CLIs on your own machine (the official agent harnesses, without a terminal). Sessions that outlive the client, full-text search over every conversation, an IDE panel (file explorer, editor, diffs, terminal), and an installable PWA. Single Docker container.; [GitHub](https://github.com/MarlBurroW/sillage) |
+| **[MathCode](https://github.com/math-ai-org/mathcode)** | Math-AI | MathCode: A Frontier Mathematical Coding Agent; [GitHub](https://github.com/math-ai-org/mathcode) |
+| **[fx.sh](https://fx.sh/)** | Vercel | fx is a coding agent harness and CLI written in Zig, optimized for research and embeddability as part of larger systems.; [GitHub](https://github.com/vercel-labs/fx) |
+| **[Zero](https://github.com/gitlawb/zero)** | Gitlawb | Zero is an AI coding agent for your local terminal. It can inspect a repository, edit files, run commands, use browser/terminal helpers, and keep durable local sessions while you choose the model and the permission level.; [GitHub](https://github.com/gitlawb/zero) |
 
 ---
 
@@ -180,6 +216,7 @@ Agents that operate independently on tasks, often outside your local editor.
 | **[Kody](https://github.com/kentcdodds/kody)** | Kent C. Dodds | Your assistant's home — the memory, keys, code, and automations your AI agent keeps, portable across every MCP host. Built on Cloudflare Workers.; [GitHub](https://github.com/kentcdodds/kody) |
 | **[Omnigent](https://github.com/omnigent-ai/omnigent)** | Omnigent | Omnigent is an open-source AI agent framework and meta-harness: orchestrate Claude Code, Codex, Cursor, Pi, and custom agents — swap harnesses without rewriting, enforce policies and sandboxing, and collaborate in real time from any device.; [GitHub](https://github.com/omnigent-ai/omnigent) |
 | **[Manus](https://manus.im/invitation/KK5RLBDPBSGLZD?utm_source=invitation&utm_medium=social&utm_campaign=copy_link)** | Monica | Manus is an autonomous AI agent that can plan, code, and execute complex tasks end-to-end in the browser. |
+| **[LoopTroop](https://www.looptroop.ovh/)** | LoopTroop AI | Local, open-source GUI for running multi-step AI coding tickets across projects. Uses an LLM council for planning, atomic Beads in isolated git worktrees, and time-boxed retry loops for execution.; [GitHub](https://github.com/looptroop-ai/LoopTroop) |
 
 ---
 
@@ -211,6 +248,7 @@ Tools focused on reviewing, securing, and validating code — not generating it.
 | **[Gito](https://github.com/Nayjest/Gito)** | Vitalii Stepanenko | Open-source AI code reviewer that runs in GitHub Actions or locally. Model-agnostic (works with any LLM) and reports findings to GitHub, Jira, or Linear.; [GitHub](https://github.com/Nayjest/Gito) |
 | **[Bubo](https://github.com/mountainowl/bubo)** | MountainOwl | I maintain Bubo, a self-hosted AI reviewer for GitHub PRs and GitLab MRs. I built it to run CLI-driven models, post evidence-backed inline findings or LGTM, and learn from maintainer feedback to reduce repository-specific noise.; [GitHub](https://github.com/mountainowl/bubo) |
 | **[heygrc](https://heygrc.com)** | ISMS Copilot / Better ISMS | GitHub App that reviews every pull request against compliance frameworks (ISO 27001, SOC 2, GDPR, EU AI Act, and more), cites the control clause, and says what to fix. Public repositories always free. Install: https://github.com/apps/heygrc; [GitHub](_No response_) |
+| **[Mydentify AI Crawler Access Checker](https://mydentify.com/tools/ai-crawler-access-checker)** | Mydentify / Timothy Allard | A free browser-based checker that tests whether AI crawlers can access a site by inspecting robots.txt, page-level directives, response headers, and user-agent behavior. It reports observable access signals and their limits; it does not claim to measure crawler indexing or guarantee AI visibility.; [GitHub](https://github.com/mitdralla/mydentify-ai-crawler-access-checker) |
 
 ---
 
@@ -221,6 +259,7 @@ Tools designed to autonomously generate, execute, and fix tests.
 |------|---------|-------|
 | **[GitAuto](https://gitauto.ai/)** | GitAuto | Automatically writes, runs, and fixes your unit tests, so you can keep shipping confidently |
 | **[AgentDiff](https://agentstatus.dev/)** | AgentStatus | Catch the regression CI couldn't, before merge. |
+| **[Agent QA](https://github.com/vostride/agent-qa)** | Vostride | The self-improving QA agent for software teams. It creates and runs natural-language web and mobile tests, retains test memory, and adapts flows when interfaces change. |
 
 ---
 
@@ -265,6 +304,10 @@ AI-powered tools for managing context, snippets, and developer documentation.
 | **[Better Agent](https://github.com/ofekron/better-agent)** | Ofek Ron | Local web workspace for launching and supervising native Claude, Codex, and Gemini coding-agent sessions with parallel delegation, persistent state, approval gates, file access, and restart recovery. It is source-available and free for non-commercial use; commercial use requires separate permission.  Disclosure: I maintain Better Agent. “Freemium” is the form’s closest available pricing option.  AI-assistance disclosure: this submission was drafted by Codex under the maintainer’s authorization and reviewed in Better Agent.; [GitHub](_No response_) |
 | **[Tura](https://turaai.net/)** | Tura-AI | Tura is a local, open-source execution layer for coding agents that groups repository inspection, edits, builds, tests, linting, and media inspection into fewer model turns. It publishes reproducible DeepSWE and full-repository rewrite benchmarks comparing its macro execution modes with Codex CLI Medium and High. Disclosure: I maintain Tura.; [GitHub](https://github.com/Tura-AI/tura) |
 | **[fractal](https://docs.plasma.ai/fractal/)** | Plasma AI | Open-source hierarchical coding-agent orchestrator for Claude Code, Codex, Grok Build, OpenCode, and Oh My Pi, with recursive delegation, per-node Git worktrees, configurable limits, and a live terminal UI for monitoring and steering.; [GitHub](https://github.com/plasma-ai/fractal) |
+| **[SandBase CLI](https://github.com/sandbaseai/cli)** | SandBase AI | Apache-2.0 CLI and MCP bridge that configures 17+ coding-agent clients with six tools for discovering, inspecting, invoking, and tracking calls to a hosted catalog of 2,000+ models and APIs. The npm package recorded 1,776 downloads in the latest completed monthly reporting window; disclosure: I am affiliated with SandBase and used AI assistance to prepare this submission.; [GitHub](https://github.com/sandbaseai/cli) |
+| **[WolfMarkDown](https://github.com/WolfMarkTools/WolfMarkDown)** | WolfMark | WolfMarkDown is an AI agent skill for turning messy, AI-generated research, conversation or Markdown into clean, production-ready documents using semantic judgement plus deterministic verification. It repairs structure, preserves technical details, and validates the final file with Prettier, markdownlint, GFM parsing, integrity checks, and idempotence.; [GitHub](https://github.com/WolfMarkTools/WolfMarkDown) |
+| **[Codex Quota Overlay](https://cpys.github.io/codex-quota-overlay/)** | cpys (maintainer; independent community project) | An independent Windows and macOS overlay that shows remaining Codex quota, next reset time, and available reset credits beside the active Codex conversation. It reads the documented local rate-limits method, stays out of the way, and does not capture screenshots, conversations, or browser cookies.; [GitHub](https://github.com/cpys/codex-quota-overlay) |
+| **[DeskCue](https://deskcue.io)** | Alexander Kornev | DeskCue is an open-source, local-first workspace for reviewing and steering coding-agent work. It keeps sessions, git diff, files, live preview, notifications, and the next prompt accessible from another browser or phone while the agents and workspace stay on your machine.; [GitHub](https://github.com/AleksandrKornev/DeskCue) |
 
 ---
 
