@@ -1,4 +1,6 @@
 ---
+import PrompticonFeature from './PrompticonFeature.astro';
+
 /**
  * Sidebar component - replaces js/shell.js runtime HTML injection.
  * 
@@ -119,6 +121,8 @@ const isTool = variant === 'tool';
                 </div>
             </div>
         )}
+
+        {isIndex && <PrompticonFeature />}
 
         <!-- Featured -->
         <div class="mx-4 mt-2 mb-3 p-3 border border-dashed border-[#222] rounded-md bg-white/[0.01] shrink-0">
