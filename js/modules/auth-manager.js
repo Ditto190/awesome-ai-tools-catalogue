@@ -1,15 +1,13 @@
 import { auth } from '../auth.js';
+import { bindAuthSession } from '../auth-session-binding.js';
 
 export function initAuthManager(callbacks) {
     const { onStateChange, collapsedSidebar } = callbacks;
 
     async function initializeAuth() {
         try {
-            await auth.initialize();
-            
-            // Set up auth state listener
-            auth.onAuthChange(handleAuthStateChange);
-            
+            const session = await bindAuthSession();
+
             // Modal logic
             const signInTriggerBtn = document.getElementById('signInTriggerBtn');
             const signInModal = document.getElementById('signInModal');
@@ -55,26 +53,25 @@ export function initAuthManager(callbacks) {
             }
 
             // Initial UI update
-            handleAuthStateChange(auth.getCurrentUser());
+            session.subscribe(handleAuthStateChange);
         } catch (error) {
             console.error('Auth initialization failed:', error);
         }
     }
 
     function renderSignInButtons() {
-        if (auth.isInitialized) {
-            auth.renderSignInButton('googleSignInBtn', {
-                theme: 'filled_black',
-                size: 'large',
-                text: 'signin_with',
-                shape: 'pill',
-                width: 320 // Wider for the modal
-            });
-            auth.renderGitHubSignInButton('githubSignInBtn');
-        }
+        auth.renderDevSignInButton('devSignInBtn');
+        auth.renderSignInButton('googleSignInBtn', {
+            theme: 'filled_black',
+            size: 'large',
+            text: 'signin_with',
+            shape: 'pill',
+            width: 320 // Wider for the modal
+        });
+        auth.renderGitHubSignInButton('githubSignInBtn');
     }
 
-    function handleAuthStateChange(user) {
+    function handleAuthStateChange({ user }) {
         updateAuthUI(user);
         if (onStateChange) onStateChange(user);
         

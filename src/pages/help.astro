@@ -12,15 +12,19 @@ const faqs = [
     },
     {
         q: 'What is "Zap"?',
-        a: 'Zap is the bookmark feature. Sign in with GitHub or Google, then Zap any tool to save it to your personal stack. Your Zaps are persisted to your account and power your README badge.',
+        a: 'Zap is the voting feature. Sign in with GitHub or Google, then Zap a tool to support it and contribute to its public popularity count.',
+    },
+    {
+        q: 'What are Favorites?',
+        a: 'Favorites are private bookmarks. Save tools you want to revisit, then open your Favorites page to see them from any signed-in device. Favoriting does not affect Zap votes or rankings.',
     },
     {
         q: 'Do I need an account to use the directory?',
-        a: 'No. Browsing, searching, filtering, comparing tools, and both utilities (Token Counter, Hallucination Scorer) work without an account. Signing in only unlocks Zap bookmarks, voting history, and the README badge generator.',
+        a: 'No. Browsing, searching, filtering, comparing tools, and both utilities (Token Counter, Hallucination Scorer) work without an account. Signing in unlocks private Favorites and Zap voting.',
     },
     {
         q: 'What is the README badge generator?',
-        a: 'After signing in, you can generate a dynamic Markdown badge for your GitHub profile README that displays your Zapped AI stack. Find it under "Get Badge" in your profile menu.',
+        a: 'The planned README badge generator will let you share selected tools from your AI stack on GitHub.',
     },
     {
         q: 'How does the Token Counter work?',
@@ -57,7 +61,7 @@ const jsonLd = JSON.stringify({
 
 <DashboardLayout
     title="Help & FAQ | ai.dosa.dev"
-    description="Help documentation and FAQs for ai.dosa.dev - how to submit tools, use Zap bookmarks, generate your AI stack README badge, and use the free token counter and hallucination scorer."
+    description="Help documentation and FAQs for ai.dosa.dev - how to submit tools, vote with Zap, save Favorites, and use the free token counter and hallucination scorer."
     canonical="https://ai.dosa.dev/help"
     jsonLd={jsonLd}
     activeNav="help"

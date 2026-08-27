@@ -217,12 +217,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (ENABLE_VOTING) {
         const bootstrapVoting = async () => {
             try {
-                const [{ getVoteCount: voteCountFn, initVoting }, { auth }] = await Promise.all([
+                const [{ getVoteCount: voteCountFn, initVoting }, { auth }, { bindAuthSession }] = await Promise.all([
                     import('./voting.js'),
-                    import('./auth.js')
+                    import('./auth.js'),
+                    import('./auth-session-binding.js')
                 ]);
 
-                await auth.initialize();
+                await bindAuthSession({ authManager: auth });
                 getVoteCount = voteCountFn;
                 isAuthenticated = () => auth.isAuthenticated();
 

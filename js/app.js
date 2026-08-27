@@ -3,7 +3,7 @@
  * AI IDEs & Coding Assistants - Tool Registry
  */
 
-import { initRenderer, renderTools, hydrateGrid, setVotingContext, refreshVotingButtons } from './renderer.js';
+import { initRenderer, renderTools, hydrateGrid, setFavoriteContext, setVotingContext, refreshVotingButtons } from './renderer.js';
 import { CollapsedSidebar } from './collapsed-sidebar.js';
 import { initGradientSelection } from './gradient-selection.js';
 import { initFilterManager } from './modules/filter-manager.js';
@@ -74,17 +74,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 4. Defer auth/voting to improve first interactivity
     let syncVotingUi = () => {};
+    let syncFavoritesUi = () => {};
 
     const deferredBootstrap = async () => {
-        const [{ initAuthManager }, { initVoting, getVoteCount }] = await Promise.all([
+        const [{ initAuthManager }, { initVoting, getVoteCount }, favorites] = await Promise.all([
             import('./modules/auth-manager.js'),
-            import('./voting.js')
+            import('./voting.js'),
+            import('./favorites.js')
         ]);
 
         const authManager = initAuthManager({
             collapsedSidebar,
-            onStateChange: () => {
+            onStateChange: user => {
                 syncVotingUi();
+                void syncFavoritesUi(user);
             }
         });
         await authManager.initializeAuth();
@@ -100,6 +103,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const { auth } = await import('./auth.js');
+        favorites.initFavorites({
+            isAuthenticated: () => auth.isAuthenticated(),
+            onSignIn: () => {
+                const trigger = document.getElementById('signInTriggerBtn');
+                if (trigger) trigger.click();
+                else window.location.href = '/?signin=1';
+            },
+            onUnauthorized: () => auth.signOut()
+        });
+        setFavoriteContext({ refreshFavoriteButtons: favorites.refreshFavoriteButtons });
         syncVotingUi = () => {
             setVotingContext({
                 getVoteCount,
@@ -107,7 +120,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
             refreshVotingButtons();
         };
+        syncFavoritesUi = async user => {
+            try {
+                const result = await favorites.syncFavorites(user);
+                if (
+                    user
+                    && !result.stale
+                    && !result.authenticated
+                    && auth.getCurrentUser()?.id === user.id
+                ) {
+                    await auth.signOut();
+                }
+            } catch (error) {
+                console.warn('[favorites] sync failed:', error);
+            }
+        };
         syncVotingUi();
+        await syncFavoritesUi(auth.getCurrentUser());
 
         if (ENABLE_VOTING) {
             await initVoting().catch(err => console.warn('[voting] init failed:', err));

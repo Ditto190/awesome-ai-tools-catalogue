@@ -96,7 +96,7 @@ export async function initVoting() {
         }
 
         const user = auth.getCurrentUser();
-        const voterId = `${user.provider}:${user.id}`;
+        const voterId = user.id;
 
         // Once confirmed not clicked, cast the vote securely
         castVote(toolId, toolName, voterId, btn);

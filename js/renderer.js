@@ -11,6 +11,7 @@ import { addOutboundUtmParams } from '../src/lib/outbound-utm.js';
 const ENABLE_VOTING = process.env.ENABLE_VOTING === 'true';
 let getVoteCountFn = () => 0;
 let isAuthenticatedFn = () => false;
+let refreshFavoriteButtonsFn = () => {};
 
 const BATCH_SIZE = 20;
 let filteredTools = [];
@@ -51,6 +52,7 @@ export function initRenderer(gridElement) {
 export function hydrateGrid(tools) {
     filteredTools = tools;
     loadedCount = tools.length;
+    refreshFavoriteButtonsFn(grid);
     syncCompareRows();
     updateCompareBar();
 }
@@ -61,6 +63,12 @@ export function setVotingContext(context = {}) {
     }
     if (typeof context.isAuthenticated === 'function') {
         isAuthenticatedFn = context.isAuthenticated;
+    }
+}
+
+export function setFavoriteContext(context = {}) {
+    if (typeof context.refreshFavoriteButtons === 'function') {
+        refreshFavoriteButtonsFn = context.refreshFavoriteButtons;
     }
 }
 
@@ -327,6 +335,7 @@ function loadBatch() {
     grid.appendChild(fragment);
     loadedCount = endIndex;
 
+    refreshFavoriteButtonsFn(grid);
     syncCompareRows();
     updateCompareBar();
     updateSentinel();
@@ -380,6 +389,11 @@ function createToolRow(tool, index) {
                     <a href="${detailHref}" class="flex-1 min-w-0 text-white no-underline transition-all duration-200 hover:bg-gradient-to-r hover:from-[#a78bfa] hover:via-[#22d3ee] hover:to-[#a78bfa] hover:bg-[length:200%_auto] hover:bg-clip-text hover:text-transparent hover:animate-[shift_3s_linear_infinite]" aria-label="View details for ${safeName}">
                         ${safeName}
                     </a>
+                    <button class="favorite-btn" type="button" data-tool-slug="${escapeHtml(tool.slug)}" data-tool-name="${safeName}" aria-label="Save ${safeName} to favorites" aria-pressed="false" title="Save ${safeName} to favorites">
+                        <svg class="favorite-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.75L6 21V4.75Z"/>
+                        </svg>
+                    </button>
                     <a href="${escapeHtml(addOutboundUtmParams(tool.url))}" target="_blank" rel="noopener noreferrer" class="shrink-0 text-[#737373] hover:text-white p-1 -m-1 rounded transition-colors duration-200" aria-label="Open ${safeName} site in a new tab" title="Open site in new tab" onclick="event.stopPropagation()">
                         <svg class="w-3.5 h-3.5 opacity-60 hover:opacity-100 transition-all duration-200 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>

@@ -22,5 +22,38 @@
       "persist": true
     }
   },
-  "vars": {}
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "awesome-ai-tools",
+      "database_id": "0f8823e3-931e-4b26-8b22-f79611459aa7",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {},
+  "secrets": {
+    "required": ["GOOGLE_CLIENT_ID", "GITHUB_CLIENT_ID", "GITHUB_CLIENT_SECRET"]
+  },
+  "env": {
+    "staging": {
+      "name": "awesome-ai-tools-staging",
+      "assets": {
+        "binding": "ASSETS",
+        "html_handling": "drop-trailing-slash"
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "awesome-ai-tools-staging",
+          "database_id": "b19f062f-377c-451b-afa8-82ccd05fb6ec",
+          "migrations_dir": "migrations",
+          "remote": true
+        }
+      ],
+      "vars": {},
+      "secrets": {
+        "required": ["GOOGLE_CLIENT_ID", "GITHUB_CLIENT_ID", "GITHUB_CLIENT_SECRET"]
+      }
+    }
+  }
 }

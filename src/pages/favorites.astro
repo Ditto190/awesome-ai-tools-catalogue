@@ -1,0 +1,60 @@
+---
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import { getAllTools } from '../lib/tools';
+import { safeJsonForScript } from '../lib/serialize';
+
+const tools = getAllTools().map(tool => ({
+    slug: tool.slug,
+    name: tool.enriched?.name ?? tool.name,
+    company: tool.enriched?.company ?? tool.company,
+    description: tool.enriched?.description ?? tool.notes,
+    category: tool.categoryShort,
+}));
+const toolsJson = safeJsonForScript(tools);
+---
+
+<DashboardLayout
+    title="Favorites | ai.dosa.dev"
+    description="Your saved AI tools on ai.dosa.dev."
+    canonical="https://ai.dosa.dev/favorites"
+    robots="noindex, nofollow"
+    activeNav="favorites"
+>
+    <div class="max-w-[1100px] mx-auto w-full flex flex-col flex-1 min-h-0 p-5 md:p-8">
+        <header class="mb-7">
+            <div class="flex items-center justify-between gap-4 flex-wrap">
+                <div>
+                    <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-[#737373] mb-2">Your library</p>
+                    <h1 class="text-2xl md:text-3xl font-semibold tracking-tight">Favorite tools</h1>
+                    <p class="text-[#a3a3a3] text-[15px] mt-2">Private bookmarks saved to your account.</p>
+                </div>
+                <span id="favoriteCount" class="hidden font-mono text-[12px] text-[#c9aa6e] border border-[#3a3225] bg-[#211c16] rounded-full px-3 py-1.5"></span>
+            </div>
+        </header>
+
+        <div id="favoritesLoading" class="border border-[#222] bg-white/[0.02] rounded-xl p-6 text-[#a3a3a3]">
+            Loading your favorites…
+        </div>
+
+        <div id="favoritesSignedOut" class="hidden border border-[#222] bg-white/[0.02] rounded-xl p-7">
+            <h2 class="text-lg font-semibold mb-2">Sign in to see your favorites</h2>
+            <p class="text-[#a3a3a3] text-[14px] mb-5">Favorites are private and sync across your devices.</p>
+            <a href="/?signin=1" class="inline-flex items-center py-2.5 px-4 bg-white text-black text-sm font-semibold rounded-md hover:bg-gray-200 transition-colors">Sign in</a>
+        </div>
+
+        <div id="favoritesError" class="hidden border border-red-400/20 bg-red-400/[0.06] rounded-xl p-6 text-red-200">
+            Favorites could not be loaded. Please refresh and try again.
+        </div>
+
+        <div id="favoritesEmpty" class="hidden border border-[#222] bg-white/[0.02] rounded-xl p-7">
+            <h2 class="text-lg font-semibold mb-2">No favorites yet</h2>
+            <p class="text-[#a3a3a3] text-[14px] mb-5">Bookmark tools from the directory and they will appear here.</p>
+            <a href="/" class="inline-flex items-center py-2.5 px-4 bg-white text-black text-sm font-semibold rounded-md hover:bg-gray-200 transition-colors">Browse tools</a>
+        </div>
+
+        <div id="favoritesGrid" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
+
+    <script id="favorites-tools-data" type="application/json" set:html={toolsJson}></script>
+    <script src="/dist/favorites-page.js" type="module" defer></script>
+</DashboardLayout>

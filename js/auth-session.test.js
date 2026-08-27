@@ -1,25 +1,20 @@
 import { describe, expect, test } from 'bun:test';
 import {
-    AUTH_SESSION_KEY,
+    AUTH_RETURN_PATHS,
     AUTH_SESSION_TTL_MS,
-    isValidAuthSession,
+    resolveAuthReturnPath,
 } from '../src/lib/auth-session.js';
 
-describe('auth session helpers', () => {
-    test('defines the shared storage key and 24-hour TTL', () => {
-        expect(AUTH_SESSION_KEY).toBe('auth_session');
+describe('auth session configuration', () => {
+    test('uses a 24-hour server-session TTL', () => {
         expect(AUTH_SESSION_TTL_MS).toBe(24 * 60 * 60 * 1000);
     });
 
-    test('validates sessions with a user within the TTL', () => {
-        const now = 1_000_000;
-
-        expect(isValidAuthSession({ user: { id: 'user-1' }, timestamp: now }, now)).toBe(true);
-        expect(isValidAuthSession({
-            user: { id: 'user-1' },
-            timestamp: now - AUTH_SESSION_TTL_MS - 1,
-        }, now)).toBe(false);
-        expect(isValidAuthSession({ timestamp: now }, now)).toBe(false);
-        expect(isValidAuthSession({ user: { id: 'user-1' } }, now)).toBe(false);
+    test('shares an exact allowlist for post-auth return paths', () => {
+        expect(AUTH_RETURN_PATHS).toContain('/favorites');
+        expect(resolveAuthReturnPath('/favorites')).toBe('/favorites');
+        expect(resolveAuthReturnPath('/tools/cursor')).toBe('/');
+        expect(resolveAuthReturnPath('https://evil.example')).toBe('/');
+        expect(resolveAuthReturnPath(null)).toBe('/');
     });
 });

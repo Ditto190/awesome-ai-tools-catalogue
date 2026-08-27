@@ -1,8 +1,10 @@
-import { afterEach, beforeEach, describe, expect, mock, test } from 'bun:test';
+import { afterAll, afterEach, beforeEach, describe, expect, mock, test } from 'bun:test';
+import { AuthManager } from './auth.js';
 
 let domReadyHandler = null;
 let refreshVotingButtonsCalls = 0;
 let setVotingContextCalls = 0;
+let loadFavoritesCalls = 0;
 let capturedOnStateChange = null;
 
 function flushMicrotasks(times = 5) {
@@ -48,6 +50,7 @@ mock.module('./renderer.js', () => ({
     initRenderer: () => {},
     renderTools: () => {},
     hydrateGrid: () => {},
+    setFavoriteContext: () => {},
     setVotingContext: () => {
         setVotingContextCalls += 1;
     },
@@ -84,17 +87,35 @@ mock.module('./modules/auth-manager.js', () => ({
     }
 }));
 
-mock.module('./auth.js', () => ({
-    auth: {
-        isAuthenticated: () => true
+mock.module('./favorites.js', () => ({
+    initFavorites: () => {},
+    clearFavorites: () => {},
+    getFavoriteRecords: () => [],
+    refreshFavoriteButtons: () => {},
+    subscribeFavorites: () => () => {},
+    syncFavorites: async () => {
+        loadFavoritesCalls += 1;
+        return { authenticated: true, favorites: [], stale: false };
     }
 }));
+
+mock.module('./auth.js', () => ({
+    AuthManager,
+    auth: {
+        getCurrentUser: () => ({ id: 'github:user-1', provider: 'github' }),
+        isAuthenticated: () => true,
+        signOut: async () => true
+    }
+}));
+
+afterAll(() => mock.restore());
 
 describe('app deferred auth bootstrap', () => {
     beforeEach(() => {
         domReadyHandler = null;
         refreshVotingButtonsCalls = 0;
         setVotingContextCalls = 0;
+        loadFavoritesCalls = 0;
         capturedOnStateChange = null;
         const iconSidebar = makeContainer();
 
@@ -153,8 +174,10 @@ describe('app deferred auth bootstrap', () => {
         expect(typeof capturedOnStateChange).toBe('function');
 
         capturedOnStateChange({ id: 'user-1' });
+        await flushMicrotasks();
 
         expect(setVotingContextCalls).toBeGreaterThanOrEqual(3);
         expect(refreshVotingButtonsCalls).toBe(2);
+        expect(loadFavoritesCalls).toBeGreaterThanOrEqual(2);
     });
 });

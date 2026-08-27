@@ -1,7 +1,8 @@
+import { bindAuthSession } from './auth-session-binding.js';
 import { CollapsedSidebar } from './collapsed-sidebar.js';
 import { initUiManager } from './modules/ui-manager.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     initUiManager();
 
     new CollapsedSidebar('iconSidebar', {
@@ -10,4 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '/';
         }
     });
+
+    await bindAuthSession();
 });

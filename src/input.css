@@ -241,6 +241,38 @@
         animation: shift 3s linear infinite;
     }
 
+    .favorite-btn {
+        @apply relative shrink-0 inline-flex items-center justify-center w-8 h-8 rounded-md border border-transparent bg-transparent text-[#737373] cursor-pointer transition-all duration-200 outline-none;
+    }
+
+    .favorite-btn:hover {
+        @apply text-[#e2c48a] border-[#3a3225] bg-[#211c16];
+    }
+
+    .favorite-btn.favorited {
+        @apply text-[#e2c48a] border-[#4c4030] bg-[#211c16];
+    }
+
+    .favorite-btn.detail {
+        @apply w-auto h-[42px] gap-2 px-4 border-[#333] bg-white/5 text-sm font-medium text-white;
+    }
+
+    .favorite-btn:disabled {
+        @apply opacity-60 cursor-wait;
+    }
+
+    .favorite-icon {
+        @apply w-[17px] h-[17px];
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .favorite-btn.favorited .favorite-icon {
+        fill: currentColor;
+    }
+
     .zap-btn {
         @apply relative inline-flex flex-col items-center justify-center bg-white/[0.03] border border-[#222] rounded-[8px] cursor-pointer transition-all duration-200 outline-none;
     }
@@ -379,6 +411,31 @@
         width: 18px;
         height: 18px;
         flex-shrink: 0;
+    }
+
+    .dev-signin-btn {
+        width: 100%;
+        max-width: 320px;
+        height: 40px;
+        background: #211c16;
+        color: #e2c48a;
+        border: 1px solid #4c4030;
+        border-radius: 20px;
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .dev-signin-btn:hover {
+        background: #2a231a;
+        border-color: #6a573a;
+    }
+
+    .dev-signin-btn:disabled {
+        opacity: 0.6;
+        cursor: wait;
     }
 
     .compare-row {

@@ -221,12 +221,20 @@ const jsonLd = JSON.stringify(jsonLdObj);
                                 )}
                             </div>
                         </div>
-                        <a href={addOutboundUtmParams(tool.url)} target="_blank" rel="noopener noreferrer"
-                            class="inline-flex items-center gap-2 py-2.5 px-5 bg-white text-black text-sm font-semibold rounded-md transition-all duration-200 hover:bg-gray-200 hover:-translate-y-px shrink-0"
-                            aria-label={`Visit ${displayName} website`}>
-                            Visit site
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                        </a>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button class="favorite-btn detail" type="button" data-tool-slug={tool.slug} data-tool-name={displayName} aria-label={`Sign in to save ${displayName}`} aria-pressed="false" title={`Sign in to save ${displayName}`}>
+                                <svg class="favorite-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M6 4.75A1.75 1.75 0 0 1 7.75 3h8.5A1.75 1.75 0 0 1 18 4.75V21l-6-3.75L6 21V4.75Z"/>
+                                </svg>
+                                <span data-favorite-label>Favorite</span>
+                            </button>
+                            <a href={addOutboundUtmParams(tool.url)} target="_blank" rel="noopener noreferrer"
+                                class="inline-flex items-center gap-2 py-2.5 px-5 bg-white text-black text-sm font-semibold rounded-md transition-all duration-200 hover:bg-gray-200 hover:-translate-y-px shrink-0"
+                                aria-label={`Visit ${displayName} website`}>
+                                Visit site
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            </a>
+                        </div>
                     </div>
                     <p class="text-[17px] leading-relaxed text-[#d4d4d4] max-w-[72ch]">{displayDescription}</p>
                 </header>
@@ -346,14 +354,14 @@ const jsonLd = JSON.stringify(jsonLdObj);
                         <div class="td-card flex flex-col sm:flex-row sm:items-center gap-4" style="background: linear-gradient(90deg, rgba(167,139,250,0.06), rgba(34,211,238,0.04)); border-color: #333;">
                             <div class="grow">
                                 <div class="text-white font-medium text-[15px] mb-1">Track {displayName} in your AI stack</div>
-                                <p class="text-[13px] text-[#a3a3a3] leading-relaxed m-0">Sign in with GitHub or Google to Zap tools, vote, and get a README badge showing your stack.</p>
+                                <p class="text-[13px] text-[#a3a3a3] leading-relaxed m-0">Favorite this tool to revisit it later, or Zap it to contribute to the public vote count.</p>
                             </div>
                             <div class="flex items-center gap-2.5 shrink-0">
                                 <a href={`/category/${getCategorySlug(tool.categoryShort)}`} class="inline-flex items-center py-2.5 px-4 bg-white/5 text-white text-sm font-medium border border-[#333] rounded-md transition-all hover:bg-white/10 whitespace-nowrap">
                                     Compare {tool.categoryShort}
                                 </a>
                                 <a href="/?signin=1" class="inline-flex items-center py-2.5 px-4 bg-white text-black text-sm font-semibold rounded-md transition-all hover:bg-gray-200 whitespace-nowrap">
-                                    Sign in to Zap
+                                    Sign in to save
                                 </a>
                             </div>
                         </div>
