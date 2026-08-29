@@ -39,7 +39,7 @@ const toolsJson = safeJsonForScript(tools);
         <div id="favoritesSignedOut" class="hidden border border-[#222] bg-white/[0.02] rounded-xl p-7">
             <h2 class="text-lg font-semibold mb-2">Sign in to see your favorites</h2>
             <p class="text-[#a3a3a3] text-[14px] mb-5">Favorites are private and sync across your devices.</p>
-            <a href="/?signin=1" class="inline-flex items-center py-2.5 px-4 bg-white text-black text-sm font-semibold rounded-md hover:bg-gray-200 transition-colors">Sign in</a>
+            <a href="/?signin=1" data-auth-trigger="favorite_heart" class="inline-flex items-center py-2.5 px-4 bg-white text-black text-sm font-semibold rounded-md hover:bg-gray-200 transition-colors">Sign in</a>
         </div>
 
         <div id="favoritesError" class="hidden border border-red-400/20 bg-red-400/[0.06] rounded-xl p-6 text-red-200">

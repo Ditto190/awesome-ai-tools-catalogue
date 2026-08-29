@@ -1,3 +1,6 @@
+import { EVENTS } from '../src/lib/analytics-events.js';
+import { analytics } from './analytics-client.js';
+import { authAttribution } from './auth-attribution.js';
 import { createFavoritesStore } from './favorites-store.js';
 
 const store = createFavoritesStore();
@@ -6,7 +9,6 @@ let activeUserId = null;
 let syncGeneration = 0;
 let context = {
     isAuthenticated: () => false,
-    onSignIn: () => {},
     onUnauthorized: () => {},
 };
 
@@ -48,7 +50,9 @@ export function initFavorites(options = {}) {
         event.stopPropagation();
 
         if (!context.isAuthenticated()) {
-            context.onSignIn();
+            const subject = button.dataset.toolSlug;
+            analytics.track(EVENTS.GATE_BLOCKED, { trigger: 'favorite_heart', subject });
+            authAttribution.open('favorite_heart');
             return;
         }
 

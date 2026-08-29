@@ -1,5 +1,8 @@
 import type { APIRoute } from 'astro';
+import { EVENTS } from '../../../lib/analytics-events.js';
 import { resolveAuthReturnPath } from '../../../lib/auth-session.js';
+import { getAuthTrigger } from '../../../lib/server/auth-attribution';
+import { trackRequest } from '../../../lib/server/analytics';
 import { fetchGitHubIdentity } from '../../../lib/server/github-auth';
 import {
     getGitHubClientId,
@@ -22,6 +25,7 @@ export const GET: APIRoute = async ({ request, redirect, cookies }) => {
     const errorDesc = url.searchParams.get('error_description');
     const storedState = cookies.get('github_oauth_state')?.value ?? null;
     const storedOrigin = cookies.get('github_auth_origin')?.value ?? null;
+    const trigger = getAuthTrigger(cookies);
     cookies.delete('github_oauth_state', { path: '/' });
     cookies.delete('github_auth_origin', { path: '/' });
 
@@ -32,11 +36,13 @@ export const GET: APIRoute = async ({ request, redirect, cookies }) => {
     const redirectOrigin = resolveAuthReturnPath(decodedOrigin);
 
     if (error) {
+        trackRequest(request, EVENTS.AUTH_ERROR, { provider: 'github', trigger, subject: 'authorization_denied' });
         const msg = encodeURIComponent(errorDesc ?? error ?? 'Authorization denied');
         return redirect(`${redirectOrigin}?auth_error=${msg}`);
     }
 
     if (!code || !state || !storedState || state !== storedState) {
+        trackRequest(request, EVENTS.AUTH_ERROR, { provider: 'github', trigger, subject: 'invalid_state' });
         return redirect(`${redirectOrigin}?auth_error=${encodeURIComponent('Invalid OAuth state')}`);
     }
 
@@ -45,6 +51,7 @@ export const GET: APIRoute = async ({ request, redirect, cookies }) => {
 
     if (!clientId || !clientSecret) {
         console.error('[GitHub OAuth] Missing GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET');
+        trackRequest(request, EVENTS.AUTH_ERROR, { provider: 'github', trigger, subject: 'not_configured' });
         return redirect(`${redirectOrigin}?auth_error=${encodeURIComponent('Server configuration error')}`);
     }
 
@@ -56,10 +63,17 @@ export const GET: APIRoute = async ({ request, redirect, cookies }) => {
             session.token,
             sessionCookieOptions(url),
         );
+        trackRequest(request, EVENTS.SIGNIN_COMPLETED, {
+            userId: session.user.id,
+            provider: 'github',
+            trigger,
+            value: session.isNewUser ? 1 : 0,
+        });
         return redirect(`${redirectOrigin}?github_auth=1&state=${encodeURIComponent(state)}`);
     } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         console.error('[GitHub OAuth] Authentication failed:', message);
+        trackRequest(request, EVENTS.AUTH_ERROR, { provider: 'github', trigger, subject: 'authentication_failed' });
         return redirect(`${redirectOrigin}?auth_error=${encodeURIComponent('Authentication failed. Please try again.')}`);
     }
 };

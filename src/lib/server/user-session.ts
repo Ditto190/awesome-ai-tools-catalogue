@@ -33,6 +33,11 @@ interface SessionUserRow {
     avatar_url: string | null;
     github_username: string | null;
     email_verified: number;
+    last_seen_at: number | null;
+}
+
+interface CreatedUserRow {
+    created_at: number;
 }
 
 function defaultTokenFactory(): string {
@@ -64,7 +69,7 @@ export async function createUserSession(
     profile: IdentityProfile,
     now = Date.now(),
     tokenFactory: () => string = defaultTokenFactory,
-): Promise<{ token: string; user: SessionUser }> {
+): Promise<{ token: string; user: SessionUser; isNewUser: boolean }> {
     const user = toSessionUser(profile);
     const token = tokenFactory();
     const tokenHash = await hashSessionToken(token);
@@ -73,15 +78,17 @@ export async function createUserSession(
         db.prepare(`
             INSERT INTO users (
                 id, provider, provider_user_id, display_name, email, avatar_url,
-                github_username, email_verified, created_at, updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                github_username, email_verified, created_at, updated_at, last_seen_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(provider, provider_user_id) DO UPDATE SET
                 display_name = excluded.display_name,
                 email = excluded.email,
                 avatar_url = excluded.avatar_url,
                 github_username = excluded.github_username,
                 email_verified = excluded.email_verified,
-                updated_at = excluded.updated_at
+                updated_at = excluded.updated_at,
+                last_seen_at = excluded.last_seen_at
+            RETURNING created_at
         `).bind(
             user.id,
             user.provider,
@@ -93,6 +100,7 @@ export async function createUserSession(
             user.emailVerified ? 1 : 0,
             now,
             now,
+            now,
         ),
         db.prepare('DELETE FROM sessions WHERE expires_at <= ?').bind(now),
         db.prepare(`
@@ -101,8 +109,9 @@ export async function createUserSession(
         `).bind(tokenHash, user.id, now, expiresAt),
     ];
 
-    await db.batch(statements);
-    return { token, user };
+    const results = await db.batch<CreatedUserRow>(statements);
+    const createdAt = results[0]?.results?.[0]?.created_at;
+    return { token, user, isNewUser: createdAt === now };
 }
 
 export async function getSessionUser(
@@ -121,7 +130,8 @@ export async function getSessionUser(
             u.email,
             u.avatar_url,
             u.github_username,
-            u.email_verified
+            u.email_verified,
+            u.last_seen_at
         FROM sessions s
         JOIN users u ON u.id = s.user_id
         WHERE s.token_hash = ? AND s.expires_at > ?
@@ -129,6 +139,10 @@ export async function getSessionUser(
     `).bind(tokenHash, now).first<SessionUserRow>();
 
     if (!row) return null;
+    const utcDay = Math.floor(now / 86_400_000);
+    if (!row.last_seen_at || Math.floor(row.last_seen_at / 86_400_000) < utcDay) {
+        await db.prepare('UPDATE users SET last_seen_at = ? WHERE id = ?').bind(now, row.id).run();
+    }
     return {
         id: row.id,
         provider: row.provider,

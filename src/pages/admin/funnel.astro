@@ -1,0 +1,120 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import { loadFunnel, parseFunnelRange } from '../../lib/server/analytics-query';
+import { getAdminUserIds, requireDatabase } from '../../lib/server/runtime-env';
+import { getCookieSessionUser } from '../../lib/server/route-auth';
+
+export const prerender = false;
+
+const user = await getCookieSessionUser(Astro.cookies, requireDatabase());
+if (!user || !getAdminUserIds().has(user.id)) {
+    return new Response('Not found', { status: 404 });
+}
+
+Astro.response.headers.set('Cache-Control', 'private, max-age=300');
+const range = parseFunnelRange(Astro.url.searchParams.get('range'));
+const rangeMs = { '24h': 86_400_000, '7d': 604_800_000, '30d': 2_592_000_000 }[range];
+const cutoff = Date.now() - rangeMs;
+const activeCutoff = Date.now() - 604_800_000;
+const db = requireDatabase();
+
+const analyticsPromise = loadFunnel(range);
+const d1Promise = db.batch<{ count: number }>([
+    db.prepare('SELECT COUNT(*) AS count FROM users'),
+    db.prepare('SELECT COUNT(*) AS count FROM users WHERE created_at >= ?').bind(cutoff),
+    db.prepare('SELECT COUNT(*) AS count FROM users WHERE last_seen_at >= ?').bind(activeCutoff),
+]);
+const [{ data: funnel, error: analyticsError }, d1Results] = await Promise.all([analyticsPromise, d1Promise]);
+const { shown, started, completed, providers: providerRows, triggers: triggerRows, outbound: outboundRows } = funnel;
+const rate = (numerator: number, denominator: number) => denominator
+    ? `${((numerator / denominator) * 100).toFixed(1)}%`
+    : '—';
+const totalUsers = d1Results[0]?.results?.[0]?.count ?? 0;
+const newUsers = d1Results[1]?.results?.[0]?.count ?? 0;
+const activeUsers = d1Results[2]?.results?.[0]?.count ?? 0;
+---
+
+<DashboardLayout
+    title="Funnel Analytics | ai.dosa.dev"
+    description="Private signup funnel analytics."
+    robots="noindex, nofollow"
+    activeNav="admin"
+>
+    <div class="max-w-[1100px] mx-auto w-full p-5 md:p-8">
+        <header class="flex flex-wrap items-end justify-between gap-4 mb-8">
+            <div>
+                <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-[#737373] mb-2">Private dashboard</p>
+                <h1 class="text-2xl md:text-3xl font-semibold">Signup funnel</h1>
+                <p class="text-[#737373] text-xs mt-2">Analytics Engine counts are sampling-corrected estimates.</p>
+            </div>
+            <nav class="flex gap-2" aria-label="Analytics range">
+                {(['24h', '7d', '30d'] as const).map(value => (
+                    <a href={`/admin/funnel?range=${value}`} class={`px-3 py-2 rounded-md border text-sm ${range === value ? 'border-white bg-white text-black' : 'border-[#333] text-[#a3a3a3] hover:text-white'}`}>{value}</a>
+                ))}
+            </nav>
+        </header>
+
+        {analyticsError && (
+            <div class="border border-amber-400/20 bg-amber-400/[0.06] text-amber-200 rounded-lg p-4 mb-6">
+                {analyticsError}
+            </div>
+        )}
+
+        <section class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
+            {[
+                ['Total users', totalUsers],
+                [`New users (${range})`, newUsers],
+                ['Active users (7d)', activeUsers],
+            ].map(([label, value]) => (
+                <div class="border border-[#222] bg-white/[0.02] rounded-lg p-5">
+                    <p class="text-[#737373] text-xs mb-2">{label}</p>
+                    <p class="font-mono text-2xl text-white">{value}</p>
+                </div>
+            ))}
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
+            {[
+                ['Modal shown', shown, '—'],
+                ['Sign-in started', started, rate(started, shown)],
+                ['Sign-in completed', completed, rate(completed, started)],
+            ].map(([label, value, conversion]) => (
+                <div class="border border-[#222] bg-white/[0.02] rounded-lg p-5">
+                    <p class="text-[#737373] text-xs mb-2">{label}</p>
+                    <div class="flex items-baseline justify-between gap-3">
+                        <p class="font-mono text-2xl text-white">{value}</p>
+                        <p class="font-mono text-sm text-[#c9aa6e]">{conversion}</p>
+                    </div>
+                </div>
+            ))}
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <section class="border border-[#222] rounded-lg overflow-hidden">
+                <h2 class="font-semibold px-5 py-4 border-b border-[#222]">Provider conversion</h2>
+                <table class="w-full text-sm">
+                    <thead class="text-[#737373] text-left"><tr><th class="px-5 py-3">Provider</th><th>Started</th><th>Completed</th><th>Rate</th></tr></thead>
+                    <tbody>{providerRows.map(row => <tr class="border-t border-[#1a1a1a]"><td class="px-5 py-3 capitalize">{row.provider}</td><td>{row.started}</td><td>{row.completed}</td><td>{rate(row.completed, row.started)}</td></tr>)}</tbody>
+                </table>
+            </section>
+
+            <section class="border border-[#222] rounded-lg overflow-hidden">
+                <h2 class="font-semibold px-5 py-4 border-b border-[#222]">Gate-to-signup by trigger</h2>
+                <table class="w-full text-sm">
+                    <thead class="text-[#737373] text-left"><tr><th class="px-5 py-3">Trigger</th><th>Blocked</th><th>Completed</th></tr></thead>
+                    <tbody>{triggerRows.map(row => <tr class="border-t border-[#1a1a1a]"><td class="px-5 py-3 font-mono">{row.trigger}</td><td>{row.blocked}</td><td>{row.completed}</td></tr>)}</tbody>
+                </table>
+            </section>
+        </div>
+
+        <section class="border border-[#222] rounded-lg overflow-hidden">
+            <h2 class="font-semibold px-5 py-4 border-b border-[#222]">Top outbound tool clicks</h2>
+            {outboundRows.length ? (
+                <table class="w-full text-sm">
+                    <thead class="text-[#737373] text-left"><tr><th class="px-5 py-3">Tool</th><th>Clicks</th></tr></thead>
+                    <tbody>{outboundRows.map(([slug, clicks]) => <tr class="border-t border-[#1a1a1a]"><td class="px-5 py-3"><a href={`/tools/${slug}`} class="hover:underline">{slug}</a></td><td>{clicks}</td></tr>)}</tbody>
+                </table>
+            ) : <p class="text-[#737373] p-5">No outbound clicks in this range.</p>}
+        </section>
+    </div>
+</DashboardLayout>

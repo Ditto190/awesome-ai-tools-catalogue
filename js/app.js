@@ -4,6 +4,7 @@
  */
 
 import { initRenderer, renderTools, hydrateGrid, setFavoriteContext, setVotingContext, refreshVotingButtons } from './renderer.js';
+import { authAttribution } from './auth-attribution.js';
 import { CollapsedSidebar } from './collapsed-sidebar.js';
 import { initGradientSelection } from './gradient-selection.js';
 import { initFilterManager } from './modules/filter-manager.js';
@@ -25,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('openSidebarDesktop')?.click();
             setTimeout(() => document.getElementById('searchInput')?.focus(), 300);
         },
-        onSignInClick: () => document.getElementById('signInTriggerBtn')?.click(),
+        onSignInClick: () => authAttribution.open('sidebar'),
         onUserClick: () => document.getElementById('userProfileBtn')?.click()
     });
 
@@ -96,7 +97,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // then strip the param so a refresh doesn't reopen it
         const signinParams = new URLSearchParams(window.location.search);
         if (signinParams.has('signin')) {
-            document.getElementById('signInTriggerBtn')?.click();
+            authAttribution.open(authAttribution.current());
             signinParams.delete('signin');
             const qs = signinParams.toString();
             window.history.replaceState(null, '', window.location.pathname + (qs ? `?${qs}` : ''));
@@ -105,11 +106,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const { auth } = await import('./auth.js');
         favorites.initFavorites({
             isAuthenticated: () => auth.isAuthenticated(),
-            onSignIn: () => {
-                const trigger = document.getElementById('signInTriggerBtn');
-                if (trigger) trigger.click();
-                else window.location.href = '/?signin=1';
-            },
             onUnauthorized: () => auth.signOut()
         });
         setFavoriteContext({ refreshFavoriteButtons: favorites.refreshFavoriteButtons });

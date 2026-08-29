@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 const migration1 = new URL('../../../migrations/0001_accounts_and_favorites.sql', import.meta.url);
 const migration2 = new URL('../../../migrations/0002_flatten_user_identity.sql', import.meta.url);
 const migration3 = new URL('../../../migrations/0003_enforce_flattened_user_identity.sql', import.meta.url);
+const migration4 = new URL('../../../migrations/0004_user_activity_columns.sql', import.meta.url);
 
 function applyMigration(db: Database, migration: URL) {
     const statements = readFileSync(migration, 'utf8')
@@ -28,6 +29,18 @@ function insertLegacyUser(db: Database, withIdentity = true) {
 }
 
 describe('accounts and favorites migrations', () => {
+    test('adds durable user activity columns and backfills last seen', () => {
+        const db = new Database(':memory:');
+        applyMigration(db, migration1);
+        insertLegacyUser(db);
+        applyMigration(db, migration2);
+        applyMigration(db, migration3);
+        applyMigration(db, migration4);
+
+        expect(db.query('SELECT last_seen_at FROM users').get()).toEqual({ last_seen_at: 1 });
+        expect(db.query("SELECT COUNT(*) AS count FROM sqlite_schema WHERE type = 'index' AND name IN ('users_created_at_idx', 'users_last_seen_at_idx')").get()).toEqual({ count: 2 });
+    });
+
     test('normalizes existing identities and preserves related rows', () => {
         const db = new Database(':memory:');
         applyMigration(db, migration1);

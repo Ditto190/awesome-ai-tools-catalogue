@@ -6,6 +6,9 @@ const database = {
         return {
             bind() {
                 return {
+                    async first() {
+                        return null;
+                    },
                     async run() {
                         if (failDelete) throw new Error('D1 unavailable');
                         return { success: true };

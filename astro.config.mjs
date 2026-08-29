@@ -21,7 +21,7 @@ export default defineConfig({
     integrations: [
         sitemap({
             // User-only pages are noindexed — keep them out of the sitemap too
-            filter: (page) => !page.includes('/settings') && !page.includes('/favorites') && !page.includes('/zap'),
+            filter: (page) => !page.includes('/settings') && !page.includes('/favorites') && !page.includes('/zap') && !page.includes('/admin'),
             serialize(item) {
                 const url = item.url;
                 if (/\/compare\/[^/]+\/$/.test(url) || /\/compare\/[^/]+$/.test(url)) {

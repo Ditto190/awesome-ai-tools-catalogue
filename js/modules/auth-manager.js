@@ -1,3 +1,6 @@
+import { EVENTS } from '../../src/lib/analytics-events.js';
+import { analytics } from '../analytics-client.js';
+import { authAttribution } from '../auth-attribution.js';
 import { auth } from '../auth.js';
 import { bindAuthSession } from '../auth-session-binding.js';
 
@@ -16,6 +19,8 @@ export function initAuthManager(callbacks) {
 
             if (signInTriggerBtn && signInModal) {
                 signInTriggerBtn.addEventListener('click', () => {
+                    const trigger = authAttribution.begin();
+                    analytics.track(EVENTS.SIGNIN_MODAL_SHOWN, { trigger });
                     signInModal.classList.remove('hidden');
                     // Render buttons only when modal opens to ensure container is ready
                     renderSignInButtons();

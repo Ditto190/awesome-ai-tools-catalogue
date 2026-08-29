@@ -7,6 +7,9 @@
     "binding": "ASSETS",
     "html_handling": "drop-trailing-slash"
   },
+  "version_metadata": {
+    "binding": "CF_VERSION_METADATA"
+  },
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1,
@@ -30,9 +33,19 @@
       "migrations_dir": "migrations"
     }
   ],
-  "vars": {},
+  "analytics_engine_datasets": [
+    {
+      "binding": "ANALYTICS",
+      "dataset": "aat_events"
+    }
+  ],
+  "vars": {
+    "CF_ACCOUNT_ID": "79a56f7656f972b064b9d4ec3662b8d0",
+    "ADMIN_USER_IDS": "github:2826376",
+    "ANALYTICS_DATASET": "aat_events"
+  },
   "secrets": {
-    "required": ["GOOGLE_CLIENT_ID", "GITHUB_CLIENT_ID", "GITHUB_CLIENT_SECRET"]
+    "required": ["GOOGLE_CLIENT_ID", "GITHUB_CLIENT_ID", "GITHUB_CLIENT_SECRET", "CF_ANALYTICS_TOKEN"]
   },
   "env": {
     "staging": {
@@ -40,6 +53,9 @@
       "assets": {
         "binding": "ASSETS",
         "html_handling": "drop-trailing-slash"
+      },
+      "version_metadata": {
+        "binding": "CF_VERSION_METADATA"
       },
       "d1_databases": [
         {
@@ -50,9 +66,19 @@
           "remote": true
         }
       ],
-      "vars": {},
+      "analytics_engine_datasets": [
+        {
+          "binding": "ANALYTICS",
+          "dataset": "aat_events_staging"
+        }
+      ],
+      "vars": {
+        "CF_ACCOUNT_ID": "79a56f7656f972b064b9d4ec3662b8d0",
+        "ADMIN_USER_IDS": "github:2826376,github:local-staging-tester",
+        "ANALYTICS_DATASET": "aat_events_staging"
+      },
       "secrets": {
-        "required": ["GOOGLE_CLIENT_ID", "GITHUB_CLIENT_ID", "GITHUB_CLIENT_SECRET"]
+        "required": ["GOOGLE_CLIENT_ID", "GITHUB_CLIENT_ID", "GITHUB_CLIENT_SECRET", "CF_ANALYTICS_TOKEN"]
       }
     }
   }

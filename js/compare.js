@@ -1,3 +1,5 @@
+import { EVENTS } from '../src/lib/analytics-events.js';
+import { analytics } from './analytics-client.js';
 import * as cache from './tool-cache.js';
 
 const ENRICHED_URL = '/data/enriched-tools.json';
@@ -213,6 +215,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     renderCompareGrid();
+    analytics.track(EVENTS.COMPARE_BUILT, {
+        trigger: 'comparison',
+        subject: toolsToCompare.map(tool => tool.slug).join(','),
+        value: toolsToCompare.length,
+    });
 
     if (ENABLE_VOTING) {
         const bootstrapVoting = async () => {

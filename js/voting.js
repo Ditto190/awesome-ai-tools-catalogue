@@ -1,3 +1,6 @@
+import { EVENTS } from '../src/lib/analytics-events.js';
+import { analytics } from './analytics-client.js';
+import { authAttribution } from './auth-attribution.js';
 import { auth } from './auth.js';
 
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:8080';
@@ -82,6 +85,8 @@ export async function initVoting() {
 
         // Require authentication to vote
         if (!auth.isAuthenticated()) {
+            analytics.track(EVENTS.GATE_BLOCKED, { trigger: 'zap_btn', subject: toolId });
+            authAttribution.open('zap_btn');
             const countEl = btn.querySelector('.zap-count');
             const originalTip = btn.dataset.tip;
             btn.dataset.tip = "Sign in to vote!";
@@ -228,5 +233,8 @@ async function castVote(toolId, toolName, voterId, btn) {
             }
         }
         console.error('Failed to cast vote', response.status);
+        return;
     }
+
+    analytics.track(EVENTS.ZAP_CAST, { trigger: 'zap_btn', subject: toolId });
 }

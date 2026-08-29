@@ -20,6 +20,29 @@ export function getGitHubClientSecret(): string {
     return configuredValue(env.GITHUB_CLIENT_SECRET, import.meta.env.GITHUB_CLIENT_SECRET, process.env.GITHUB_CLIENT_SECRET);
 }
 
+export function getCloudflareAccountId(): string {
+    return configuredValue(env.CF_ACCOUNT_ID, process.env.CF_ACCOUNT_ID);
+}
+
+export function getCloudflareAnalyticsToken(): string {
+    return configuredValue(env.CF_ANALYTICS_TOKEN, process.env.CF_ANALYTICS_TOKEN);
+}
+
+export function getAnalyticsDataset(): 'aat_events' | 'aat_events_staging' {
+    const value = configuredValue(env.ANALYTICS_DATASET, process.env.ANALYTICS_DATASET);
+    if (value === 'aat_events' || value === 'aat_events_staging') return value;
+    throw new Error('Analytics dataset is not configured');
+}
+
+export function getAdminUserIds(): Set<string> {
+    const ids = new Set(configuredValue(env.ADMIN_USER_IDS, process.env.ADMIN_USER_IDS)
+        .split(',')
+        .map(value => value.trim())
+        .filter(Boolean));
+    if (import.meta.env.DEV) ids.add('github:local-staging-tester');
+    return ids;
+}
+
 export function requireDatabase(): Database {
     const db = env.DB;
     if (!db) throw new Error('D1 binding DB is not configured');

@@ -108,7 +108,6 @@ export async function initializeFavoritesPage({
 
     initializeFavorites({
         isAuthenticated: () => authManager.isAuthenticated(),
-        onSignIn: () => { window.location.href = '/?signin=1'; },
         onUnauthorized: () => authManager.signOut(),
     });
 

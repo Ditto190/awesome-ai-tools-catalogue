@@ -360,7 +360,7 @@ const jsonLd = JSON.stringify(jsonLdObj);
                                 <a href={`/category/${getCategorySlug(tool.categoryShort)}`} class="inline-flex items-center py-2.5 px-4 bg-white/5 text-white text-sm font-medium border border-[#333] rounded-md transition-all hover:bg-white/10 whitespace-nowrap">
                                     Compare {tool.categoryShort}
                                 </a>
-                                <a href="/?signin=1" class="inline-flex items-center py-2.5 px-4 bg-white text-black text-sm font-semibold rounded-md transition-all hover:bg-gray-200 whitespace-nowrap">
+                                <a href="/?signin=1" data-auth-trigger="favorite_heart" class="inline-flex items-center py-2.5 px-4 bg-white text-black text-sm font-semibold rounded-md transition-all hover:bg-gray-200 whitespace-nowrap">
                                     Sign in to save
                                 </a>
                             </div>

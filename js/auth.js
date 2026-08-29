@@ -1,4 +1,7 @@
+import { EVENTS } from '../src/lib/analytics-events.js';
 import { resolveAuthReturnPath } from '../src/lib/auth-session.js';
+import { analytics } from './analytics-client.js';
+import { authAttribution } from './auth-attribution.js';
 import { sessionClient } from './session-client.js';
 
 const LOOPBACK_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]', '::1']);
@@ -118,6 +121,7 @@ export class AuthManager {
     }
 
     async _handleGoogleCredential(response) {
+        analytics.track(EVENTS.SIGNIN_STARTED, { provider: 'google', trigger: authAttribution.current() });
         try {
             return await this._queueSessionMutation(async () => {
                 this.user = await this.sessions.createGoogle(response.credential);
@@ -166,6 +170,7 @@ export class AuthManager {
         container.querySelector('#devSignInBtnEl').addEventListener('click', async event => {
             const button = event.currentTarget;
             button.disabled = true;
+            analytics.track(EVENTS.SIGNIN_STARTED, { provider: 'dev', trigger: authAttribution.current() });
             try {
                 await this._queueSessionMutation(async () => {
                     this.user = await this.sessions.createDev();
@@ -190,6 +195,7 @@ export class AuthManager {
         if (!this.GITHUB_CLIENT_ID) return;
         await this.sessionMutation;
 
+        analytics.track(EVENTS.SIGNIN_STARTED, { provider: 'github', trigger: authAttribution.current() });
         const state = this._generateState();
         const originPath = resolveAuthReturnPath(window.location.pathname);
         const secureCookie = window.location.protocol === 'https:' ? '; Secure' : '';
@@ -263,6 +269,7 @@ export class AuthManager {
                 console.error('[Auth] Error in auth listener:', listenerError);
             }
         });
+        if (event === 'signin') authAttribution.clear();
     }
 
     showOneTap() {

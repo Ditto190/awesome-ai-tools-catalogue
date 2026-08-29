@@ -1,4 +1,6 @@
 import type { APIRoute } from 'astro';
+import { EVENTS } from '../../../lib/analytics-events.js';
+import { trackRequest } from '../../../lib/server/analytics';
 import { addFavorite, removeFavorite } from '../../../lib/server/favorites-repository';
 import { isAllowedMutationRequest, jsonError } from '../../../lib/server/request-security';
 import { requireDatabase } from '../../../lib/server/runtime-env';
@@ -20,6 +22,14 @@ export const PUT: APIRoute = async ({ request, cookies, params }) => {
         if (!user) return jsonError('Unauthorized', 401);
 
         const result = await addFavorite(db, user.id, params.slug);
+        if (result.created) {
+            trackRequest(request, EVENTS.FAVORITE_ADDED, {
+                userId: user.id,
+                provider: user.provider,
+                trigger: 'favorite_heart',
+                subject: params.slug,
+            });
+        }
         return Response.json(result, {
             status: result.created ? 201 : 200,
             headers: { 'Cache-Control': 'private, no-store' },
@@ -39,7 +49,15 @@ export const DELETE: APIRoute = async ({ request, cookies, params }) => {
         const user = await getCookieSessionUser(cookies, db);
         if (!user) return jsonError('Unauthorized', 401);
 
-        await removeFavorite(db, user.id, params.slug);
+        const removed = await removeFavorite(db, user.id, params.slug);
+        if (removed) {
+            trackRequest(request, EVENTS.FAVORITE_REMOVED, {
+                userId: user.id,
+                provider: user.provider,
+                trigger: 'favorite_heart',
+                subject: params.slug,
+            });
+        }
         return new Response(null, {
             status: 204,
             headers: { 'Cache-Control': 'private, no-store' },
