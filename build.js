@@ -45,6 +45,7 @@ const result = await build({
         './js/app.js',
         './js/dashboard.js',
         './js/favorites-page.js',
+        './js/settings-page.js',
         './js/compare.js',
         './js/blog.js',
         './js/site-analytics.js',
@@ -53,6 +54,7 @@ const result = await build({
         './js/hallucination-scorer.js',
     ],
     outdir: './public/dist',
+    root: './js',
     splitting: true,
     minify: true,
     define: {
