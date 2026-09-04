@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "astro:dev": "bun run css:build && bun run js:build && astro dev",
-    "astro:build": "bun run css:build && bun run js:build && bun scripts/assert-parser-parity.ts && node scripts/generate-og-images.js && astro build",
+    "astro:build": "bun run css:build && bun run js:build && bun scripts/assert-parser-parity.ts && node scripts/generate-og-images.js && astro build && node scripts/verify-worker-bundle.mjs",
     "astro:preview": "astro preview",
     "css:build": "tailwindcss -i ./src/input.css -o ./public/css/output.css --minify",
     "css:watch": "tailwindcss -i ./src/input.css -o ./public/css/output.css --watch",
@@ -14,7 +14,7 @@
     "dev": "bun run astro:dev",
     "dev:staging": "CLOUDFLARE_ENV=staging bun run astro:dev",
     "dev:js": "bun run build.js",
-    "test": "bun test",
+    "test": "bun test --isolate",
     "test:watch": "bun test --watch js/*.test.js",
     "report:enrichment": "node scripts/report-enrichment-status.js --markdown",
     "validate:slugs": "node scripts/check-slugs-sync.js",
