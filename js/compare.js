@@ -21,6 +21,82 @@ let isAuthenticated = () => false;
 let html2canvasModule = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Share / Export buttons work regardless of ?tools= selection
+    const shareBtn = document.getElementById('shareCompareBtn');
+    const shareBtnText = document.getElementById('shareBtnText');
+    const exportBtn = document.getElementById('exportCompareBtn');
+
+    if (shareBtn) {
+        shareBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                shareBtnText.textContent = 'Copied!';
+                shareBtn.classList.add('text-[#a78bfa]', 'border-[#a78bfa]');
+                setTimeout(() => {
+                    shareBtnText.textContent = 'Share';
+                    shareBtn.classList.remove('text-[#a78bfa]', 'border-[#a78bfa]');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy', err);
+                alert('Failed to copy link.');
+            }
+        });
+    }
+
+    if (exportBtn) {
+        exportBtn.addEventListener('click', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const toolsParam = params.get('tools');
+            const slugs = (toolsParam ? toolsParam.split(',') : []).filter(Boolean);
+            if (!slugs.length) {
+                alert('Select at least one tool to compare before exporting.');
+                return;
+            }
+            const grid = document.getElementById('compareGrid');
+            if (!grid) return;
+            const originalStyle = grid.style.cssText;
+            grid.style.background = '#000';
+            grid.style.padding = '24px';
+            grid.style.borderRadius = '12px';
+            const zapBtns = grid.querySelectorAll('.zap-btn');
+            const originalZapStyles = [];
+            zapBtns.forEach(btn => {
+                originalZapStyles.push(btn.style.backgroundColor);
+                btn.style.backgroundColor = '#1a1a1a';
+            });
+            const originalText = exportBtn.innerHTML;
+            exportBtn.innerHTML = '<span class="animate-pulse">Exporting...</span>';
+            exportBtn.disabled = true;
+            try {
+                if (!html2canvasModule) {
+                    const mod = await import('html2canvas');
+                    html2canvasModule = mod.default;
+                }
+                const canvas = await html2canvasModule(grid, {
+                    backgroundColor: '#000000',
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
+                });
+                const image = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = `ai-tools-compare-${slugs.join('-vs-')}.png`;
+                link.href = image;
+                link.click();
+            } catch (err) {
+                console.error('Failed to export image', err);
+                alert('Failed to export image. Please try again.');
+            } finally {
+                grid.style.cssText = originalStyle;
+                exportBtn.innerHTML = originalText;
+                exportBtn.disabled = false;
+                zapBtns.forEach((btn, index) => {
+                    btn.style.backgroundColor = originalZapStyles[index];
+                });
+            }
+        });
+    }
+
     const params = new URLSearchParams(window.location.search);
     const toolsParam = params.get('tools');
     if (!toolsParam) {
@@ -251,84 +327,5 @@ document.addEventListener('DOMContentLoaded', async () => {
                 bootstrapVoting();
             }, 0);
         }
-    }
-
-    // Add Share and Export functionality
-    const shareBtn = document.getElementById('shareCompareBtn');
-    const shareBtnText = document.getElementById('shareBtnText');
-    const exportBtn = document.getElementById('exportCompareBtn');
-
-    if (shareBtn) {
-        shareBtn.addEventListener('click', async () => {
-            try {
-                await navigator.clipboard.writeText(window.location.href);
-                shareBtnText.textContent = 'Copied!';
-                shareBtn.classList.add('text-[#a78bfa]', 'border-[#a78bfa]');
-                setTimeout(() => {
-                    shareBtnText.textContent = 'Share';
-                    shareBtn.classList.remove('text-[#a78bfa]', 'border-[#a78bfa]');
-                }, 2000);
-            } catch (err) {
-                console.error('Failed to copy', err);
-            }
-        });
-    }
-
-    if (exportBtn) {
-        exportBtn.addEventListener('click', async () => {
-            if (!grid) return;
-
-            // Temporary styling for capture
-            const originalStyle = grid.style.cssText;
-            grid.style.background = '#000'; // Ensure dark background
-            grid.style.padding = '24px';
-            grid.style.borderRadius = '12px';
-
-            // html2canvas doesn't support color-mix() from Tailwind v4 (e.g. bg-white/[0.03])
-            // So we temporarily set a solid hex background for zap buttons
-            const zapBtns = grid.querySelectorAll('.zap-btn');
-            const originalZapStyles = [];
-            zapBtns.forEach(btn => {
-                originalZapStyles.push(btn.style.backgroundColor);
-                btn.style.backgroundColor = '#1a1a1a';
-            });
-
-            // Show loading state
-            const originalText = exportBtn.innerHTML;
-            exportBtn.innerHTML = '<span class="animate-pulse">Exporting...</span>';
-            exportBtn.disabled = true;
-
-            try {
-                if (!html2canvasModule) {
-                    const mod = await import('html2canvas');
-                    html2canvasModule = mod.default;
-                }
-
-                const canvas = await html2canvasModule(grid, {
-                    backgroundColor: '#000000',
-                    scale: 2, // Higher resolution
-                    useCORS: true,
-                    logging: false
-                });
-
-                // Create download link
-                const image = canvas.toDataURL("image/png");
-                const link = document.createElement('a');
-                link.download = `ai-tools-compare-${slugs.join('-vs-')}.png`;
-                link.href = image;
-                link.click();
-            } catch (err) {
-                console.error('Failed to export image', err);
-                alert('Failed to export image. Please try again.');
-            } finally {
-                // Restore styling and button state
-                grid.style.cssText = originalStyle;
-                exportBtn.innerHTML = originalText;
-                exportBtn.disabled = false;
-                zapBtns.forEach((btn, index) => {
-                    btn.style.backgroundColor = originalZapStyles[index];
-                });
-            }
-        });
     }
 });
