@@ -1,0 +1,78 @@
+---
+title: "Anthropic ships Fable 5.1 and Mythos 5.1 with tiered safeguards"
+description: "Anthropic splits one model into two access tiers, Temporal hits a $12.55B valuation, OpenAI buys Glass Imaging, and the Ninth Circuit backs browser agents."
+pubDate: 2026-09-15
+tags: ["news","today-in-ai","anthropic","funding","agents","open-weights","infrastructure"]
+draft: false
+featured: false
+---
+
+This brief covers AI news from 2026-09-15 UTC.
+
+A frontier release with two doors, a workflow company that just doubled its valuation, and a court ruling that changes how agents are allowed to browse.
+
+## Anthropic splits Fable 5.1 and Mythos 5.1 by safeguard tier
+
+**What happened:** Anthropic launched Claude Fable 5.1 and Claude Mythos 5.1 as two access tiers of the same underlying model, separated by safeguard levels. Fable 5.1 is broadly available on AWS, Google Cloud and Azure; Mythos 5.1 is restricted to trusted-access programs and currently only for US organizations.
+
+**Why it matters:** If your workloads are cache-heavy, the pricing change is the part that hits your bill, and the trusted-access tier decides whether you can even call the restricted model.
+
+[Source: PulseAugur](<https://pulseaugur.com/cluster/252599-anthropic-releases-claude-fable-5-1-and-mythos-5-1-with-tiered-safeguards>)
+
+## Temporal raises $550M at a $12.55B valuation
+
+**What happened:** Temporal said it raised $550 million in a late-stage round led by Lightspeed, more than doubling its valuation to $12.55 billion in seven months. The company sells open-source software that helps applications, including AI agents, recover from failure instead of requiring engineers to write custom recovery logic.
+
+**Why it matters:** Durable execution is the plumbing under long-running agents, so a well-funded Temporal means more tooling for retries and recovery without hand-rolled state machines.
+
+[Source: Reuters](<https://www.reuters.com/business/temporals-valuation-spikes-126-billion-lightspeed-led-funding-round-2026-09-14/>)
+
+## OpenAI buys Glass Imaging for over $300 million
+
+**What happened:** OpenAI has bought smartphone camera maker Glass Imaging in a deal worth over $300 million, according to a Wall Street Journal report. Glass Imaging was founded in 2019 in Los Altos and had raised about $30 million. OpenAI did not immediately respond to a request for comment.
+
+**Why it matters:** It is a hardware-side acquisition, not a model one, so it says little about your API surface but plenty about where OpenAI is putting capital next.
+
+[Source: TechCrunch](<https://techcrunch.com/2026/09/14/openai-buys-smartphone-camera-maker-glass-imaging-for-300-million-report-says/>)
+
+## Ninth Circuit vacates injunction against Perplexity's Comet agent
+
+**What happened:** The Ninth Circuit vacated the preliminary injunction that had kept Perplexity's Comet browser assistant out of Amazon shopping accounts, ruling that the user, not Perplexity, accesses Amazon's computers under the Computer Fraud and Abuse Act. The opinion in Amazon.com Services v. Perplexity AI, No. 26-1444, issued August 4.
+
+**Why it matters:** Agent builders get a legal data point: architectures that relay requests through the user's own device and session sit differently under the CFAA than agents calling sites from your servers.
+
+[Source: byteiota](<https://byteiota.com/amazon-v-perplexity-cfaa-what-ai-agent-builders-need/>)
+
+## SiliconFlow opens an API door to Tencent's 770B Hy4 preview
+
+**What happened:** SiliconFlow announced that Hy4 preview, a Tencent Hunyuan model with roughly 770 billion total parameters and about 49 billion activated per token, is available on its platform. The model supports contexts up to 1 million tokens and is open under Apache 2.0.
+
+**Why it matters:** You can now evaluate a 770B open-weight model through an API instead of provisioning multi-card infrastructure, which makes the try-before-you-build decision much cheaper.
+
+[Source: ToolNavs](<https://toolnavs.com/article/2009-siliconflow-launches-hy4-preview-770b-open-source-model-adds-new-api-entry>)
+
+## Bolt.new launches Forge with 50X more open-model usage
+
+**What happened:** Bolt.new launched Bolt Forge, a research preview running September 14 to October 14, that gives every individual Pro plan 50X more usage on open models at no extra cost. Builders who opt in share anonymized sessions, which go to Arcee AI to help train a trillion-parameter-class open-weight model.
+
+**Why it matters:** The trade is explicit: cheaper open-model capacity in exchange for your build sessions, so read the opt-in before you ship anything you would rather not contribute.
+
+[Source: Bolt.new](<https://www.businesswire.com/news/home/20260914296571/en/Bolt.new-Launches-Forge-to-Widen-Who-Gets-to-Build-with-AI-and-to-Train-Open-Models-on-What-They-Make>)
+
+## Cornelis raises $205M for chip-to-chip networking fabric
+
+**What happened:** Cornelis, which spun out of Intel in 2020, raised $205 million in a round led by IAG Capital Partners and announced Active Compute Fabric, networking technology that lets chips process and send information at the same time. The company says it is already shipping the product.
+
+**Why it matters:** GPU time lost waiting on data is a real line item, so an open networking fabric that works across accelerator vendors is worth watching if you rent compute by the hour.
+
+[Source: TechCrunch](<https://techcrunch.com/2026/09/14/ai-infrastructure-company-cornelis-raises-205m-to-chip-away-at-nvidias-dominance/>)
+
+## Sources
+
+- [PulseAugur](<https://pulseaugur.com/cluster/252599-anthropic-releases-claude-fable-5-1-and-mythos-5-1-with-tiered-safeguards>)
+- [Reuters](<https://www.reuters.com/business/temporals-valuation-spikes-126-billion-lightspeed-led-funding-round-2026-09-14/>)
+- [TechCrunch](<https://techcrunch.com/2026/09/14/openai-buys-smartphone-camera-maker-glass-imaging-for-300-million-report-says/>)
+- [byteiota](<https://byteiota.com/amazon-v-perplexity-cfaa-what-ai-agent-builders-need/>)
+- [ToolNavs](<https://toolnavs.com/article/2009-siliconflow-launches-hy4-preview-770b-open-source-model-adds-new-api-entry>)
+- [Bolt.new](<https://www.businesswire.com/news/home/20260914296571/en/Bolt.new-Launches-Forge-to-Widen-Who-Gets-to-Build-with-AI-and-to-Train-Open-Models-on-What-They-Make>)
+- [TechCrunch](<https://techcrunch.com/2026/09/14/ai-infrastructure-company-cornelis-raises-205m-to-chip-away-at-nvidias-dominance/>)
