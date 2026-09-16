@@ -1,0 +1,78 @@
+---
+title: "Salesforce and NVIDIA Ship Koa, a CRM Reasoning Model"
+description: "Salesforce and NVIDIA post-train Koa on Nemotron for Agentforce, Factory triples its valuation to $5B, and IBM opens a 385M forecasting model."
+pubDate: 2026-09-16
+tags: ["news","today-in-ai","salesforce","nvidia","coding-agents","open-weights","funding","infrastructure"]
+draft: false
+featured: false
+---
+
+This brief covers AI news from 2026-09-16 UTC.
+
+Enterprise AI got its own reasoning model today, coding agents pulled in another giant round, and two open-weight releases landed for builders.
+
+## Salesforce and NVIDIA launch Koa, a CRM reasoning model
+
+**What happened:** Salesforce and NVIDIA announced Koa, Salesforce's first CRM reasoning model for Agentforce, built by post-training NVIDIA Nemotron 3 Super on a synthetic dataset modeled on nearly three decades of CRM deployments. Salesforce says Koa matches or exceeds leading models on its CRM benchmark with three times fewer errors.
+
+**Why it matters:** Teams building Agentforce agents get a Salesforce-hosted reasoning option that keeps prompts and customer data inside the platform instead of routing long multi-step tasks to a frontier API.
+
+[Source: Salesforce](<https://www.salesforce.com/news/press-releases/2026/09/15/koa-reasoning-model/>)
+
+## Factory raises $200M and triples valuation to $5 billion
+
+**What happened:** Factory, which builds autonomous coding agents for large engineering organizations, raised $200 million in a round that lifts its valuation to $5 billion, the company confirmed Tuesday. Reuters reports the valuation tripled from earlier this year.
+
+**Why it matters:** Agentic coding is now a funded enterprise line item, so expect more orchestration tooling competing for the pull-request and code-review layer of your stack.
+
+[Source: Reuters](<https://www.reuters.com/business/ai-coding-agent-startup-factory-triples-valuation-5-billion-latest-funding-round-2026-09-15/>)
+
+## Alibaba's Accio Team ships open-weights agent Occamy-1.0
+
+**What happened:** The Accio Team, a research group inside Alibaba, released Occamy-1.0, an open-weights agent model for long-horizon multi-step work, updated on Hugging Face with checkpoint data, a subset of training data, and the open-sourced Dressage training infrastructure. The report says it tops frontier rivals on Claw-Eval with 3B active parameters.
+
+**Why it matters:** A self-hostable agent model at 3B active parameters gives teams a way to run co-work style automation on their own hardware instead of paying per-token for frontier agents.
+
+[Source: Tech Times](<https://www.techtimes.com/articles/327532/20260915/alibaba-releases-open-weights-ai-agent-claiming-frontier-co-work-scores-3b-active-parameters.htm>)
+
+## IBM releases Granite PatchTST-FM-r2 for time-series forecasting
+
+**What happened:** IBM launched Granite PatchTST-FM-r2, a 385 million-parameter model for zero-shot time-series forecasting, missing-value imputation, and probabilistic predictions. IBM reports a geometric-mean CRPS of 0.467 and MASE of 0.6846 on GIFT-Eval, ranking highest among permissively licensed replicable models as of September 8, 2026.
+
+**Why it matters:** Forecasting and imputation workloads that previously needed custom training can now start from downloadable weights with a permissive license and reproducible eval numbers.
+
+[Source: Geek Salad](<https://geeksalad.org/ibm-s-latest-ai-model-granite-patchtst-fm-r2-offers-state-of-the-art-performance/>)
+
+## Coder brings Claude Code to self-hosted Agent Relay
+
+**What happened:** Coder announced Claude Code support in its Agent Relay, the self-hosted execution environment for cloud coding agents launched last week. Claude Code agents run inside Coder workspaces on the customer's cloud, VPC, or on-premises environment, with Anthropic still handling billing and the agent loop.
+
+**Why it matters:** Regulated teams that could not let an autonomous agent touch source code off-premises can now run Claude Code behind their own network egress policy with full audit logs.
+
+[Source: Coder](<https://www.globenewswire.com/news-release/2026/09/15/3362210/0/en/coder-brings-claude-code-to-agent-relay-unlocking-agentic-development-for-the-world-s-most-regulated-enterprises.html>)
+
+## Google puts Agent Substrate on GKE for million-sandbox agent runs
+
+**What happened:** Google announced the availability of Agent Substrate on Google Kubernetes Engine, an open-source agent execution runtime it says runs millions of sandboxes at 10x higher density than standard container runtimes, with sub-500ms resume and over 500 suspend/resume activations per second. Nous Research is building on it.
+
+**Why it matters:** Agent platforms that need thousands of concurrent sandboxes per minute get a kernel-isolated runtime on standard Kubernetes instead of hand-rolling isolation and network controls.
+
+[Source: Google Cloud Blog](<http://sechub.in/view/3291730>)
+
+## TypeSafe AI launches Jev, a model that returns typed decisions
+
+**What happened:** TypeSafe AI, a startup with $40 million in funding, released Jev, a model that returns typed probabilistic decisions for other software instead of natural language. Developers feed it a state value and question primitives such as Choice, Score, and Noul, and it returns structured values with confidence scores.
+
+**Why it matters:** Structured outputs remove the parsing and validation layer from LLM calls, which makes constrained workflows like routing and triage more reliable to ship.
+
+[Source: The Register](<https://www.theregister.com/ai-and-ml/2026/09/16/typesafe-ai-debuts-model-for-machines-that-plays-doom/5296711>)
+
+## Sources
+
+- [Salesforce](<https://www.salesforce.com/news/press-releases/2026/09/15/koa-reasoning-model/>)
+- [Reuters](<https://www.reuters.com/business/ai-coding-agent-startup-factory-triples-valuation-5-billion-latest-funding-round-2026-09-15/>)
+- [Tech Times](<https://www.techtimes.com/articles/327532/20260915/alibaba-releases-open-weights-ai-agent-claiming-frontier-co-work-scores-3b-active-parameters.htm>)
+- [Geek Salad](<https://geeksalad.org/ibm-s-latest-ai-model-granite-patchtst-fm-r2-offers-state-of-the-art-performance/>)
+- [Coder](<https://www.globenewswire.com/news-release/2026/09/15/3362210/0/en/coder-brings-claude-code-to-agent-relay-unlocking-agentic-development-for-the-world-s-most-regulated-enterprises.html>)
+- [Google Cloud Blog](<http://sechub.in/view/3291730>)
+- [The Register](<https://www.theregister.com/ai-and-ml/2026/09/16/typesafe-ai-debuts-model-for-machines-that-plays-doom/5296711>)
