@@ -1,0 +1,78 @@
+---
+title: "Cohere and Aleph Alpha Merge as NVIDIA Debuts Vera Rubin"
+description: "Cohere and Aleph Alpha merge into a $20B enterprise AI company, NVIDIA's Vera Rubin NVL72 tops MLPerf, and OpenAI ships its Codex harness as a managed API."
+pubDate: 2026-09-17
+tags: ["news","today-in-ai","mergers","chips","agents","openai","research","copyright"]
+draft: false
+featured: false
+---
+
+This brief covers AI news from 2026-09-17 UTC.
+
+A transatlantic AI merger, a new NVIDIA rack at the top of MLPerf, and OpenAI turning its agent harness into a managed endpoint.
+
+## Cohere and Aleph Alpha sign merger to build $20B AI company
+
+**What happened:** Cohere and Aleph Alpha signed a definitive merger agreement. The combined company keeps the Cohere brand with dual headquarters in Toronto and Berlin, and Aleph Alpha co-chief Ilhan Scheer becomes COO. Schwarz Group will invest 500 million euros and up to 13 billion euros in compute through StackIT.
+
+**Why it matters:** Enterprise buyers get one vendor spanning North America and Europe, with a large committed compute pool behind it, which changes the shortlist for teams needing a non-US-hosted model provider.
+
+[Source: Reuters](<https://www.reuters.com/legal/transactional/cohere-aleph-alpha-combine-target-enterprise-ai-market-2026-09-16/>)
+
+## NVIDIA Vera Rubin NVL72 debuts at the top of MLPerf Inference v6.1
+
+**What happened:** NVIDIA's Vera Rubin NVL72 made its first MLPerf Inference preview submission, reporting up to 3.7x higher throughput than GB300 NVL72 on Qwen3-VL using vLLM with Dynamo. A 288-GPU GB300 NVL72 submission hit 99% scaling efficiency, and software optimizations delivered up to 1.6x over v6.0.
+
+**Why it matters:** Higher throughput per rack and near-linear scaling lower the cost per token, so serving budgets stretch further before teams need to add hardware.
+
+[Source: NVIDIA](<https://blogs.nvidia.com/blog/vera-rubin-nvl72-mlperf-inference/>)
+
+## OpenAI turns the Codex harness into a managed Agents API
+
+**What happened:** OpenAI moved the Codex harness into public beta as a managed Agents API at POST https://api.openai.com/v1/agents/sessions, powered by gpt-6-astra. It handles session management, orchestration and context compaction, adds multi-agent delegation, and offers hosted, self-hosted or partner-managed sandboxes, with US-only data residency and no zero-data-retention.
+
+**Why it matters:** Teams can drop bespoke agent scaffolding and call an endpoint instead, but the US-only residency and no zero-data-retention terms rule it out for some regulated workloads.
+
+[Source: Forkast](<https://forkast.news/openai-formalizes-the-codex-harness-as-a-managed-api-betting-that-enterprises-want-orchestration-without-the-overhead/>)
+
+## NVIDIA OpenShell enforces agent policy at the kernel level
+
+**What happened:** NVIDIA OpenShell is an Apache 2.0 runtime written primarily in Rust that gives each agent or sub-agent its own sandbox using Landlock LSM for filesystem control and seccomp BPF for process management. Policies are declarative YAML enforced out of process, with network and inference policies hot-reloadable.
+
+**Why it matters:** Agent constraints move out of the prompt and into the environment, so a compromised or misbehaving agent cannot talk its way past its limits.
+
+[Source: Forkast](<https://forkast.news/nvidia-openshell-ships-policy-based-sandboxing-as-a-runtime-enforcement-layer-for-autonomous-agents/>)
+
+## Stanford's Paper2Agent turns papers into MCP servers
+
+**What happened:** Paper2Agent, published in Nature on September 16 by Jiacheng Miao and James Zou, converts a paper and its codebase into a Model Context Protocol server that MCP-compatible agents can run in natural language. It is MIT-licensed, installs as a Claude Code or Codex skill, and prebuilt AlphaGenome, Scanpy and TISSUE servers run on Hugging Face Spaces.
+
+**Why it matters:** Research methods become callable tools instead of repos to debug, so an agent can reproduce a paper's results and rerun them on new data without environment setup.
+
+[Source: World Programming](<https://www.worldprogramming.org/posts/stanford-researchers-release-paper2agent-turning-research-papers-into-ai-agents-that-reproduce-results-and-run-on-new-data-dnqqvj>)
+
+## Baseten Hosted Tools puts web search inside the inference stack
+
+**What happened:** Baseten launched Hosted Tools, starting with Baseten Grounded Inference for web search, built with Exa, Keenable, Parallel and You.com. Search runs inside the Baseten Inference Stack and is enabled by adding a hosted search tool name as config to a standard Messages, Chat Completions or Responses request.
+
+**Why it matters:** Grounding becomes a config change rather than a ReAct loop to build and maintain, which cuts the integration work that otherwise sits on a product's critical path.
+
+[Source: Baseten](<https://www.baseten.co/blog/introducing-baseten-hosted-tools/>)
+
+## Appeals court ends Copilot attribution suit against OpenAI
+
+**What happened:** The Ninth US Circuit Court of Appeals upheld a lower court dismissal of a lawsuit by open-source programmers who claimed GitHub Copilot failed to provide proper attributions when outputting code. The three-judge panel's ruling fully defeated the copyright case, the first copyright-related case against OpenAI over its generative AI products.
+
+**Why it matters:** One attribution theory against AI coding tools is now closed at the appellate level, though the ruling addresses that claim rather than the legality of training on code.
+
+[Source: Bloomberg Law](<https://news.bloomberglaw.com/social-justice/openai-github-seal-win-in-copyright-case-over-ai-coding-tool>)
+
+## Sources
+
+- [Reuters](<https://www.reuters.com/legal/transactional/cohere-aleph-alpha-combine-target-enterprise-ai-market-2026-09-16/>)
+- [NVIDIA](<https://blogs.nvidia.com/blog/vera-rubin-nvl72-mlperf-inference/>)
+- [Forkast](<https://forkast.news/openai-formalizes-the-codex-harness-as-a-managed-api-betting-that-enterprises-want-orchestration-without-the-overhead/>)
+- [Forkast](<https://forkast.news/nvidia-openshell-ships-policy-based-sandboxing-as-a-runtime-enforcement-layer-for-autonomous-agents/>)
+- [World Programming](<https://www.worldprogramming.org/posts/stanford-researchers-release-paper2agent-turning-research-papers-into-ai-agents-that-reproduce-results-and-run-on-new-data-dnqqvj>)
+- [Baseten](<https://www.baseten.co/blog/introducing-baseten-hosted-tools/>)
+- [Bloomberg Law](<https://news.bloomberglaw.com/social-justice/openai-github-seal-win-in-copyright-case-over-ai-coding-tool>)
