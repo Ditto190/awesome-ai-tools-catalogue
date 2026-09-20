@@ -1,0 +1,78 @@
+---
+title: "OpenAI's Jalapeno Chip Beats Nvidia, Built by LLMs"
+description: "OpenAI's custom inference ASIC hits 3.6x lower latency than Nvidia's GB300, plus a $750M Perplexity deal and a $100B Anthropic run rate."
+pubDate: 2026-09-20
+tags: ["news","today-in-ai","openai","chips","perplexity","anthropic","voice-ai","funding"]
+draft: false
+featured: false
+---
+
+This brief covers AI news from 2026-09-20 UTC.
+
+OpenAI's first custom chip lands with LLM-written hardware code, Perplexity signs a $750M Microsoft deal, and Anthropic's revenue run rate crosses $100 billion.
+
+## OpenAI's Jalapeno chip beats Nvidia's GB300 by 3.6x on latency
+
+**What happened:** OpenAI revealed at Hot Chips 2026 that Jalapeno, its first custom inference ASIC co-developed with Broadcom, delivers 3.6x lower end-to-end latency than Nvidia's GB300 on inference workloads. It runs 13.4 petaflops of MXFP4 compute at 700W TDP with 232GB of HBM4 memory.
+
+**Why it matters:** Cheaper, faster inference silicon gives OpenAI more control over serving costs, and the LLM-assisted design flow shows hardware teams can compress chip timelines with AI tooling.
+
+[Source: byteiota](<https://byteiota.com/openais-jalapeno-chip-designed-by-llms-beats-nvidia/>)
+
+## Perplexity signs $750M Microsoft Azure deal
+
+**What happened:** AI search startup Perplexity has signed a $750 million agreement with Microsoft to use Azure's computing power, expanding its infrastructure beyond its previous reliance on Amazon Web Services.
+
+**Why it matters:** Perplexity diversifying off AWS means more multi-cloud inference capacity for a high-traffic AI search product, and signals Azure is competing hard for AI-native workloads.
+
+[Source: TechShots](<https://www.techshotsapp.com/artificial-intelligence/perplexity-ai-secures-750-million-microsoft-deal-to-diversify-beyond-amazon-cloud>)
+
+## Anthropic revenue run rate crosses $100B, IPO moved to November
+
+**What happened:** Anthropic's annualized revenue run rate crossed $100 billion, and the company moved its planned IPO from October to November so third-quarter financial results can be presented to investors before shares begin trading.
+
+**Why it matters:** A $100B run rate at a frontier lab sets the benchmark for AI business models, and the IPO timing gives enterprise buyers a clearer read on Anthropic's stability as a vendor.
+
+[Source: Tech Times](<https://www.techtimes.com/articles/327747/20260919/anthropic-hits-100b-ipo-targets-november-safety-lead-says-no-alignment-plan-exists.htm>)
+
+## xAI ships Grok Voice Transcribe 2.0 at the same price
+
+**What happened:** xAI released Grok Voice Transcribe 2.0, claiming twice the accuracy of version 1.0 at the same price. It adds real-time streaming, speaker diarization, word-level timestamps, and turn detection for voice agents, and existing API integrations get the upgrade without code changes.
+
+**Why it matters:** Drop-in accuracy gains with no code changes lower the barrier for voice agent builders, and turn detection plus diarization cover the messy real-world audio that breaks most transcription pipelines.
+
+[Source: Saganote](<https://saganote.com/grok-voice-transcribe-2-0-speech-to-text-launch>)
+
+## TypeSafe AI releases Jev, a model that returns typed decisions
+
+**What happened:** TypeSafe AI released Jev, a transformer-based model that does not generate text. It takes a state and typed questions and returns typed decisions with probabilities through one API endpoint, supporting Choice, Score, and Noul question types. It is a hosted API in early access behind a waitlist.
+
+**Why it matters:** A model that returns calibrated probabilities instead of prose gives automation pipelines branchable outputs without parsing text or handling hallucinated answers.
+
+[Source: MarkTechPost](<https://www.marktechpost.com/2026/09/19/typesafe-ai-releases-jev/>)
+
+## Convai ships Laya, a 421M decision model under Apache 2.0
+
+**What happened:** Convai Innovations released Laya, a 421M-parameter decision head built on ModernBERT-large, under Apache 2.0 with three checkpoints. It reports p50 latency of 32.8ms on a Tesla T4 versus TypeSafe Jev's 236 to 276ms, though its zero-shot typed-decisions accuracy is 0.362, near the 0.318 random baseline.
+
+**Why it matters:** An open-weight, low-latency classification layer lets teams run invoice processing, ticket routing, and guardrails on cheap hardware instead of paying per-token for an LLM.
+
+[Source: AI Weekly](<https://aiweekly.co/alerts/convai-ships-laya-a-421m-modernbert-decision-model-apache-20>)
+
+## OpenAI takes stake in Thrive Holdings for enterprise AI push
+
+**What happened:** OpenAI entered an agreement to acquire a stake in Thrive Holdings, a subsidiary of Thrive Capital founded in early 2025 to acquire AI assets. OpenAI receives shares in exchange for providing access to its technologies, products, AI services, and employees, and will work with Thrive Holdings to implement AI in business.
+
+**Why it matters:** OpenAI trading technology access for equity in an investment vehicle gives it a channel into enterprise deployments without building a services arm from scratch.
+
+[Source: AK&amp;M](<https://www.akm.ru/eng/news/american-openai-acquires-stake-in-venture-capital-company-thrive-holdings/>)
+
+## Sources
+
+- [byteiota](<https://byteiota.com/openais-jalapeno-chip-designed-by-llms-beats-nvidia/>)
+- [TechShots](<https://www.techshotsapp.com/artificial-intelligence/perplexity-ai-secures-750-million-microsoft-deal-to-diversify-beyond-amazon-cloud>)
+- [Tech Times](<https://www.techtimes.com/articles/327747/20260919/anthropic-hits-100b-ipo-targets-november-safety-lead-says-no-alignment-plan-exists.htm>)
+- [Saganote](<https://saganote.com/grok-voice-transcribe-2-0-speech-to-text-launch>)
+- [MarkTechPost](<https://www.marktechpost.com/2026/09/19/typesafe-ai-releases-jev/>)
+- [AI Weekly](<https://aiweekly.co/alerts/convai-ships-laya-a-421m-modernbert-decision-model-apache-20>)
+- [AK&amp;M](<https://www.akm.ru/eng/news/american-openai-acquires-stake-in-venture-capital-company-thrive-holdings/>)
