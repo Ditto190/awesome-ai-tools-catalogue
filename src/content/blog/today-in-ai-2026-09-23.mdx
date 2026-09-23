@@ -1,0 +1,78 @@
+---
+title: "OpenAI ships GPT-6 Sol and Luna with 50% API price cut"
+description: "OpenAI launches GPT-6 Sol and Luna at half the API price, Snorkel AI hits a $3.5B valuation, and the Ninth Circuit backs GitHub in the Doe v. GitHub DMCA case."
+pubDate: 2026-09-23
+tags: ["news","today-in-ai","openai","funding","chips","agents","copyright","open-weights"]
+draft: false
+featured: false
+---
+
+This brief covers AI news from 2026-09-23 UTC.
+
+OpenAI's cheaper GPT-6 tier lands in the API and Codex, Snorkel AI raises $350M on training-data demand, and an appeals court closes part of the Doe v. GitHub case.
+
+## OpenAI ships GPT-6 Sol and Luna with 50% API price cut
+
+**What happened:** OpenAI announced GPT-6 Sol and GPT-6 Luna, two models built on the advances behind GPT-6 Astra, with API prices 50% lower than GPT-5.6 promotional pricing. Both roll out in ChatGPT Work and Codex for Plus, Pro, Business, Enterprise, and Edu users, and in the API; free and Go users can try Luna in the desktop app.
+
+**Why it matters:** Cheaper tokens at frontier-adjacent quality change the math on high-volume agent and coding workloads that were previously priced out.
+
+[Source: OpenAI](<https://community.openai.com/t/announcing-gpt-6-sol-and-gpt-6-luna-in-the-api-codex-and-chatgpt/1399925>)
+
+## Snorkel AI raises $350M at a $3.5B valuation
+
+**What happened:** Snorkel AI raised $350 million at a $3.5 billion valuation, led by Insight Partners and S32 with existing investors including Addition participating. CEO Alex Ratner told Reuters annualized revenue run-rate reached about $350 million and the company expects to reach profitability this year.
+
+**Why it matters:** Training-data and simulated-environment vendors are now funded at the scale of model builders, a signal of where post-training budgets are going.
+
+[Source: Reuters](<https://www.reuters.com/legal/transactional/snorkel-ai-valued-35-billion-amid-surging-demand-complex-ai-training-data-2026-09-22/>)
+
+## Ninth Circuit affirms dismissal of DMCA claim against GitHub
+
+**What happened:** The Ninth Circuit affirmed dismissal of part of Doe v. GitHub, a DMCA claim by programmers alleging copyright management information was removed from content used to train AI code models. The court agreed plaintiffs do not state a DMCA claim, reasoning model output is a new work, not a copy of training data.
+
+**Why it matters:** One strand of training-data litigation against code generators is now closed at the appellate level, narrowing what plaintiffs can argue about model outputs.
+
+[Source: Sheppard Mullin](<https://www.mondaq.com/unitedstates/copyright/1846066/the-ninth-circuit-affirms-dismissal-of-dmca-cmi-removal-claim-against-ai-code-generator-output-is-a-new-work-not-a-copy-of-training-data>)
+
+## Alibaba's T-Head unveils Zhenwu V900 AI chip
+
+**What happened:** T-Head, Alibaba's chip subsidiary, unveiled the Zhenwu V900 AI chip for training and inference at the 2026 Apsara Conference in Hangzhou, claiming three times the performance of its predecessor, the Zhenwu M890. It carries 216GB of memory, 1, 200GB/s inter-chip bandwidth, and native FP8 and FP4 support.
+
+**Why it matters:** More in-house accelerator capacity with low-precision formats gives large-model teams another lever on training and inference cost outside the Nvidia stack.
+
+[Source: TechNode](<https://technode.com/2026/09/22/t-head-unveils-zhenwu-v900-ai-chip-in-alibabas-push-to-expand-its-ai-infrastructure-stack/>)
+
+## DigitalOcean opens Managed Agents to everyone
+
+**What happened:** DigitalOcean opened Managed Agents to general availability after a private preview. Teams can deploy agent harnesses such as OpenCode and Codex CLI or bring their own, connect agents to more than 16, 000 tools, and run inference through DigitalOcean's Inference Engine, with per-second active CPU billing.
+
+**Why it matters:** Agent execution, tool use, and inference land in one billable stack, which removes a chunk of the infrastructure work small teams currently do themselves.
+
+[Source: DigitalOcean](<https://www.digitalocean.com/blog/managed-agents-public-preview>)
+
+## China Telecom AI releases Xing4.0-29B for single-GPU use
+
+**What happened:** China Telecom AI released Xing4.0-29B-A4B, a Mixture-of-Experts agentic model with 29 billion total parameters and 4 billion activated per token. It has a 256K-token context window and, using low-bit quantization, needs only 15GB of GPU memory, so it can run locally on a consumer-grade graphics card.
+
+**Why it matters:** A 15GB footprint puts a tool-calling, long-context agent model on hardware developers already own, without a hosted API in the loop.
+
+[Source: China Telecom AI](<https://www.globenewswire.com/news-release/2026/09/22/3365958/0/en/china-telecom-ai-officially-releases-xing4-0-29b-agentic-large-model-for-single-gpu-deployment.html>)
+
+## Cadence adds an RTL generation agent to ChipStack
+
+**What happened:** Cadence introduced an RTL Generation Agent for its ChipStack AI Super Agent that automates front-end digital design and verification from natural language prompts, covering spec-to-RTL generation, RTL analysis, and refinement. Early evaluations show an average 24% area reduction and 18% power reduction versus pure foundation model code generation.
+
+**Why it matters:** Chip design is joining the agent workflow, and the reported PPA gains are the kind of number hardware teams can check against their own synthesis runs.
+
+[Source: Semiconductor Digest](<https://www.semiconductor-digest.com/cadence-expands-chipstack-ai-super-agent-with-a-new-agent-for-rtl-generation-and-early-ppa-optimization/>)
+
+## Sources
+
+- [OpenAI](<https://community.openai.com/t/announcing-gpt-6-sol-and-gpt-6-luna-in-the-api-codex-and-chatgpt/1399925>)
+- [Reuters](<https://www.reuters.com/legal/transactional/snorkel-ai-valued-35-billion-amid-surging-demand-complex-ai-training-data-2026-09-22/>)
+- [Sheppard Mullin](<https://www.mondaq.com/unitedstates/copyright/1846066/the-ninth-circuit-affirms-dismissal-of-dmca-cmi-removal-claim-against-ai-code-generator-output-is-a-new-work-not-a-copy-of-training-data>)
+- [TechNode](<https://technode.com/2026/09/22/t-head-unveils-zhenwu-v900-ai-chip-in-alibabas-push-to-expand-its-ai-infrastructure-stack/>)
+- [DigitalOcean](<https://www.digitalocean.com/blog/managed-agents-public-preview>)
+- [China Telecom AI](<https://www.globenewswire.com/news-release/2026/09/22/3365958/0/en/china-telecom-ai-officially-releases-xing4-0-29b-agentic-large-model-for-single-gpu-deployment.html>)
+- [Semiconductor Digest](<https://www.semiconductor-digest.com/cadence-expands-chipstack-ai-super-agent-with-a-new-agent-for-rtl-generation-and-early-ppa-optimization/>)
