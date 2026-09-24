@@ -1,0 +1,78 @@
+---
+title: "Anthropic Ships Opus 5.5, Claude Finds New Enzyme System"
+description: "Anthropic launches Claude Opus 5.5 with lower running costs and reports Claude discovering a novel enzyme system, plus AWS Strands harness and Comfy Router."
+pubDate: 2026-09-24
+tags: ["news","today-in-ai","anthropic","aws","agents","open-weights","inference","developer-tools"]
+draft: false
+featured: false
+---
+
+This brief covers AI news from 2026-09-24 UTC.
+
+Anthropic had a double day: a cheaper flagship model and a biology result, while AWS and Comfy shipped new developer plumbing.
+
+## Anthropic launches Claude Opus 5.5 with 40% lower running costs
+
+**What happened:** Anthropic launched Claude Opus 5.5, which it says performs at the level of Claude Fable 5.1 on most tasks while costing 40% less to run on typical workloads than Opus 5. It is priced at $4 per million input tokens and $20 per million output tokens, with cache reads at $0.20 per million tokens.
+
+**Why it matters:** Cheaper cache reads and fewer tokens per task directly cut the bill for agentic and coding workloads, so teams can re-run long agent loops without blowing their budget.
+
+[Source: Inc42](<https://inc42.com/buzz/anthropic-launches-claude-opus-5-5-touts-40-lower-running-costs/>)
+
+## Claude discovers a novel enzyme system with CRISPR-like repeats
+
+**What happened:** Anthropic introduced a new life sciences research group and laboratory and shared early results in which Claude discovered a novel enzyme system with properties reminiscent of CRISPR, with only high-level direction from its scientists. The work explores DNA datasets to find uncharacterized protein families.
+
+**Why it matters:** It is a concrete example of an agent doing discovery work end to end, which is the pattern builders are trying to replicate in domains outside biology.
+
+[Source: Anthropic](<https://www.anthropic.com/news/claude-discovers-novel-enzyme-system>)
+
+## AWS adds a harness to its open source Strands agent SDK
+
+**What happened:** AWS added a harness to its open source Strands SDK for building AI agents. The harness includes shell, file and web tools, long-term memory, context management and task delegation, and AWS reports it reduced costs by 28% across six benchmarks using the same Claude or GPT models.
+
+**Why it matters:** A preassembled agent loop with memory and context offloading removes the boilerplate that teams currently rebuild for every internal agent.
+
+[Source: DevOps.com](<https://devops.com/aws-adds-harness-to-open-source-sdk-for-building-ai-agents/>)
+
+## Comfy Router puts frontier media models behind one API
+
+**What happened:** Comfy launched Comfy Router on its Developer Platform, giving one API for frontier image, video, 3D and audio models. Day one access includes Seedance 2.5, MiniMax H3, Nano Banana Pro, GPT Image 2, Kling and Black Forest Labs, with the provider as a parameter across fal, Runware, WaveSpeed and Higgsfield.
+
+**Why it matters:** Swapping a model or provider becomes a one-line change instead of a new SDK and key, which shortens the loop when a provider is rate limited or cheaper that day.
+
+[Source: Comfy](<https://blog.comfy.org/p/introducing-comfy-router-one-api>)
+
+## Black Forest Labs debuts FLUX 3 Action robotics model
+
+**What happened:** Black Forest Labs released FLUX 3 Action, a 7-billion-parameter open-weight World Action Model that turns camera observations, robot state and natural-language instructions into physical actions. The company says it reaches 42.92% success rate on NVIDIA's RoboLab-120 benchmark and runs 1.43 times faster than NVIDIA's 16-billion-parameter Cosmos3-Nano-Policy.
+
+**Why it matters:** An open-weight action model at less than half the parameter count lowers the hardware bar for teams prototyping robot policies instead of renting closed stacks.
+
+[Source: VentureBeat](<https://venturebeat.com/infrastructure/black-forest-labs-debuts-flux-3-action-an-open-weights-ai-robotics-model-that-tops-the-leaderboard-at-half-the-size-of-its-competition>)
+
+## Laravel AI SDK hits 1.0 with classification and tool approvals
+
+**What happened:** Laravel released AI SDK 1.0, adding a classification capability, approvable tool calls, support for two frontend chat protocols and a new way of storing conversations. The upgrade guide lists 23 breaking changes from 0.11 to 1.0, five rated high impact, and one requires a database backfill before deploying.
+
+**Why it matters:** PHP teams already running the beta need to plan the migration rather than run composer update, and the tool approval hook gives them a place to gate agent actions.
+
+[Source: Progressive Robot](<https://www.progressiverobot.com/2026/09/23/laravel-ai-sdk-1-0-classification-tool-approvals/>)
+
+## Inferact's TPU megakernel hits 709 tokens per second on Kimi K3
+
+**What happened:** Inferact published a benchmark and released a TPU megakernel, reporting 709 tokens per second serving Kimi K3 on 16 TPU v7 chips versus 452 tokens per second on 16 GB200 GPUs in a low-concurrency speculative-decoding test. The work was led in part by co-founder Woosuk Kwon, a vLLM co-creator.
+
+**Why it matters:** If the kernel lands in vLLM, teams serving open models on TPUs get a path to higher throughput without rewriting their serving stack.
+
+[Source: RuntimeWire](<https://runtimewire.com/article/inferact-kimi-k3-tpu-megakernel-benchmark>)
+
+## Sources
+
+- [Inc42](<https://inc42.com/buzz/anthropic-launches-claude-opus-5-5-touts-40-lower-running-costs/>)
+- [Anthropic](<https://www.anthropic.com/news/claude-discovers-novel-enzyme-system>)
+- [DevOps.com](<https://devops.com/aws-adds-harness-to-open-source-sdk-for-building-ai-agents/>)
+- [Comfy](<https://blog.comfy.org/p/introducing-comfy-router-one-api>)
+- [VentureBeat](<https://venturebeat.com/infrastructure/black-forest-labs-debuts-flux-3-action-an-open-weights-ai-robotics-model-that-tops-the-leaderboard-at-half-the-size-of-its-competition>)
+- [Progressive Robot](<https://www.progressiverobot.com/2026/09/23/laravel-ai-sdk-1-0-classification-tool-approvals/>)
+- [RuntimeWire](<https://runtimewire.com/article/inferact-kimi-k3-tpu-megakernel-benchmark>)
