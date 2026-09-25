@@ -1,0 +1,78 @@
+---
+title: "Akamai commits $11.6B to Anthropic in seven-year deal"
+description: "Akamai signs an $11.6B Anthropic cloud deal, Docker ships cloud sandboxes for agents, Databricks buys Row Zero, and Moonshot releases Kimi K2.6."
+pubDate: 2026-09-25
+tags: ["news","today-in-ai","anthropic","infrastructure","agents","open-weights","databricks","chips"]
+draft: false
+featured: false
+---
+
+This brief covers AI news from 2026-09-25 UTC.
+
+Anthropic locks in $11.6 billion of Akamai cloud capacity, Docker takes agent sandboxes off the laptop, and Databricks buys a spreadsheet startup for its Genie agent.
+
+## Akamai signs $11.6B seven-year cloud deal with Anthropic
+
+**What happened:** Akamai announced an $11.6 billion contractual commitment from Anthropic over seven years to support Anthropic's CPU workload growth on Akamai Cloud. The deal can expand by up to $9 billion more, and Akamai issued Anthropic a warrant for up to roughly 5% of its common stock, with about 2% vesting on today's commitment.
+
+**Why it matters:** Anthropic is buying CPU capacity at a scale that signals agent and inference workloads, not just training, are driving cloud contracts developers will build against.
+
+[Source: Akamai](<https://www.globenewswire.com/news-release/2026/09/24/3368729/0/en/akamai-announces-11-6-billion-multi-year-agreement-with-anthropic-to-support-growing-demand.html>)
+
+## Docker Cloud Sandboxes run agents after your laptop closes
+
+**What happened:** Docker launched Cloud Sandboxes, microVM-based isolated environments running on Docker-managed compute, with one command to move agent workloads between local and cloud. Docker says the isolation model is identical to its local sandboxes and the product is available today.
+
+**Why it matters:** Long-running coding agents can now keep working for hours without tying up a developer's machine, which changes how you schedule multi-hour refactors and test runs.
+
+[Source: Docker](<https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/>)
+
+## Databricks acquires spreadsheet startup Row Zero for Genie
+
+**What happened:** Databricks announced it acquired Row Zero, an early-stage cloud spreadsheet startup that scales beyond one million live rows. Databricks co-founder Ali Ghodsi said the company intends to do many more acquisitions like this; terms were not disclosed.
+
+**Why it matters:** If you query Databricks data through agents, the spreadsheet interface plus Genie points to natural-language analysis landing inside tools analysts already use.
+
+[Source: TechCrunch](<https://techcrunch.com/2026/09/24/databricks-buys-row-zero-and-is-scouting-for-more-startups-to-acquire/>)
+
+## Moonshot AI releases Kimi K2.6 with 1T parameters
+
+**What happened:** Moonshot AI released Kimi K2.6, an open-source multimodal MoE model with 1 trillion total parameters and 32 billion activated per token, a 256, 000-token context window, and a MoonViT vision encoder. Weights are on Hugging Face under a modified MIT license.
+
+**Why it matters:** An open-weight model claiming 12-hour agent sessions and 300 parallel sub-agents gives teams a self-hostable option for long-horizon coding and orchestration work.
+
+[Source: The Once Times](<https://theoncetimes.com/ai/moonshot-ai-releases-kimi-k26-opensource-multimodal-agentic-model-pushes-boundaries-in-longhorizon-coding-and-agent-swarms>)
+
+## VeriLoop E2 posts 27B model with full GGUF ladder
+
+**What happened:** VeriLoop released E2, a 27B post-trained model built on Qwen3.8-27B, with scores including 76.2% on SWE-bench Pro, 88.8% on Terminal-Bench 2.1, and 98.3% on AIME 2026. The release includes a llama.cpp-oriented GGUF precision ladder from BF16 down to IQ1_M.
+
+**Why it matters:** A quantized ladder down to IQ1_M means you can test the same checkpoint across laptop and server hardware without swapping model families.
+
+[Source: Hugging Face Forums](<https://discuss.huggingface.co/t/veriloop-e2-release-27b-post-trained-model-and-full-gguf-precision-ladder-from-bf16-to-iq1-m/180723>)
+
+## Databricks ships Unity Gateway CLI for coding agents
+
+**What happened:** Databricks released the Unity Gateway CLI, a command-line tool that connects coding agents such as Claude Code, Codex, and Gemini CLI to centralized Unity Gateway policies for approved models, MCP servers, skills, and spending. Admins publish a configuration and developers connect with one command.
+
+**Why it matters:** Teams standardizing on multiple coding agents get one place to control which models and tools those agents can reach, instead of per-developer config.
+
+[Source: AI Understanding](<https://aiunderstanding.org/news/databricks-launches-unity-gateway-cli-for-centralized-coding-agent-control>)
+
+## Google to test AI chips in orbit under Project Suncatcher
+
+**What happened:** Google said it will launch a prototype satellite next week for the first in-orbit test of Project Suncatcher, a research effort exploring whether space could host large-scale AI computing infrastructure.
+
+**Why it matters:** It is an early experiment, but it is a concrete data point on whether off-Earth compute is a real option for future training and inference capacity.
+
+[Source: Reuters](<https://www.reuters.com/business/media-telecom/google-plans-first-test-ai-chips-space-under-project-suncatcher-2026-09-24/>)
+
+## Sources
+
+- [Akamai](<https://www.globenewswire.com/news-release/2026/09/24/3368729/0/en/akamai-announces-11-6-billion-multi-year-agreement-with-anthropic-to-support-growing-demand.html>)
+- [Docker](<https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/>)
+- [TechCrunch](<https://techcrunch.com/2026/09/24/databricks-buys-row-zero-and-is-scouting-for-more-startups-to-acquire/>)
+- [The Once Times](<https://theoncetimes.com/ai/moonshot-ai-releases-kimi-k26-opensource-multimodal-agentic-model-pushes-boundaries-in-longhorizon-coding-and-agent-swarms>)
+- [Hugging Face Forums](<https://discuss.huggingface.co/t/veriloop-e2-release-27b-post-trained-model-and-full-gguf-precision-ladder-from-bf16-to-iq1-m/180723>)
+- [AI Understanding](<https://aiunderstanding.org/news/databricks-launches-unity-gateway-cli-for-centralized-coding-agent-control>)
+- [Reuters](<https://www.reuters.com/business/media-telecom/google-plans-first-test-ai-chips-space-under-project-suncatcher-2026-09-24/>)
