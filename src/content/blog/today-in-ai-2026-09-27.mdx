@@ -1,0 +1,78 @@
+---
+title: "DeepSeek Passes $1B Revenue as It Chases Shanghai IPO"
+description: "DeepSeek's run rate tops $1B, Nvidia cuts coding agent token use nearly in half, and Exa ships a subagent swarm research API."
+pubDate: 2026-09-27
+tags: ["news","today-in-ai","deepseek","funding","agents","nvidia","infrastructure","policy"]
+draft: false
+featured: false
+---
+
+This brief covers AI news from 2026-09-27 UTC.
+
+DeepSeek's business catches up to its reputation, Nvidia attacks agent token bills at the harness, and Exa bets big compute wins deep research.
+
+## DeepSeek revenue run rate crosses $1B ahead of Shanghai IPO
+
+**What happened:** DeepSeek's annualized revenue run rate has passed $1 billion, more than doubling in a few months, according to The Information. Founder Liang Wenfeng reportedly told investors more than 70% of compute still goes to training, and the company is pursuing a $7.5 billion round and a Shanghai IPO.
+
+**Why it matters:** A well-funded DeepSeek with a real revenue base means cheaper frontier-adjacent models stay on the table for builders weighing API costs.
+
+[Source: WOWTALE](<https://en.wowtale.net/2026/09/27/235242/>)
+
+## Nvidia's SoL-Pi cuts coding agent token usage nearly in half
+
+**What happened:** A new Nvidia paper describes SoL-Pi, a system that automatically optimizes the harness layer of coding agents. Researchers report token usage drops by almost half with performance roughly unchanged, saving 50% versus Codex and 54.3% versus Claude Code on EdgeBench.
+
+**Why it matters:** Harness-level optimization is a cost lever developers can pull without swapping models, which matters most for long unattended agent runs.
+
+[Source: The Decoder](<https://the-decoder.com/nvidias-sol-pi-system-cuts-coding-agent-token-usage-nearly-in-half-by-optimizing-the-harness/>)
+
+## Exa launches Agent Ultra, a subagent swarm research API
+
+**What happened:** Exa released Agent Ultra, the highest effort tier of its Agent API, live today via effort: "ultra". Exa says it beats Opus 5.5, GPT-6 Astra, and Perplexity Agent at maximum effort on four research benchmarks, with complex tasks typically finishing in about 30 minutes.
+
+**Why it matters:** For exhaustive list building and entity enrichment, a hosted API that runs to exhaustion removes the need to build your own multi-agent research loop.
+
+[Source: aifuturefront.com](<https://aifuturefront.com/exa-launches-agent-ultra-a-subagent-swarm-deep-research-api-built-for-exhaustive-list-building/>)
+
+## Z.ai's Infra Agent tuned serving on 100, 000 accelerators
+
+**What happened:** Z.ai deployed a production inference service for GLM-5.3-Flash using an Infra Agent powered by GLM-5.3, according to its official blog. The agent helped optimize serving on a cluster of over 100, 000 Chinese-made AI accelerators, going from model adaptation to production in under two weeks.
+
+**Why it matters:** It is a concrete case of an agent doing systems engineering work, which points at where automated infra tuning is heading for teams on unfamiliar hardware.
+
+[Source: TheNextGenTechInsider](<https://www.thenextgentechinsider.com/pulse/zai-deploys-glm-53-powered-agent-to-build-large-scale-inference-infrastructure>)
+
+## Supersonic Labs ships Julia 1, a 144.3M CPU decision model
+
+**What happened:** Brazilian lab Supersonic Labs released Julia 1, a 144.3M-parameter decision model that takes context, a question, and 2 to 20 candidate answers, then returns a probability for each. Weights are on Hugging Face under Apache 2.0 and run on CPU, with an ONNX build for WebGPU in the browser.
+
+**Why it matters:** Classification and routing that runs locally on a CPU, with no text generation, is cheap to embed in existing services and easy to self-host.
+
+[Source: MarkTechPost](<https://www.marktechpost.com/2026/09/26/supersonic-labs-releases-julia-1-a-144-3m-parameter-open-decision-model-that-runs-on-a-cpu/>)
+
+## Light Origins launches Light-O1 embodied foundation model
+
+**What happened:** Light Origins announced Light-O1, its first general-purpose embodied foundation model, trained on human actions recovered from internet video. It trained six 4-billion-parameter versions on 3.75 billion to 120 billion multimodal tokens, with larger runs cutting held-out prediction errors.
+
+**Why it matters:** A reusable pretrained starting point for robot policies lowers the data cost of adapting to a new embodiment or task.
+
+[Source: theaiinsider.tech](<https://theaiinsider.tech/2026/09/26/light-origins-launches-light-o1-foundation-model-for-robot-learning/>)
+
+## FTC chair says developers, not agents, carry the liability
+
+**What happened:** FTC Chairman Andrew Ferguson told the Reuters Momentum AI event in Austin that he will resist framing AI agents as autonomous actors, saying audit trails show agents executing instructions they were given. He suggested existing FTC authority, including data breach disclosure rules, can reach AI developers.
+
+**Why it matters:** If you ship autonomous agents, assume the complaint names your company, so logging and instruction provenance are worth building in now.
+
+[Source: AI Weekly](<https://aiweekly.co/alerts/ftcs-ferguson-says-developers-not-ai-agents-own-the-liability>)
+
+## Sources
+
+- [WOWTALE](<https://en.wowtale.net/2026/09/27/235242/>)
+- [The Decoder](<https://the-decoder.com/nvidias-sol-pi-system-cuts-coding-agent-token-usage-nearly-in-half-by-optimizing-the-harness/>)
+- [aifuturefront.com](<https://aifuturefront.com/exa-launches-agent-ultra-a-subagent-swarm-deep-research-api-built-for-exhaustive-list-building/>)
+- [TheNextGenTechInsider](<https://www.thenextgentechinsider.com/pulse/zai-deploys-glm-53-powered-agent-to-build-large-scale-inference-infrastructure>)
+- [MarkTechPost](<https://www.marktechpost.com/2026/09/26/supersonic-labs-releases-julia-1-a-144-3m-parameter-open-decision-model-that-runs-on-a-cpu/>)
+- [theaiinsider.tech](<https://theaiinsider.tech/2026/09/26/light-origins-launches-light-o1-foundation-model-for-robot-learning/>)
+- [AI Weekly](<https://aiweekly.co/alerts/ftcs-ferguson-says-developers-not-ai-agents-own-the-liability>)
