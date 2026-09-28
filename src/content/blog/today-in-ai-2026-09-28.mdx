@@ -1,0 +1,78 @@
+---
+title: "Nvidia's Nemotron 3 Diarization Tracks Eight Speakers"
+description: "Nvidia ships an open-weight diarization model, Meituan launches a 1.6T long-horizon model, and Hong Kong shelves its AI copyright bill for guidelines."
+pubDate: 2026-09-28
+tags: ["news","today-in-ai","nvidia","open-weights","meituan","copyright","agents","regulation"]
+draft: false
+featured: false
+---
+
+This brief covers AI news from 2026-09-28 UTC.
+
+Nvidia put an open-weight speaker-tracking model on the shelf, Meituan shipped a trillion-parameter long-horizon model, and Hong Kong parked its AI copyright bill.
+
+## Nvidia ships open-weight diarization model for eight speakers
+
+**What happened:** Nvidia released Nemotron 3 Diarization on September 23, a 99.2-million-parameter open-weight model that marks when up to eight speakers are active, including overlapping voices, without transcribing words. It supports streaming buffers as short as 0.32 seconds and placed first on VoiceArena Diarization-Bench with a 14.72% error rate.
+
+**Why it matters:** Meeting, call analytics, and voice-agent builders can now bolt speaker labels onto an existing ASR pipeline and run it locally through NeMo Speech, Transformers, or NeMo-Speech.cpp.
+
+[Source: Zeniteq](<https://www.zeniteq.com/nvidia-nemotron-3-diarization-tracks-eight-speakers-gdjgcm>)
+
+## Meituan launches LongCat-2.5-Preview with 1M-token context
+
+**What happened:** Meituan's LongCat team launched LongCat-2.5-Preview on its API platform on September 25, a mixture-of-experts model with about 1.6 trillion total parameters and roughly 48 billion active per inference. It adds image understanding and a 1-million-token context, and OpenCode is offering two weeks of free access.
+
+**Why it matters:** The model supports OpenAI and Anthropic API formats and lists compatibility with Claude Code, OpenCode, OpenClaw, Hermes, and Kilo Code, so coding-agent users can swap it in without rewriting their harness.
+
+[Source: Cocoloop](<https://news.cocoloop.cn/en/2026/09/longcat-25-preview-1m-context/>)
+
+## Hong Kong shelves AI copyright amendment for guidelines
+
+**What happened:** Hong Kong will delay a proposed legal amendment covering the use of copyrighted works to train AI models and issue operational guidelines first, the South China Morning Post reported. The Copyright (Amendment) Bill 2025, which would have introduced an opt-out mechanism for text and data mining, was removed from Legco's agenda last August.
+
+**Why it matters:** Builders training or serving models in Hong Kong still have no statutory text-and-data-mining rule to plan around, so the compliance picture stays on guidelines rather than law.
+
+[Source: South China Morning Post](<https://www.scmp.com/news/hong-kong/society/article/3368913/hong-kong-delays-ai-copyright-law-focus-guidelines-first>)
+
+## NaiveAI releases 309B open-weight model built with AI help
+
+**What happened:** NaiveAI released Naive-N0.5-Flash on September 27, a 309-billion-parameter mixture-of-experts model with 15.5 billion parameters active per token, a native 1-million-token context, and an inference runtime called NaiveRT. The Beijing startup says AI systems wrote code, ran experiments, and proposed iterations during development.
+
+**Why it matters:** The weights and inference code are MIT-licensed, so teams can test a million-token coding model locally, though the speed and capability claims are company-reported and unverified.
+
+[Source: Runtimewire](<https://runtimewire.com/article/naiveai-naive-n05-flash-ai-model-development>)
+
+## MiniMax drops M3.1-Flash-Preview into its coding agent
+
+**What happened:** MiniMax launched M3.1-Flash-Preview inside its MiniMax Code agent tool on September 27 with no model card, benchmark report, or public pricing. The model supports a context window up to 1 million tokens and MiniMax Code exposes five reasoning-effort levels for it, from low to a new max tier.
+
+**Why it matters:** There is no API endpoint or price to plan against yet, so the only way to evaluate it is inside MiniMax's own agent product, and cost per task stays unknown.
+
+[Source: Startup Fortune](<https://startupfortune.com/minimax-slips-a-new-coding-model-into-its-agent-tool-without-a-price-tag/>)
+
+## DeepSeek publishes DSec sandbox paper behind agent training
+
+**What happened:** DeepSeek published the systems paper behind DSec, the sandbox platform its agentic-training pipeline uses, described in arXiv paper 2609.22978. One production unit runs about 160 nodes and 30, 000 CPU cores, creates over 5, 000 sandboxes per second, and runs 3 million sandboxes a day across four backends.
+
+**Why it matters:** Two storage components are public on GitHub, giving teams building agent RL infrastructure a reference design for scheduling and reclaiming millions of short-lived execution environments.
+
+[Source: Mervin Praison](<https://mer.vin/news/inside-dsec-how-deepseek-runs-3-million-ai-agent-sandboxes-a-day/>)
+
+## EU regulators quiz publishers on Google AI search opt-out
+
+**What happened:** EU antitrust regulators are asking publishers for feedback on Google's proposal to let them opt out of AI search without affecting search rankings, according to a questionnaire seen by Reuters. The questionnaire, sent in July with an August 28 deadline, asked whether publishers would use the opt-out.
+
+**Why it matters:** The answers feed an open EU investigation that could produce another fine, so how Google's opt-out is implemented will shape whether publisher content can be used to power AI features.
+
+[Source: DailySynapse](<https://dailysynapse.com/news/eu-regulators-ask-publishers-about-google-ai-search-opt-out/>)
+
+## Sources
+
+- [Zeniteq](<https://www.zeniteq.com/nvidia-nemotron-3-diarization-tracks-eight-speakers-gdjgcm>)
+- [Cocoloop](<https://news.cocoloop.cn/en/2026/09/longcat-25-preview-1m-context/>)
+- [South China Morning Post](<https://www.scmp.com/news/hong-kong/society/article/3368913/hong-kong-delays-ai-copyright-law-focus-guidelines-first>)
+- [Runtimewire](<https://runtimewire.com/article/naiveai-naive-n05-flash-ai-model-development>)
+- [Startup Fortune](<https://startupfortune.com/minimax-slips-a-new-coding-model-into-its-agent-tool-without-a-price-tag/>)
+- [Mervin Praison](<https://mer.vin/news/inside-dsec-how-deepseek-runs-3-million-ai-agent-sandboxes-a-day/>)
+- [DailySynapse](<https://dailysynapse.com/news/eu-regulators-ask-publishers-about-google-ai-search-opt-out/>)
