@@ -2,6 +2,8 @@
 
 > 🌐 **Browse the interactive directory: [ai.dosa.dev](https://ai.dosa.dev)** — search, filter, compare, and read per-tool reviews (pricing, features, verdicts).
 
+> 📣 **Advertise your tool:** the directory ships a site-wide Featured slot for sponsors — reach developers actively evaluating AI coding tools. Rates and details at **[ai.dosa.dev/advertise](https://ai.dosa.dev/advertise)**.
+
 > Manually curated, enhanced w/ Devin
 
 > A curated, categorized reference of AI-powered coding tools as of **September 2026**.

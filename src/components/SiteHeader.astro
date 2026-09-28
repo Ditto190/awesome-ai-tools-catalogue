@@ -54,6 +54,10 @@ const { variant, title = 'ai.dosa.dev' } = Astro.props;
         {variant === 'index' && <slot />}
 
         <div id="authHeader" class="flex items-center gap-4 shrink-0 ml-auto">
+            <a href="/advertise" title="Sponsor the Featured slot on ai.dosa.dev" class="hidden md:inline-flex items-center gap-2 px-4 py-2.5 border border-border rounded-full text-sm font-medium text-ink-secondary hover:text-white hover:bg-white/5 hover:border-border-strong transition-all whitespace-nowrap">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
+                <span>Advertise</span>
+            </a>
             <button id="signInTriggerBtn" class="hidden px-4 md:px-5 py-2.5 bg-white text-black rounded-full text-sm font-semibold hover:bg-gray-200 transition-all active:scale-[0.98] whitespace-nowrap">
                 <span class="hidden md:inline">Sign in</span>
                 <svg class="md:hidden w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
